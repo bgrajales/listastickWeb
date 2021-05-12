@@ -2,4 +2,42 @@
 
 body {
     margin: 0;
+    height: 100vh;
+    background-color: #121212;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#loginDiv {
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+
+#imageSubDiv {
+    flex: 2;
+}
+
+#formSubDiv {
+    flex: 1;
+}
+
+#formSubDiv .btn {
+    width: 100% !important;
+}
+
+#welcometextDiv {
+    display: grid;
+    grid-template-columns: auto auto;
+    align-content: center;
+}
+
+#welcometext {
+    font-size: 1.3rem;
+}
+
+#logoLogin {
+    width: 60px;
 }
