@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Karla:wght@400;600;700&display=swap');
 
 body {
+    font-family: 'Karla', sans-serif;
     margin: 0;
     height: 100vh;
     background-color: #121212;
@@ -10,6 +11,10 @@ body {
     justify-content: center;
 }
 
+#welcometextDivMobile {
+    display: none;
+}
+
 #loginDiv {
     display: flex;
     width: 100%;
@@ -17,7 +22,8 @@ body {
 }
 
 #imageSubDiv {
-    flex: 2;
+    text-align: center;
+    flex: 1;
 }
 
 #formSubDiv {
@@ -43,6 +49,15 @@ body {
     width: 60px;
 }
 
+#newAccBtn {
+    background-color: rgba(255, 255, 255, 0.2);
+    border: none;
+}
+
+#backArrow {
+    width: 30px;
+}
+
 @media (max-width: 992px){
 
     body {
@@ -53,12 +68,16 @@ body {
         flex-direction: column;
     }
     
-    #welcometext {
+    #welcometextDiv {
+        display: none;
+    }
+
+    #welcometextDivMobile {
+        display: block;
         text-align: center;
     }
 
     #formSubDiv {
-        margin: 25px;
         width: 70%;
     }
 
@@ -69,4 +88,13 @@ body {
     #imageSubDiv {
         text-align: center;
     }
+
+    #loginDiv {
+        margin: 50px 0;
+    }
+
+    #logoLoginMobile {
+        width: 40%;
+    }
 }
+
