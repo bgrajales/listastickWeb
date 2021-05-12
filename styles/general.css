@@ -36,8 +36,37 @@ body {
 
 #welcometext {
     font-size: 1.3rem;
+    margin: 0;
 }
 
 #logoLogin {
     width: 60px;
+}
+
+@media (max-width: 992px){
+
+    body {
+        height: auto;
+    }
+
+    #loginDiv {
+        flex-direction: column;
+    }
+    
+    #welcometext {
+        text-align: center;
+    }
+
+    #formSubDiv {
+        margin: 25px;
+        width: 70%;
+    }
+
+    #vectorLogin {
+        width: 80%
+    }
+
+    #imageSubDiv {
+        text-align: center;
+    }
 }
