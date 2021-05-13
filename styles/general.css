@@ -313,6 +313,11 @@ ul li::before {
         padding: 20px 0;
         border-radius: 20px 20px 0 0;
         box-shadow: 0px 10px 20px 20px #000000;
+        z-index: 2;
+    }
+
+    #homeSections {
+        padding: 0 0 70px 0;
     }
 
     .mobileHeaderImg {
