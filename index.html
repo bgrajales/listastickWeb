@@ -33,18 +33,22 @@
                 </div>
               </div>
 
-              <div style="margin: 25px 0;">
-                <label for="basic-url" class="form-label">Email</label>
-                <input type="text" class="form-control" placeholder="jhondoe@gmail.com" aria-label="Email" aria-describedby="basic-addon1">
-              
-               <label for="basic-url" class="form-label">Password</label>
-               <input type="password" class="form-control" placeholder="Type your password here" aria-label="Email" aria-describedby="basic-addon1">
-              
-                <a href="home.html"><button style="margin: 30px 0;" type="button" class="btn btn-primary">Log In</button></a>
+              <div id="login-error-msg" class="alert alert-danger" role="alert">
+                Error: User does not exist
               </div>
 
+              <form name="loginForm" method="GET" style="margin: 25px 0;">
+                <label for="basic-url" class="form-label">Email</label>
+                <input id="mail" type="email" class="form-control" placeholder="jhondoe@gmail.com" aria-label="Email" aria-describedby="basic-addon1">
+              
+                <label for="basic-url" class="form-label">Password</label>
+                <input id="password" type="password" class="form-control" placeholder="Type your password here" aria-label="Email" aria-describedby="basic-addon1">
+              
+                <button id="login-form-submit" style="margin: 30px 0;" type="button" class="btn btn-primary">Log In</button>
+              </form>
+
               <div style="text-align: center;">
-                <p style="text-decoration: underline;">Don't have an account?</p>
+                <p>Don't have an account?</p>
                 <a href="register.html"><button id="newAccBtn" type="button" class="btn btn-secondary">Create new account</button></a>
               </div>
 
@@ -56,6 +60,6 @@
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
-
+    <script src="scripts/script.js"></script>
   </body>
 </html>
