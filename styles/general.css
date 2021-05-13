@@ -19,6 +19,21 @@ header {
     margin: 25px 0;
 }
 
+h3 {
+    font-weight: 400;
+    margin: 0;
+    font-size: 16px;
+}
+
+h2 {
+    font-weight: 600;
+}
+
+#seeAllTask {
+    display: flex;
+    justify-content: space-between;
+}
+
 #taskListSection, #generalTaskSection {
     border-right: hsl(0deg 0% 100% / 20%) 5px solid;
 }
@@ -121,7 +136,7 @@ header {
 }
 
 .section {
-    padding: 0 25px;
+    padding: 0 25px 0 0;
 }
 
 .alert-danger {
@@ -132,6 +147,32 @@ header {
     color: white;
     border: none;
 }
+
+.taskListDiv {
+    padding: 20px;
+    margin: 20px 0;
+    background-color: rgb(255 255 255 / 20%);
+    border-radius: 10px;
+}
+
+.deleteList {
+    width: 20px;
+}
+
+.list {
+    display: flex;
+    gap: 25px;
+}
+
+.listName {
+    flex: 2;
+}
+
+.listDivider {
+    border: 1px solid;
+    border-radius: 25px;
+}
+
 
 @media (max-width: 992px){
 
