@@ -28,7 +28,11 @@
       <div id="myDIV" class="header">
         <h2>Add New Task</h2>
         <div class="addInput">
-          <input type="text" id="myInput" placeholder="Task Desriptive Title">
+          <input type="text" id="taskTitleInput" placeholder="Task Desriptive Title">
+          <div id="dateAndListDiv">
+            <input type="text" id="taskList" placeholder="Parent list of the task">
+            <input type="date" id="deadline" name="deadline">
+          </div>
           <span onclick="newElement()" class="addBtn">Add Task</span>
         </div>
       </div>
@@ -74,6 +78,18 @@
         </div>
       </div>
 
+      <div id="deleteConfirmDiv">
+        <div id="delTitleDiv" class="header">
+          <h2>You are about to delete a task</h2>
+          <h3>Are you sure?</h3>
+          <div class="addInput">
+            <button id="deleteConfirm">Yes, Delete</button>
+            <button id="deleteBack">No, go back</button>  
+          </div>
+        </div>
+      </div>
+      </div>
+
       <div id="generalTaskSection" class="section">
         <div class="sectionHeader">
           <h2>General Tasks</h2>
@@ -82,14 +98,18 @@
 
         <div class="task">   
           <ul id="generalTasks">
-            <li>Buy apples</li>
-            <li>Buy oranges</li>
-            <li>Buy bread</li>
-            <li>Improve UX design</li>
-            <li>Read more about js</li>
-            <li>Make home page responsive</li>
-            <li>Make login page responsive</li>
-            <li>Make register page responsive</li>
+            <li>Task
+              <div style="padding: 20px;">
+                <h4>Task List:</h4>
+                <p>Shopping List</p>
+                <h4>Deadline:</h4>
+                <p>20/5/21</p>
+                <div>
+                  <button id="completeBtn">Complete</button>
+                  <button id="deleteBtn">Delete</button>
+                </div>
+              </div>
+            </li>
           </ul>
         </div>
 

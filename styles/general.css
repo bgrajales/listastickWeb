@@ -19,6 +19,11 @@ header {
     margin: 25px 0;
 }
 
+h4 {
+    font-size: 20px;
+    color: #1095E0;
+}
+
 h3 {
     font-weight: 400;
     margin: 0;
@@ -192,6 +197,16 @@ th, td {
     border-radius: 25px;
 }
 
+#deleteConfirmDiv {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    z-index: 2;
+}
+
 .inputField {
     margin: 10px 0;
 }
@@ -290,7 +305,7 @@ th, td {
   input {
     margin: 25px 0;
     border: none;
-    width: 60%;
+    width: 90%;
     padding: 10px;
     float: left;
     font-size: 16px;
@@ -301,7 +316,7 @@ th, td {
   .addBtn {
     margin: 25px 0;
     padding: 10px;
-    width: 20%;
+    width: 90%;
     background: #121212;
     color: #fff;
     float: left;
@@ -329,8 +344,8 @@ th, td {
 
   .addInput {
     display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
+    flex-direction: column;
+    align-items: center;
 }
 
 .addNewActionBtn {
@@ -340,6 +355,13 @@ th, td {
 .addNewActionBtn:hover {
     cursor: pointer;
     transform: scale(1.3);
+}
+
+#dateAndListDiv {
+    width: 90%;
+    display: flex;
+    flex-direction: row;
+    gap: 45px;
 }
 
 
@@ -425,6 +447,14 @@ th, td {
 
     #myInput {
         width: 90%;
+    }
+
+    #dateAndListDiv {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 0px;
+        align-items: center;
     }
 
     .mobileHeaderImg {

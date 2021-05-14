@@ -1,3 +1,11 @@
+// Declaracion de variable tareas
+
+function newTask(title, list, deadline) {
+  this.taskTitle = title;
+  this.parentList = list;
+  this.taskDeadline = deadline;
+}
+
 //Funcionamiento interno del Login Form
 
 const loginButton = document.getElementById("login-form-submit");
@@ -164,12 +172,16 @@ function checkPassword(password) {
 
 
 // Add a "checked" symbol when clicking on a list item
-var list = document.querySelector('ul');
-list.addEventListener('click', function(ev) {
-  if (ev.target.tagName === 'LI') {
-    ev.target.classList.toggle('checked');
-  }
-}, false);
+
+var completed = document.getElementById("completeBtn")
+
+completed.addEventListener("click", function() {
+
+  //completed.parentNode.parentNode.parentNode.classList.add("checked");
+  completed.parentNode.parentNode.parentNode.classList.toggle("checked");
+
+})
+
 
 var myNodelist = document.getElementsByTagName("LI");
 var i;
@@ -190,6 +202,15 @@ for (i = 0; i < close.length; i++) {
     div.style.display = "none";
   }
 }
+
+
+var deleteTask = document.getElementById("deleteBtn")
+
+deleteTask.addEventListener("click", function() {
+
+  document.getElementById("deleteConfirmDiv").style = "display: inline"
+
+})
 
 
 // Creation of calendar element
@@ -273,15 +294,23 @@ function createCalendar(elem, year, month, firstDay) {
 
   function newElement() {
     var li = document.createElement("li");
-    var inputValue = document.getElementById("myInput").value;
-    var t = document.createTextNode(inputValue);
+    var textInputValue = document.getElementById("taskTitleInput").value;
+    var listInputValue = document.getElementById("taskList").value;
+    var dateInputValue = document.getElementById("deadline").value;
+
+    var task = new newTask(textInputValue, listInputValue, dateInputValue);
+
+    console.log(task)
+
+    var t = document.createTextNode(textInputValue);
+
     li.appendChild(t);
-    if (inputValue === '') {
-      alert("You must write something!");
+    if (textInputValue === '') {
+      alert("No task title added");
     } else {
       document.getElementById("generalTasks").appendChild(li);
     }
-    document.getElementById("myInput").value = "";
+    document.getElementById("taskTitleInput").value = "";
   
     
     var span = document.createElement("SPAN");
@@ -298,7 +327,7 @@ function createCalendar(elem, year, month, firstDay) {
     }
   }
 
-  var myInputEnter = document.getElementById("myInput");
+  var myInputEnter = document.getElementById("taskTitleInput");
 
   myInputEnter.addEventListener("keyup", function(event) {
       if (event.keyCode == 13) {
