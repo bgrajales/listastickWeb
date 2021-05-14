@@ -39,7 +39,7 @@ ul li {
     cursor: pointer;
     position: relative;
     padding: 12px 8px 12px 40px;
-    font-size: 18px;
+    font-size: 15px;
     transition: 0.2s;
 }
 
@@ -89,11 +89,13 @@ th, td {
 
 #calendar {
     margin: 25px 0;
+    display: flex;
+    justify-content: center;
 }
 
 #generatedCalendar {
     text-align: center;
-    width: 500px;
+    width: 300px;
     height: 300px;
 }
 
@@ -185,6 +187,11 @@ th, td {
     display: none;
 }
 
+#today {
+    background-color: #1095e0;
+    border-radius: 25px;
+}
+
 .inputField {
     margin: 10px 0;
 }
@@ -254,11 +261,85 @@ th, td {
     height: 30px;
     border-radius: 40px;
     text-align: center;
+    margin-top: 10px;
   }
   
 .close:hover {
     background-color: #f44336;
     color: white;
+}
+
+/* Style the header */
+.header {
+    background-color: #1095E0;
+    padding: 30px 40px;
+    color: white;
+    text-align: center;
+    border-radius: 20px;
+    box-shadow: 0 0 20px 20px #00000063;
+  }
+  
+  /* Clear floats after the header */
+  .header:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  
+  /* Style the input */
+  input {
+    margin: 25px 0;
+    border: none;
+    width: 60%;
+    padding: 10px;
+    float: left;
+    font-size: 16px;
+    border-radius: 5px;
+  }
+  
+  /* Style the "Add" button */
+  .addBtn {
+    margin: 25px 0;
+    padding: 10px;
+    width: 20%;
+    background: #121212;
+    color: #fff;
+    float: left;
+    text-align: center;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+    border-radius: 5px;
+  }
+  
+  .addBtn:hover {
+    background-color: #095783;
+    transform: scale(1.1);  
+}
+
+  #taskInputContainer {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    z-index: 2;
+  }
+
+  .addInput {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.addNewActionBtn {
+    transition: 0.3s;
+}
+
+.addNewActionBtn:hover {
+    cursor: pointer;
+    transform: scale(1.3);
 }
 
 
@@ -302,15 +383,11 @@ th, td {
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
 
     #homeSections {
         grid-template-columns: repeat(1, 1fr);
         gap: 15px;
-    }
-
-    .section {
-        padding: 0;
     }
 
     #taskListSection, #generalTaskSection {
@@ -342,8 +419,30 @@ th, td {
         padding: 0 0 70px 0;
     }
 
+    #taskInputContainer {
+        width: 65%;
+    }
+
+    #myInput {
+        width: 90%;
+    }
+
     .mobileHeaderImg {
         width: 25px;
+    }
+
+    .section {
+        padding: 0;
+    }
+
+    .addInput {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .addBtn {
+        margin: 0;
+        width: 90%
     }
 
 }

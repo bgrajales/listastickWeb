@@ -10,27 +10,36 @@
     <link rel="icon" href="images/logo.png">
     <title>Listastick</title>
   </head>
-  <body style="justify-content: unset;">
+  <body class="container" style="justify-content: unset;">
 
-    <header id="headerDesktop">
-        <div><img class="headerImage" src="images/logo.png" alt=""></div>
-        <div><img class="headerImage" src="icons/addCircle.svg" alt=""></div>
+    <header class="container" id="headerDesktop">
+        <div><img class="headerImage" src="images/logo.png" alt=""> <h1 style="display: inline;font-size: 25px;">Listastick</h1></div>
+        <div onclick="addNewAction()"><img class="headerImage addNewActionBtn" src="icons/addCircle.svg" alt=""></div>
     </header>
 
     <header id="headerMobile">
       <img class="mobileHeaderImg" src="icons/home.svg" alt="">
       <img class="mobileHeaderImg" src="icons/plusSignWhite.svg" alt="">
       <img class="mobileHeaderImg" src="icons/calendar.svg" alt="">
-
-
     </header>
 
-    <section id="homeSections">
+
+    <div id="taskInputContainer">
+      <div id="myDIV" class="header">
+        <h2>Add New Task</h2>
+        <div class="addInput">
+          <input type="text" id="myInput" placeholder="Task Desriptive Title">
+          <span onclick="newElement()" class="addBtn">Add Task</span>
+        </div>
+      </div>
+    </div>
+
+    <section class="container" id="homeSections">
 
       <div id="taskListSection" class="section">
         <div class="sectionHeader">
           <h2>Task Lists</h2>
-          <img class="headerSectionImage" src="icons/plusSignWhite.svg" alt="">
+          <img onclick="addNewAction()" class="headerSectionImage addNewActionBtn" src="icons/plusSignWhite.svg" alt="">
         </div>
 
         <div id="seeAllTask" class="taskListDiv">
@@ -68,7 +77,7 @@
       <div id="generalTaskSection" class="section">
         <div class="sectionHeader">
           <h2>General Tasks</h2>
-          <img class="headerSectionImage" src="icons/plusSignWhite.svg" alt="">
+          <img onclick="addNewAction()" class="headerSectionImage addNewActionBtn" src="icons/plusSignWhite.svg" alt="">
         </div>
 
         <div class="task">   
@@ -92,10 +101,6 @@
         </div>
 
         <div id="calendar"></div>
-
-        <div>
-          Tasks order by day
-        </div>
       </div>
 
     </section>
