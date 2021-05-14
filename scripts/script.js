@@ -191,3 +191,70 @@ for (i = 0; i < close.length; i++) {
   }
 }
 
+
+// Creation of calendar element
+
+function createCalendar(elem, year, month, firstDay) {
+
+    let mon = month; // months in JS are 0..11, not 1..12
+    let d = new Date(year, mon, 1);
+
+    console.log(d)
+
+    const monthNames = ["January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"];
+
+    var div = document.getElementById('calendarTitle');
+
+    div.innerHTML += '<span id="currentMonth">' + monthNames[month] + '</span>';
+
+    let table = '<table id="generatedCalendar"><tr><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th><th>Su</th></tr><tr>';
+
+    // spaces for the first row
+    // from Monday till the first day of the month
+    // * * * 1  2  3  4
+    console.log(getDay(d))
+    for (let i = 0; i < getDay(d); i++) {
+      table += '<td></td>';
+    }
+
+    // <td> with actual dates
+    while (d.getMonth() == mon) {
+      table += '<td>' + d.getDate() + '</td>';
+
+      if (getDay(d) % 7 == 6) { // sunday, last day of week - newline
+        table += '</tr><tr>';
+      }
+
+      d.setDate(d.getDate() + 1);
+    }
+
+    // add spaces after last days of month for the last row
+    // 29 30 31 * * * *
+    if (getDay(d) != 0) {
+      for (let i = getDay(d); i < 7; i++) {
+        table += '<td></td>';
+      }
+    }
+
+    // close the table
+    table += '</tr></table>';
+
+    elem.innerHTML = table;
+  }
+
+  function getDay(date) { // get day number from 0 (monday) to 6 (sunday)
+    let day = date.getDay();
+    if (day == 0) day = 7; // make Sunday (0) the last day
+    return day - 1;
+  }
+
+  var dateVar = new Date();
+  var year = dateVar.getFullYear();
+  var month = dateVar.getMonth();
+  var firstDay = new Date(year, month, 1)
+
+  console.log(year, month, firstDay)
+
+  createCalendar(calendar, year, month, firstDay);
+
