@@ -198,8 +198,10 @@ function createCalendar(elem, year, month, firstDay) {
 
     let mon = month; // months in JS are 0..11, not 1..12
     let d = new Date(year, mon, 1);
+    let date = new Date();
+    let today = date.getDate();
 
-    console.log(d)
+    console.log(today)
 
     const monthNames = ["January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"];
@@ -219,9 +221,16 @@ function createCalendar(elem, year, month, firstDay) {
     }
 
     // <td> with actual dates
+    console.log(date)
     while (d.getMonth() == mon) {
-      table += '<td>' + d.getDate() + '</td>';
-
+        
+      console.log(d.getDate())
+  
+      if (d.getDate() == today) {
+        table += '<td><div id="today">' + d.getDate() + '</div></td>';
+      } else {
+        table += '<td>' + d.getDate() + '</td>';
+      }
       if (getDay(d) % 7 == 6) { // sunday, last day of week - newline
         table += '</tr><tr>';
       }
