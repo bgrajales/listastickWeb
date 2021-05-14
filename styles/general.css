@@ -19,107 +19,10 @@ header {
     margin: 25px 0;
 }
 
-h4 {
-    font-size: 20px;
-    color: #1095E0;
-}
-
 h3 {
     font-weight: 400;
     margin: 0;
     font-size: 16px;
-}
-
-h2 {
-    font-weight: 600;
-}
-
-ul {
-    list-style: none;
-    padding: 0;
-    margin: 20px 0;
-}
-
-ul li {
-    cursor: pointer;
-    position: relative;
-    padding: 12px 8px 12px 40px;
-    font-size: 15px;
-    transition: 0.2s;
-}
-
-ul li:hover {
-    transform: scale(1.05);
-}
-
-ul li.checked {
-    color: rgb(255 255 255 / 50%);
-    text-decoration: line-through;
-}
-
-ul li.checked::before {
-    content: '';
-    position: absolute;
-    height: 20px;
-    width: 20px;
-    background-color: #1095E0;
-    border: none;
-    border-radius: 25px;
-    top: 15px;
-    left: 5px;
-}
-
-ul li::before {
-    content: '';
-    position: absolute;
-    height: 20px;
-    width: 20px;
-    border: solid 1px;
-    border-radius: 25px;
-    top: 15px;
-    left: 5px;
-}
-
-th, td {
-    border-bottom: 3px solid rgb(255 255 255 / 20%);
-    width: 40px;
-    height: 40px;
-}
-
-#currentMonth {
-    font-size: 25px;
-    color: rgb(255 255 255 / 60%);
-    padding-right: 15px;
-}
-
-#calendar {
-    margin: 25px 0;
-    display: flex;
-    justify-content: center;
-}
-
-#generatedCalendar {
-    text-align: center;
-    width: 300px;
-    height: 300px;
-}
-
-#seeAllTask {
-    display: flex;
-    justify-content: space-between;
-}
-
-#taskListSection, #generalTaskSection {
-    border-right: hsl(0deg 0% 100% / 20%) 5px solid;
-}
-
-#homeSections {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    width: 90vw;
-    gap: 50px;
-    margin: 20px 0;
-    height: 100%;
 }
 
 #welcometextDivMobile {
@@ -188,25 +91,6 @@ th, td {
     display: none;
 }
 
-#headerMobile {
-    display: none;
-}
-
-#today {
-    background-color: #1095e0;
-    border-radius: 25px;
-}
-
-#deleteConfirmDiv {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 50%;
-    z-index: 2;
-}
-
 .inputField {
     margin: 10px 0;
 }
@@ -216,22 +100,6 @@ th, td {
     border: none;
 }
 
-.headerImage {
-    width: 50px;
-}
-
-.headerSectionImage {
-    width: 20px;
-}
-
-.sectionHeader {
-    display: flex;
-    justify-content: space-between;
-}
-
-.section {
-    padding: 0 25px 0 0;
-}
 
 .alert-danger {
     margin: 20px 0;
@@ -241,129 +109,6 @@ th, td {
     color: white;
     border: none;
 }
-
-.taskListDiv {
-    padding: 20px;
-    margin: 20px 0;
-    background-color: rgb(255 255 255 / 20%);
-    border-radius: 10px;
-}
-
-.deleteList {
-    width: 20px;
-}
-
-.list {
-    display: flex;
-    gap: 25px;
-}
-
-.listName {
-    flex: 2;
-}
-
-.listDivider {
-    border: 1px solid;
-    border-radius: 25px;
-}
-
-.close {
-    position: absolute;
-    right: 0;
-    top: 0;
-    padding: 0px 0px;
-    width: 30px;
-    height: 30px;
-    border-radius: 40px;
-    text-align: center;
-    margin-top: 10px;
-  }
-  
-.close:hover {
-    background-color: #f44336;
-    color: white;
-}
-
-/* Style the header */
-.header {
-    background-color: #1095E0;
-    padding: 30px 40px;
-    color: white;
-    text-align: center;
-    border-radius: 20px;
-    box-shadow: 0 0 20px 20px #00000063;
-  }
-  
-  /* Clear floats after the header */
-  .header:after {
-    content: "";
-    display: table;
-    clear: both;
-  }
-  
-  /* Style the input */
-  input {
-    margin: 25px 0;
-    border: none;
-    width: 90%;
-    padding: 10px;
-    float: left;
-    font-size: 16px;
-    border-radius: 5px;
-  }
-  
-  /* Style the "Add" button */
-  .addBtn {
-    margin: 25px 0;
-    padding: 10px;
-    width: 90%;
-    background: #121212;
-    color: #fff;
-    float: left;
-    text-align: center;
-    font-size: 16px;
-    cursor: pointer;
-    transition: 0.3s;
-    border-radius: 5px;
-  }
-  
-  .addBtn:hover {
-    background-color: #095783;
-    transform: scale(1.1);  
-}
-
-  #taskInputContainer {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 50%;
-    z-index: 2;
-  }
-
-  .addInput {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.addNewActionBtn {
-    transition: 0.3s;
-}
-
-.addNewActionBtn:hover {
-    cursor: pointer;
-    transform: scale(1.3);
-}
-
-#dateAndListDiv {
-    width: 90%;
-    display: flex;
-    flex-direction: row;
-    gap: 45px;
-}
-
 
 @media (max-width: 992px){
 
@@ -403,77 +148,5 @@ th, td {
     #logoLoginMobile {
         width: 40%;
     }
-}
-
-@media (max-width: 1200px) {
-
-    #homeSections {
-        grid-template-columns: repeat(1, 1fr);
-        gap: 15px;
-    }
-
-    #taskListSection, #generalTaskSection {
-        border-right: none;
-    }
-
-    #calendarDesktopSection {
-        display: none;
-    }
-
-    #headerDesktop {
-        display: none;
-    }
-
-    #headerMobile {
-        display: flex;
-        justify-content: space-around;
-        position: fixed;
-        bottom: 0;
-        background-color: #121212;
-        margin: 0;
-        padding: 20px 0;
-        border-radius: 20px 20px 0 0;
-        box-shadow: 0px 10px 20px 20px #000000;
-        z-index: 2;
-    }
-
-    #homeSections {
-        padding: 0 0 70px 0;
-    }
-
-    #taskInputContainer {
-        width: 65%;
-    }
-
-    #myInput {
-        width: 90%;
-    }
-
-    #dateAndListDiv {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        gap: 0px;
-        align-items: center;
-    }
-
-    .mobileHeaderImg {
-        width: 25px;
-    }
-
-    .section {
-        padding: 0;
-    }
-
-    .addInput {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .addBtn {
-        margin: 0;
-        width: 90%
-    }
-
 }
 
