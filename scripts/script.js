@@ -105,7 +105,7 @@ if (registerButton != null) {
         if (errorCount === 0) {
             window.location.href = "home.html"
         } else {
-            loginErrorMsg.style.display = "block"; 
+            registerErrorMsg.style.display = "block"; 
         }
 })
 
