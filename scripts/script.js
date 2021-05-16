@@ -207,6 +207,7 @@ document.querySelectorAll('.taskElement').forEach(function(el){
 // Adding task to generalTasks
 
 var addTaskBtn = document.querySelector('#addTaskBtn');
+var addTaskInput = document.getElementById('addTaskInput');
 
 if (addTaskBtn != null) {
 addTaskBtn.addEventListener('click', function(e){
@@ -235,6 +236,17 @@ addTaskBtn.addEventListener('click', function(e){
     })
 })
 }
+
+if (addTaskInput != null) {
+        
+        addTaskInput.addEventListener('keyup', function(e){
+
+        if (e.keyCode === 13) { 
+            document.getElementById('addTaskBtn').click();
+        }
+    })
+}
+
 
 //  Delete all completed task
 
