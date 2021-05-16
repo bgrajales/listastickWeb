@@ -4,13 +4,13 @@ var pageName = window.location.pathname
 console.log(pageName)
 
 switch (pageName) {
-    case '/home.html':
+    case '/listastickWeb/home.html':
         document.getElementById('homeArrow').classList.toggle('arrowActive');
         break;
-    case '/calendar.html':
+    case '/listastickWeb/calendar.html':
         document.getElementById('calendarArrow').classList.toggle('arrowActive');
         break;
-    case '/profile.html':
+    case '/listastickWeb/profile.html':
         document.getElementById('profileArrow').classList.toggle('arrowActive');
         break;
 }
