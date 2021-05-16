@@ -162,3 +162,27 @@ function checkPassword(password) {
      }
 }
 
+// Checking of task functions
+
+function checkingTask(e) {
+    e.preventDefault();
+
+    let checkmark = this.querySelector('.checkmark');
+    let taskText = this.querySelector('label');
+
+    checkmark.classList.toggle('checkmarkChecked');
+    taskText.classList.toggle('checkedText');
+
+    let completedList = document.querySelector('#completedTask ul');
+    let taskList = document.querySelector('#currentTask ul');
+    if (checkmark.classList.contains('checkmarkChecked')) {
+        completedList.prepend(this);
+    } else {
+        taskList.prepend(this);
+
+    }
+}
+
+document.querySelectorAll('.taskElement').forEach(function(el){
+    el.addEventListener('click', checkingTask);
+})
