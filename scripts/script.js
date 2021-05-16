@@ -1,3 +1,20 @@
+// Show arrow depending on which page you are on
+var pageName = window.location.pathname
+
+console.log(pageName)
+
+switch (pageName) {
+    case '/home.html':
+        document.getElementById('homeArrow').classList.toggle('arrowActive');
+        break;
+    case '/calendar.html':
+        document.getElementById('calendarArrow').classList.toggle('arrowActive');
+        break;
+    case '/profile.html':
+        document.getElementById('profileArrow').classList.toggle('arrowActive');
+        break;
+}
+
 //Funcionamiento interno del Login Form
 
 const loginButton = document.getElementById("login-form-submit");
@@ -162,7 +179,7 @@ function checkPassword(password) {
      }
 }
 
-// Checking of task functions
+// Checking task as done
 
 function checkingTask(e) {
     e.preventDefault();
@@ -186,3 +203,52 @@ function checkingTask(e) {
 document.querySelectorAll('.taskElement').forEach(function(el){
     el.addEventListener('click', checkingTask);
 })
+
+// Adding task to generalTasks
+
+var addTaskBtn = document.querySelector('#addTaskBtn');
+
+if (addTaskBtn != null) {
+addTaskBtn.addEventListener('click', function(e){
+
+    let taskInput = document.getElementById('addTaskInput').value;
+    console.log(taskInput);
+
+    if (taskInput == '') {
+        document.getElementById('noTaskAddedWarning').style = 'display: inline';
+        setTimeout(function(){
+            document.getElementById('noTaskAddedWarning').style = 'display: none';
+        }, 6000)
+    } else {
+        let task = '<li class="taskElement"><input type="checkbox" name="task1" id=""><span class="checkmark"></span><label for="task1">' + 
+        taskInput + '</label></li>';
+        console.log(task);
+
+        let taskList = document.querySelector('#currentTask ul');
+        taskList.innerHTML = task + taskList.innerHTML;
+    }
+
+    document.getElementById('addTaskInput').value = '';
+
+    document.querySelectorAll('.taskElement').forEach(function(el){
+        el.addEventListener('click', checkingTask);
+    })
+})
+}
+
+//  Delete all completed task
+
+function deleteCompletedTasks(){
+
+    document.getElementById('warningDeleteCompleted').style = 'display: flex';
+
+}
+
+function cancelDeleteCompleted(){
+    document.getElementById('warningDeleteCompleted').style = 'display: none';
+}
+
+function confirmDeleteCompleted(){
+    document.getElementById('ulCompletedTask').innerHTML = '';
+    document.getElementById('warningDeleteCompleted').style = 'display: none';
+}

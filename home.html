@@ -15,20 +15,20 @@
     <nav id="desktopNavBar">
       <div id="navBarDesktopButtons">
         <div class="navBarButtonDiv">
-         <img class="navBarButton" src="images/logo.png" alt="">
+         <a href="home.html"><img class="navBarButton" src="images/logo.png" alt=""></a>
         </div>
         <div class="navBarButtonDiv">
-          <img class="navBarButton" src="icons/homeIcon.svg" alt="">
-          <div class="arrow-left arrowActive"></div>
+          <a href="home.html"><img class="navBarButton" src="icons/homeIcon.svg" alt=""></a>
+          <div id="homeArrow" class="arrow-left"></div>
         </div>
         <div class="navBarButtonDiv">
-          <img class="navBarButton" src="icons/calendarIcon.svg" alt="">
-          <div class="arrow-left"></div>
+          <a href="calendar.html"><img class="navBarButton" src="icons/calendarIcon.svg" alt=""></a>
+          <div id="calendarArrow" class="arrow-left"></div>
         </div>
       </div>
       <div style="text-align: center;">
         <img src="images/pfp.png" alt="">
-        <div class="arrow-left arrow-pfp"></div>
+        <div id="profileArrow" class="arrow-left arrow-pfp"></div>
       </div>
     </nav>
 
@@ -42,51 +42,32 @@
             <h1>Tareas</h1>
 
             <div id="addTaskInputDiv">
+              <div id="noTaskAddedWarning" class="alert alert-warning" role="alert">
+                Warning: No task added below
+                <div class="arrow-down"></div>
+              </div>
               <input id="addTaskInput" type="text" placeholder="+ Agregar Tareas">
               <button id="addTaskBtn" class="btn">Añadir Tarea</button>
             </div>
-            <ul>
-              <li class="taskElement">
-                <input type="checkbox" name="task1" id="">
-                <span class="checkmark"></span>
-                <label for="task1">Do the dishes</label>
-              </li>
-              <li class="taskElement">
-                <input type="checkbox" name="task1" id="">
-                <span class="checkmark"></span>
-                <label for="task1">Buy apples</label>
-              </li>
-              <li class="taskElement">
-                <input type="checkbox" name="task1" id="">
-                <span class="checkmark"></span>
-                <label for="task1">Improve Listastick Design</label>
-              </li>
-              <li class="taskElement">
-                <input type="checkbox" name="task1" id="">
-                <span class="checkmark"></span>
-                <label for="task1">Study JS</label>
-              </li>
-              <li class="taskElement">
-                <input type="checkbox" name="task1" id="">
-                <span class="checkmark"></span>
-                <label for="task1">Buy Oranges</label>
-              </li>
-              <li class="taskElement">
-                <input type="checkbox" name="task1" id="">
-                <span class="checkmark"></span>
-                <label for="task1">Delete Listastick Homepage from github</label>
-              </li>
-              <li class="taskElement">
-                <input type="checkbox" name="task1" id="">
-                <span class="checkmark"></span>
-                <label for="task1">Study CSS</label>
-              </li>
+            <ul id="ulTaskList">
+              
+
             </ul>
           </div>
 
           <div id="completedTask">
-            <h1>Completed</h1> 
-            <ul>
+            <div>
+              <h1 style="display: inline">Completed</h1>
+              <button id="clearCompletedBtn" class="btn" onclick="deleteCompletedTasks();">Clear Completed</button>
+              <div id="warningDeleteCompleted">
+                You are about to delete all completed tasks
+                <div>
+                  <button type="button" class="btn btn-primary" onclick="cancelDeleteCompleted()">Cancel</button>
+                  <button type="button" class="btn btn-danger" style="background-color: #dc3545;" onclick="confirmDeleteCompleted();">Yes, Delete</button>
+                </div>
+              </div>
+            </div>
+            <ul id="ulCompletedTask">
 
 
 
