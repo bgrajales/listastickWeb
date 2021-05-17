@@ -62,7 +62,7 @@ li {
 }
 
 #currentTask, #completedTask {
-    width: 40%;
+    width: 60%;
 }
 
 #addTaskInput{
@@ -402,6 +402,10 @@ li:hover, label:hover {
         height: auto;
     }
 
+    #desktopNavBar {
+        display: none;
+    }
+
     #loginDiv {
         flex-direction: column;
     }
@@ -433,6 +437,33 @@ li:hover, label:hover {
 
     #logoLoginMobile {
         width: 40%;
+    }
+
+    #currentTask, #completedTask {
+        width: 100%;
+    }
+
+    #addTaskInputDiv {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        margin-bottom: 20px;
+    }
+
+    #addTaskInput {
+        width: 100%;
+    }
+
+    #addTaskBtn {
+        width: 100%;
+    }
+
+    .main {
+        margin: 0;
+    }
+
+    .mainContainer {
+        border-radius: 0;
     }
 }
 
