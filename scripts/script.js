@@ -4,13 +4,13 @@ var pageName = window.location.pathname
 console.log(pageName)
 
 switch (pageName) {
-    case '/listastickWeb/home.html':
+    case '/home.html':
         document.getElementById('homeArrow').classList.toggle('arrowActive');
         break;
-    case '/listastickWeb/calendar.html':
+    case '/calendar.html':
         document.getElementById('calendarArrow').classList.toggle('arrowActive');
         break;
-    case '/listastickWeb/profile.html':
+    case '/profile.html':
         document.getElementById('profileArrow').classList.toggle('arrowActive');
         break;
 }
@@ -263,4 +263,19 @@ function cancelDeleteCompleted(){
 function confirmDeleteCompleted(){
     document.getElementById('ulCompletedTask').innerHTML = '';
     document.getElementById('warningDeleteCompleted').style = 'display: none';
+}
+
+// Dark/Light theme text
+
+function themeToggle(){
+
+    var checkbox = document.getElementById('themeCheckbox');
+
+    if (checkbox.checked === true) {
+        document.getElementById('themeDark').style = 'display: inline-block'
+        document.getElementById('themeLight').style = 'display: none'
+    } else {
+        document.getElementById('themeDark').style = 'display: none'
+        document.getElementById('themeLight').style = 'display: inline-block'
+    }
 }
