@@ -58,8 +58,6 @@
             <div id="addTaskInputDiv">
               <div id="noTaskAddedWarning" class="bubble" role="alert">
                 Warning: No task added below
-                <!-- <div class="arrow-down black"></div>
-                <div class="arrow-down"></div> -->
               </div>
               <input id="addTaskInput" type="text" placeholder="+ Task Title">
               <button id="addTaskBtn" class="btn"><p id="addBtnDesktopDescription">Add Task</p><p id="addBtnMobileDescription">+</p></button>
@@ -72,8 +70,10 @@
 
           <div id="completedTask">
             <div>
-              <h1 style="display: inline">Completed</h1>
-              <button id="clearCompletedBtn" class="btn" onclick="deleteCompletedTasks();">Clear Completed</button>
+              <div id="textAndTrashDiv">
+                <h1 style="display: inline; margin: 0;">Completed</h1>
+                <button id="clearCompletedBtn" class="btn" onclick="deleteCompletedTasks();"><span id="delCompletedText">Clear Completed</span><img id="delCompletedTrash" src="icons/trash.svg"></button>
+              </div>
               <div id="warningDeleteCompleted">
                 You are about to delete all completed tasks
                 <div id="cancelYesBtnDiv">

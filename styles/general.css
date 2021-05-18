@@ -215,11 +215,18 @@ li {
     background: none;
     color: black;
     text-decoration: underline;
+    padding: 0 15px;
 }
 
 #clearCompletedBtn:focus {
     box-shadow: none;
     color: #1095E0;
+}
+
+#delCompletedTrash {
+   display: none;
+   width: 25px;
+   opacity: 50%;
 }
 
 #warningDeleteCompleted {
@@ -252,7 +259,13 @@ li {
     flex-direction: row;
     align-items: center;
     gap: 40px;
-    height: 40%;
+    height: 30%;
+}
+
+#textAndTrashDiv {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
 #pfpInfo {
@@ -475,6 +488,14 @@ li:hover, label:hover {
     body {
         margin-bottom: 75px;
         height: 100%;
+    }
+
+    #delCompletedTrash {
+        display: inline;
+    }
+
+    #delCompletedText {
+        display: none;
     }
 
     #imageSubDiv {
