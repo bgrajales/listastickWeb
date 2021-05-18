@@ -3,7 +3,7 @@
 body {
     font-family: 'Karla', sans-serif;
     margin: 0;
-    height: 100vh;
+    height: 100%;
     background-color: #ffffff;
     color: #121212;
     overflow: hidden;
@@ -205,6 +205,9 @@ li {
     position: fixed;
     top: 3%;
     left: 24%;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
 }
 
 #clearCompletedBtn {
@@ -220,11 +223,13 @@ li {
 
 #warningDeleteCompleted {
     display: none;
-    width: 60%;
+    width: 70%;
     flex-direction: column;
     align-items: center;
     gap: 10px;
-    background-color: #ffc107;
+    background-color: #ffffff;
+    border: 2px solid #121212;
+    box-shadow: 5px 4px 0 0 #121212;
     padding: 25px;
     border-radius: 5px;
     text-align: center;
@@ -258,6 +263,29 @@ li {
 
 #themeDark {
     display: none;
+}
+
+#cancelYesBtnDiv {
+    width: 90%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+#addBtnDesktopDescription, #addBtnMobileDescription {
+    margin: 0;
+}
+
+#addBtnMobileDescription {
+    display: none;
+}
+
+#mobileNavBar {
+    display: none;
+}
+
+.sure {
+    width: 30%;
 }
 
 .accordion {
@@ -337,13 +365,44 @@ li:hover, label:hover {
     margin-top: -25px;
 }
 
-.arrow-down {
-    position: fixed;
+.black {
+    border-top: 20px solid #121212;
+    z-index: 1;
+}
+
+.bubble {
+    width: 275px;
+    height: 50px;
+    padding: 0px;
+    background: #ffc107;
+    border-radius: 10px;
+    box-shadow: 5px 5px 0px 0px #121212;
+}
+
+.bubble:after {
+    content: '';
+    position: absolute;
+    border-style: solid;
+    border-width: 18px 15px 0;
+    border-color: #ffc107 transparent;
+    display: block;
     width: 0;
-    height: 0;
-    border-left: 20px solid transparent;
-    border-right: 20px solid transparent;
-    border-top: 20px solid #ffc107;
+    z-index: 1;
+    bottom: -17px;
+    left: 12px;
+}
+
+.bubble:before {
+    content: '';
+    position: absolute;
+    border-style: solid;
+    border-width: 20px 18px 0;
+    border-color: #121212 transparent;
+    display: block;
+    width: 0;
+    z-index: 0;
+    bottom: -20px;
+    left: 13px;
 }
 
 .arrow-pfp {
@@ -398,6 +457,7 @@ li:hover, label:hover {
     padding: 10px;
     text-align: center;
     background: #ffc107;
+    box-shadow: 4px 4px 0 0 #121212;
     color: black;
     border: none;
 }
@@ -409,11 +469,41 @@ li:hover, label:hover {
 @media (max-width: 992px){
 
     body {
-        height: auto;
+        margin-bottom: 75px;
     }
 
     #desktopNavBar {
         display: none;
+    }
+
+    #mobileNavBar {
+        display: block;
+        position: fixed;
+        bottom: 0;
+        height: 75px;
+        width: 100%;
+        z-index: 3;
+        margin: -5px 0px;
+    }
+
+    #mobileNav {
+        height: 100%;
+        background-color: #121212;
+        margin: 0 15px;
+        border-radius: 10px 10px 0 0;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-around;
+    }
+
+    #mobilePfp {
+        height: 60%;
+        border-radius: 100%;
+    }
+
+    #mobileCalendar, #mobileHome {
+        height: 50%;
     }
 
     #loginDiv {
@@ -455,17 +545,54 @@ li:hover, label:hover {
 
     #addTaskInputDiv {
         display: flex;
-        align-items: center;
-        flex-direction: column;
+        flex-direction: row;
         margin-bottom: 20px;
+        width: 100%;
     }
 
     #addTaskInput {
-        width: 100%;
+        width: 80%;
     }
 
     #addTaskBtn {
+        width: 15%;
+    }
+
+    #addBtnDesktopDescription {
+        display: none;
+    }
+    
+    #addBtnMobileDescription {
+        display: inline;
+    }
+
+    #warningDeleteCompleted {
+        margin: 20px 0;
         width: 100%;
+    }
+
+    #cancelYesBtnDiv {
+        width: 100%;
+    }
+
+    #mainPfBanner {
+        flex-direction: column;
+    }
+
+    #pfpInfo {
+        align-items: center;
+    }
+
+    .accordion {
+        width: 100%;
+    }
+
+    .accordion-button {
+        font-size: 1.5rem;
+    }
+
+    .accordion-collapse {
+        font-size: 1.2rem;
     }
 
     .main {
@@ -474,6 +601,18 @@ li:hover, label:hover {
 
     .mainContainer {
         border-radius: 0;
+    }
+
+    .navBtnMobile {
+        height: 100%;
+        width: 25%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .active {
+        filter: invert(43%) sepia(96%) saturate(3343%) hue-rotate(179deg) brightness(103%) contrast(87%);
     }
 }
 

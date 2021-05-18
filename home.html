@@ -34,7 +34,17 @@
     </nav>
 
     <nav id="mobileNavBar">
-
+      <div id="mobileNav">
+        <div class="navBtnMobile" onclick="window.location='calendar.html'">
+          <img id="mobileCalendar" src="icons/calendarIcon.svg" alt="">
+        </div>
+        <div class="navBtnMobile" onclick="window.location='profile.html'">
+            <img id="mobilePfp" src="images/pfp.png" alt="">
+        </div>
+        <div class="navBtnMobile">
+            <img id="mobileHome" src="icons/homeIcon.svg" alt="">
+        </div>
+      </div>
     </nav>
     <div class="main">
         <div class="mainContainer">
@@ -43,12 +53,13 @@
             <h1>Tasks</h1>
 
             <div id="addTaskInputDiv">
-              <div id="noTaskAddedWarning" class="alert alert-warning" role="alert">
+              <div id="noTaskAddedWarning" class="bubble" role="alert">
                 Warning: No task added below
-                <div class="arrow-down"></div>
+                <!-- <div class="arrow-down black"></div>
+                <div class="arrow-down"></div> -->
               </div>
               <input id="addTaskInput" type="text" placeholder="+ Agregar Tareas">
-              <button id="addTaskBtn" class="btn">Add Task</button>
+              <button id="addTaskBtn" class="btn"><p id="addBtnDesktopDescription">Add Task</p><p id="addBtnMobileDescription">+</p></button>
             </div>
             <ul id="ulTaskList">
               
@@ -62,9 +73,9 @@
               <button id="clearCompletedBtn" class="btn" onclick="deleteCompletedTasks();">Clear Completed</button>
               <div id="warningDeleteCompleted">
                 You are about to delete all completed tasks
-                <div>
-                  <button type="button" class="btn btn-primary" onclick="cancelDeleteCompleted()">Cancel</button>
-                  <button type="button" class="btn btn-danger" style="background-color: #dc3545;" onclick="confirmDeleteCompleted();">Yes, Delete</button>
+                <div id="cancelYesBtnDiv">
+                  <button type="button" class="btn btn-primary sure" onclick="cancelDeleteCompleted()">Cancel</button>
+                  <button type="button" class="btn btn-danger sure" style="background-color: #dc3545;" onclick="confirmDeleteCompleted();">Yes, Delete</button>
                 </div>
               </div>
             </div>

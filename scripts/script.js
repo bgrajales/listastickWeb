@@ -15,6 +15,35 @@ switch (pageName) {
         break;
 }
 
+switch (pageName) {
+    case '/listastickWeb/home.html':
+        document.getElementById('mobileHome').classList.toggle('active');
+        break;
+    case '/listastickWeb/calendar.html':
+        document.getElementById('mobileCalendar').classList.toggle('active');
+        break;
+}
+
+switch (pageName) {
+    case '/home.html':
+        document.getElementById('mobileHome').classList.toggle('active');
+        break;
+    case '/calendar.html':
+        document.getElementById('mobileCalendar').classList.toggle('active');
+        break;
+}
+
+switch (pageName) { // Borrar luego
+    case '/home.html':
+        document.getElementById('homeArrow').classList.toggle('arrowActive');
+        break;
+    case '/calendar.html':
+        document.getElementById('calendarArrow').classList.toggle('arrowActive');
+        break;
+    case '/profile.html':
+        document.getElementById('profileArrow').classList.toggle('arrowActive');
+        break;
+}
 //Funcionamiento interno del Login Form
 
 const loginButton = document.getElementById("login-form-submit");
@@ -216,7 +245,7 @@ addTaskBtn.addEventListener('click', function(e){
     console.log(taskInput);
 
     if (taskInput == '') {
-        document.getElementById('noTaskAddedWarning').style = 'display: inline';
+        document.getElementById('noTaskAddedWarning').style = 'display: flex';
         setTimeout(function(){
             document.getElementById('noTaskAddedWarning').style = 'display: none';
         }, 6000)
