@@ -488,7 +488,7 @@ li:hover, label:hover {
         display: block;
         position: fixed;
         bottom: 0;
-        height: 75px;
+        height: 90px;
         width: 100%;
         z-index: 3;
         margin: -5px 0px;
@@ -503,6 +503,7 @@ li:hover, label:hover {
         flex-direction: row;
         align-items: center;
         justify-content: space-around;
+        padding-bottom: 15px;
     }
 
     #mobilePfp {
