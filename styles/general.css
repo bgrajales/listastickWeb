@@ -293,6 +293,7 @@ li {
     margin-top: 50px;
     width: 90%;
     box-shadow: 5px 5px 0 0 #121212;
+    border: 2px solid #121212;
     border-radius: 10px;
 }
 
@@ -302,7 +303,7 @@ li {
 }
 
 .accordion-button {
-    font-size: 2rem;
+    font-size: 1.5rem;
 }
 
 .accordion-collapse {
@@ -497,8 +498,6 @@ li:hover, label:hover {
     #mobileNav {
         height: 100%;
         background-color: #121212;
-        margin: 0 15px;
-        border-radius: 10px 10px 0 0;
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -610,6 +609,7 @@ li:hover, label:hover {
 
     .mainContainer {
         border-radius: 0;
+        padding: 40px 10px;
     }
 
     .navBtnMobile {
@@ -640,3 +640,10 @@ li:hover, label:hover {
     }
 }
 
+@media (max-width: 560px){
+
+    .sure {
+        width: 40%;
+    }
+
+}
