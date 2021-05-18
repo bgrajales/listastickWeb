@@ -22,14 +22,20 @@ switch (pageName) {
     case '/listastickWeb/calendar.html':
         document.getElementById('mobileCalendar').classList.toggle('active');
         break;
+    case '/listastickWeb/profile.html':
+        document.getElementById('mobileArrowMobile').classList.toggle('active');
+        break;
 }
 
 switch (pageName) {
     case '/home.html':
-        document.getElementById('mobileHome').classList.toggle('active');
+        document.getElementById('homeArrowMobile').classList.toggle('active');
         break;
     case '/calendar.html':
-        document.getElementById('mobileCalendar').classList.toggle('active');
+        document.getElementById('calendarArrowMobile').classList.toggle('active');
+        break;
+    case '/profile.html':
+        document.getElementById('profileArrowMobile').classList.toggle('active');
         break;
 }
 

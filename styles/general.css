@@ -620,12 +620,23 @@ li:hover, label:hover {
         justify-content: center;
     }
 
-    .active {
-        filter: invert(43%) sepia(96%) saturate(3343%) hue-rotate(179deg) brightness(103%) contrast(87%);
-    }
-
     .welcTextDivRegister {
         display: grid !important;
+    }
+
+    .navArrowDown {
+        display: none;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 10px 10px 0 10px;
+        border-color: #ffffff transparent transparent transparent;
+        position: absolute;
+        top: 0;
+    }
+
+    .active {
+        display: block;
     }
 }
 
