@@ -71,21 +71,54 @@ li {
     gap: 10px;
 }
 
+hr {
+    background-color: #1095E0;
+    opacity: 100%;
+    height: 2px !important;
+    border-radius: 30px;
+    width: 50%;
+}
+
+#plusCircleIcon:hover {
+    cursor: pointer;
+}
+
+#closeAddTask {
+    width: 20px;
+    float: right;
+    transition: 0.3s;
+}
+
+#topAddTask {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#closeAddTask:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
 #currentTask, #completedTask {
     width: 60%;
 }
 
-#addTaskInput{
+#addTaskInput, #addTaskList, #addTaskDescription {
     border: none;
     border-bottom: 1.5px solid #1095E0;
     height: 35px;
     font-size: 20px;
-    margin-bottom: 20px;
-    width: 75%;
+    width: 100%;
+}
+
+#addTaskDescription {
+    height: 100px;
 }
 
 #addTaskBtn {
-    width: 20%;
+    width: 100%;
 }
 
 #bodyLoginRegister {
@@ -196,15 +229,26 @@ li {
 }
 
 #addTaskInputDiv {
-    display: flex;
+    display: none;
     align-items: flex-start;
     justify-content: space-between;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+    border: 2px solid #121212;
+    border-radius: 10px;
+    box-shadow: 4px 4px 0 0 #121212;
+    width: 500px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 #noTaskAddedWarning {
     display: none;
     position: fixed;
-    top: 3%;
+    top: -15%;
     left: 24%;
     align-items: center;
     justify-content: center;
@@ -231,7 +275,7 @@ li {
 
 #warningDeleteCompleted {
     display: none;
-    width: 70%;
+    width: 30%;
     flex-direction: column;
     align-items: center;
     gap: 10px;
@@ -242,6 +286,10 @@ li {
     border-radius: 5px;
     text-align: center;
     margin: 20px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 #pfp {
@@ -573,8 +621,7 @@ li:hover, label:hover {
     }
 
     #addTaskInputDiv {
-        display: flex;
-        flex-direction: row;
+        flex-direction: column;
         margin-bottom: 20px;
         width: 100%;
     }
