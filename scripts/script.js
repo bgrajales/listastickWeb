@@ -1,4 +1,5 @@
 // Show arrow depending on which page you are on
+
 var pageName = window.location.pathname
 
 console.log(pageName)
@@ -188,6 +189,8 @@ if (registerButton != null) {
 
 }
 
+// Termina funcionamiento iterno de RegisterForm
+
 // Checking if the email of Register Input is correct
 function checkEmailValidity(email) {
  if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) {
@@ -215,6 +218,62 @@ function checkPassword(password) {
      }
 }
 
+//Add new task
+
+var taskArr = [];
+var addTaskBtn = document.querySelector('#addTaskBtn');
+
+if (addTaskBtn != null) 
+{
+
+    document.querySelector('#addTaskBtn').addEventListener('click', e =>{
+
+        let taskInput = document.getElementById('addTaskInput').value;
+    
+        if (taskInput == '') {
+            document.getElementById('noTaskAddedWarning').style = 'display: flex';
+            setTimeout(function(){
+                document.getElementById('noTaskAddedWarning').style = 'display: none';
+            }, 6000)
+        } else {
+
+            let taskEl = {
+
+                title: taskInput,
+                status: 'Incomplete',
+                parentList: document.getElementById('addTaskList').value,
+                description: document.getElementById('addTaskDescription').value
+            
+            }
+
+            taskArr.push(taskEl)
+
+            displayLast(taskArr)
+
+        }
+    
+        document.getElementById('addTaskInput').value = '';
+        document.getElementById('addTaskList').value = '';
+        document.getElementById('addTaskDescription').value = '';
+    })
+
+}
+
+//Display last task added
+
+function displayLast(taskArr){
+    let task = '<li class="taskElement"><input type="checkbox" name="task1" id=""><span class="checkmark"></span><label for="task1">' + 
+    taskArr[taskArr.length - 1].title + '</label></li>';
+
+    let taskList = document.querySelector('#currentTask ul');
+    taskList.innerHTML = task + taskList.innerHTML;
+
+    document.querySelectorAll('.taskElement').forEach(function(el){
+        el.addEventListener('click', checkingTask);
+    })
+
+}
+
 // Checking task as done
 
 function checkingTask(e) {
@@ -230,48 +289,42 @@ function checkingTask(e) {
     let taskList = document.querySelector('#currentTask ul');
     if (checkmark.classList.contains('checkmarkChecked')) {
         completedList.prepend(this);
+        let childLabel = this.childNodes;
+        let textTask = childLabel[2].innerHTML
+
+        let index = taskArr.findIndex(x => x.title == textTask);
+
+       taskArr[index].status = 'Complete';
+       console.log(taskArr)
     } else {
         taskList.prepend(this);
+        let childLabel = this.childNodes;
+        let textTask = childLabel[2].innerHTML
 
+        let index = taskArr.findIndex(x => x.title == textTask);
+
+       taskArr[index].status = 'Incomplete';
+       console.log(taskArr)
     }
+}
+
+function findIndexTask(taskArr, taskTitle){
+
+    taskArr.forEach(el =>{
+
+        if (el.title === taskTitle){
+            return taskArr.indexOf(el);
+        }
+
+    })
 }
 
 document.querySelectorAll('.taskElement').forEach(function(el){
     el.addEventListener('click', checkingTask);
 })
 
-// Adding task to generalTasks
 
-var addTaskBtn = document.querySelector('#addTaskBtn');
 var addTaskInput = document.getElementById('addTaskInput');
-
-if (addTaskBtn != null) {
-addTaskBtn.addEventListener('click', function(e){
-
-    let taskInput = document.getElementById('addTaskInput').value;
-    console.log(taskInput);
-
-    if (taskInput == '') {
-        document.getElementById('noTaskAddedWarning').style = 'display: flex';
-        setTimeout(function(){
-            document.getElementById('noTaskAddedWarning').style = 'display: none';
-        }, 6000)
-    } else {
-        let task = '<li class="taskElement"><input type="checkbox" name="task1" id=""><span class="checkmark"></span><label for="task1">' + 
-        taskInput + '</label></li>';
-        console.log(task);
-
-        let taskList = document.querySelector('#currentTask ul');
-        taskList.innerHTML = task + taskList.innerHTML;
-    }
-
-    document.getElementById('addTaskInput').value = '';
-
-    document.querySelectorAll('.taskElement').forEach(function(el){
-        el.addEventListener('click', checkingTask);
-    })
-})
-}
 
 if (addTaskInput != null) {
         
@@ -284,7 +337,7 @@ if (addTaskInput != null) {
 }
 
 
-//  Delete all completed task
+// Delete all completed task
 
 function deleteCompletedTasks(){
 
@@ -298,7 +351,19 @@ function cancelDeleteCompleted(){
 
 function confirmDeleteCompleted(){
     document.getElementById('ulCompletedTask').innerHTML = '';
+    console.log(document.getElementById('ulCompletedTask').childNodes)
     document.getElementById('warningDeleteCompleted').style = 'display: none';
+
+    taskArr.forEach(function comletedDelete(element, index){
+
+        if (element.status == 'Complete') {
+
+            taskArr.splice(index, 1);
+
+        }
+
+    })
+
 }
 
 // Dark/Light theme text
@@ -314,4 +379,71 @@ function themeToggle(){
         document.getElementById('themeDark').style = 'display: none'
         document.getElementById('themeLight').style = 'display: inline-block'
     }
+}
+
+// Display task when home loads
+
+
+if (window.location.pathname == '/home.html' || window.location.pathname == '/listastickWeb/home.html') {
+
+    window.addEventListener('beforeunload', function(e) {
+        console.log(taskArr)
+        localStorage.setItem('taskArr', JSON.stringify(taskArr))
+
+    })
+
+    window.onload = function(){
+
+        taskArr = JSON.parse(localStorage.getItem('taskArr'))
+
+        if (taskArr != null) {
+
+            taskArr.forEach(element => {
+
+                if (element.status == 'Incomplete') {
+                    let task = '<li class="taskElement"><input type="checkbox" name="task1" id=""><span class="checkmark"></span><label for="task1">' + 
+                    element.title + '</label></li>';
+                
+                    let taskList = document.querySelector('#currentTask ul');
+                    taskList.innerHTML = task + taskList.innerHTML
+
+                } else if (element.status == 'Complete') {
+                    let task = '<li class="taskElement"><input type="checkbox" name="task1" id=""><span class="checkmark checkmarkChecked"></span><label for="task1" class="checkedText">' +
+                    element.title + '</label></li>'
+
+                    let taskList = document.querySelector('#completedTask ul');
+                    taskList.innerHTML = task + taskList.innerHTML
+                    
+                }
+
+            })
+
+            document.querySelectorAll('.taskElement').forEach(function(el){
+                el.addEventListener('click', checkingTask);
+            })
+
+        }
+
+    }
+}
+
+// Display add task input popup
+
+var plusCircle = document.getElementById("plusCircleIcon")
+
+if (plusCircle != null) {
+
+    plusCircle.addEventListener("click", function(e){
+        e.preventDefault()
+
+        document.getElementById('addTaskInputDiv').style = "display: flex"
+
+        document.getElementById('closeAddTask').addEventListener("click", function(x){
+
+            document.getElementById('addTaskInputDiv').style = "display: none"
+
+        })
+
+    })
+
 }
