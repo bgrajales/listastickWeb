@@ -3,6 +3,7 @@ var pageName = window.location.pathname
 
 console.log(pageName)
 
+
 switch (pageName) {
     case '/listastickWeb/home.html':
         document.getElementById('homeArrow').classList.toggle('arrowActive');
