@@ -344,7 +344,7 @@ hr {
     justify-content: space-evenly;
 }
 
-#addBtnDesktopDescription, #addBtnMobileDescription {
+#addBtnDesktopDescription {
     margin: 0;
 }
 
@@ -689,21 +689,7 @@ li:hover, label:hover {
         width: 90%;
     }
 
-    #addTaskInput {
-        width: 80%;
-    }
-
-    #addTaskBtn {
-        width: 15%;
-    }
-
-    #addBtnDesktopDescription {
-        display: none;
-    }
     
-    #addBtnMobileDescription {
-        display: inline;
-    }
 
     #warningDeleteCompleted {
         margin: 20px auto;
