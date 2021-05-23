@@ -246,6 +246,18 @@ if (addTaskBtn != null)
             
             }
 
+            if (document.getElementById('addTaskList').value == '') {
+
+                taskEl.parentList = 'General Tasks'
+            
+            }
+
+            if (document.getElementById('addTaskDescription').value == '') {
+
+                taskEl.description = 'No description'
+            
+            }
+
             taskArr.push(taskEl)
 
             displayLast(taskArr)
@@ -262,14 +274,18 @@ if (addTaskBtn != null)
 //Display last task added
 
 function displayLast(taskArr){
-    let task = '<li class="taskElement"><input type="checkbox" name="task1" id=""><span class="checkmark"></span><label for="task1">' + 
-    taskArr[taskArr.length - 1].title + '</label></li>';
+    let task = '<li id="' + taskArr[taskArr.length - 1].title + 'listEl"><div class="taskElement"><input type="checkbox" name="task1" id=""><span class="checkmark"></span><label for="task1">' +
+        taskArr[taskArr.length - 1].title + '</label></div><div style="width: 10%;"><img id="taskDetails" src="icons/arrowRightBlack.png" alt=""></div></li>' 
 
     let taskList = document.querySelector('#currentTask ul');
     taskList.innerHTML = task + taskList.innerHTML;
 
     document.querySelectorAll('.taskElement').forEach(function(el){
         el.addEventListener('click', checkingTask);
+    })
+
+    document.querySelectorAll('#taskDetails').forEach(function(el){
+        el.addEventListener('click', showTaskDetails);
     })
 
 }
@@ -280,7 +296,7 @@ function checkingTask(e) {
     e.preventDefault();
 
     let checkmark = this.querySelector('.checkmark');
-    let taskText = this.querySelector('label');
+    let taskText = this.parentNode.querySelector('label');
 
     checkmark.classList.toggle('checkmarkChecked');
     taskText.classList.toggle('checkedText');
@@ -288,23 +304,23 @@ function checkingTask(e) {
     let completedList = document.querySelector('#completedTask ul');
     let taskList = document.querySelector('#currentTask ul');
     if (checkmark.classList.contains('checkmarkChecked')) {
-        completedList.prepend(this);
+        completedList.prepend(this.parentNode);
         let childLabel = this.childNodes;
         let textTask = childLabel[2].innerHTML
 
         let index = taskArr.findIndex(x => x.title == textTask);
 
        taskArr[index].status = 'Complete';
-       console.log(taskArr)
+
     } else {
-        taskList.prepend(this);
+        taskList.prepend(this.parentNode);
         let childLabel = this.childNodes;
         let textTask = childLabel[2].innerHTML
 
         let index = taskArr.findIndex(x => x.title == textTask);
 
        taskArr[index].status = 'Incomplete';
-       console.log(taskArr)
+
     }
 }
 
@@ -350,19 +366,16 @@ function cancelDeleteCompleted(){
 }
 
 function confirmDeleteCompleted(){
+
     document.getElementById('ulCompletedTask').innerHTML = '';
     console.log(document.getElementById('ulCompletedTask').childNodes)
     document.getElementById('warningDeleteCompleted').style = 'display: none';
 
-    taskArr.forEach(function comletedDelete(element, index){
+    taskArr = taskArr.filter(function(element, index) {
 
-        if (element.status == 'Complete') {
+        return element.status === 'Incomplete'
 
-            taskArr.splice(index, 1);
-
-        }
-
-    })
+    })  
 
 }
 
@@ -401,15 +414,15 @@ if (window.location.pathname == '/home.html' || window.location.pathname == '/li
             taskArr.forEach(element => {
 
                 if (element.status == 'Incomplete') {
-                    let task = '<li class="taskElement"><input type="checkbox" name="task1" id=""><span class="checkmark"></span><label for="task1">' + 
-                    element.title + '</label></li>';
+                    let task = '<li id="' + element.title + 'listEl"><div class="taskElement"><input type="checkbox" name="task1" id=""><span class="checkmark"></span><label for="task1">' +
+                    element.title + '</label></div><div style="width: 10%;"><img id="taskDetails" src="icons/arrowRightBlack.png" alt=""></div></li>';
                 
                     let taskList = document.querySelector('#currentTask ul');
                     taskList.innerHTML = task + taskList.innerHTML
 
                 } else if (element.status == 'Complete') {
-                    let task = '<li class="taskElement"><input type="checkbox" name="task1" id=""><span class="checkmark checkmarkChecked"></span><label for="task1" class="checkedText">' +
-                    element.title + '</label></li>'
+                    let task = '<li id="' + element.title + 'list El"><div class="taskElement"><input type="checkbox" name="task1" id=""><span class="checkmark checkmarkChecked"></span><label for="task1" class="checkedText">' +
+                    element.title + '</label></div><div style="width: 10%;"><img id="taskDetails" src="icons/arrowRightBlack.png" alt=""></div></li>'
 
                     let taskList = document.querySelector('#completedTask ul');
                     taskList.innerHTML = task + taskList.innerHTML
@@ -420,6 +433,10 @@ if (window.location.pathname == '/home.html' || window.location.pathname == '/li
 
             document.querySelectorAll('.taskElement').forEach(function(el){
                 el.addEventListener('click', checkingTask);
+            })
+
+            document.querySelectorAll('#taskDetails').forEach(function(el){
+                el.addEventListener('click', showTaskDetails);
             })
 
         }
@@ -438,12 +455,131 @@ if (plusCircle != null) {
 
         document.getElementById('addTaskInputDiv').style = "display: flex"
 
+        document.getElementById('addTaskInput').focus()
+
         document.getElementById('closeAddTask').addEventListener("click", function(x){
 
             document.getElementById('addTaskInputDiv').style = "display: none"
+            document.getElementById('addTaskInput').value = '';
+            document.getElementById('addTaskList').value = '';
+            document.getElementById('addTaskDescription').value = '';
 
         })
 
     })
 
+}
+
+var plusCircleMobile = document.getElementById("plusCircleIconMobile")
+
+if (plusCircleMobile != null) {
+
+    plusCircleMobile.addEventListener("click", function(e){
+        e.preventDefault()
+
+        document.getElementById('addTaskInputDiv').style = "display: flex"
+
+        document.getElementById('addTaskInput').focus()
+
+        document.getElementById('closeAddTask').addEventListener("click", function(x){
+
+            document.getElementById('addTaskInputDiv').style = "display: none"
+            document.getElementById('addTaskInput').value = '';
+            document.getElementById('addTaskList').value = '';
+            document.getElementById('addTaskDescription').value = '';
+
+        })
+
+    })
+
+}
+
+// Show task details
+
+function showTaskDetails() {
+
+    let detailDiv = document.getElementById('taskDetailsDiv')
+    let taskTitle = this.parentNode.parentNode.childNodes[0].childNodes[2].innerHTML
+
+    let index
+
+    taskArr.forEach(el =>{
+
+        if (el.title === taskTitle){
+            index = taskArr.indexOf(el);
+
+        }
+
+    })
+
+
+    if (document.getElementById(taskArr[index].title) == null) {
+
+        let innerTaskCard = '<div id="' + taskArr[index].title + '" class="taskCard"><img id="closeTaskCard" src="icons/closeIcon.png" alt=""><h1>' +
+        taskArr[index].title + '</h1><h4>' + taskArr[index].parentList + '</h4><p>' + taskArr[index].description + 
+        '</p><div id="cardBtn"><button id="cardDelete" type="button" class="btn btn-danger">Delete Task</button>' + 
+        '<button id="cardCompleted" type="button" class="btn btn-primary">Mark as completed</button></div></div>'
+
+        detailDiv.innerHTML += innerTaskCard
+
+        document.querySelectorAll('#closeTaskCard').forEach(function(el){
+            el.addEventListener('click', closeDetailsCard);
+        })
+
+        document.querySelectorAll('#cardDelete').forEach(function(el){
+            el.addEventListener('click', cardDeleteAcc);
+        })
+
+        document.querySelectorAll('#cardCompleted').forEach(function(el){
+            el.addEventListener('click', cardCompleteAcc);
+        })
+
+    }
+}
+
+// Close task details card
+
+function closeDetailsCard() {
+
+    this.parentNode.remove()
+
+}
+
+// Card delete Button acction
+
+function cardDeleteAcc() {
+
+    var taskTitle = this.parentNode.parentNode.id
+
+    console.log(taskTitle)
+
+    document.getElementById(taskTitle).remove()
+    document.getElementById(taskTitle + 'listEl').remove()
+
+
+    taskArr.forEach(function deleteTaskOfCard(element, index){
+
+           if (element.title == taskTitle) {
+
+            taskArr.splice(index, 1);
+
+        }
+
+    })
+
+    console.log(taskArr)
+
+}
+
+// Card Completed Button acction
+
+function cardCompleteAcc() {
+
+    console.log(taskArr)
+
+    var taskTitle = this.parentNode.parentNode.id
+
+    document.getElementById(taskTitle + 'listEl').childNodes[0].click()
+
+    
 }

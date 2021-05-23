@@ -12,11 +12,12 @@
     <title>Listastick</title>
   </head>
   <body>
-    
+    <img id="plusCircleIconMobile" class="navBarButton plusCircleIcon" src="icons/plusCircleIcon.png" alt="">
+
     <nav id="desktopNavBar">
       <div id="navBarDesktopButtons">
         <div class="navBarButtonDiv">
-         <img id="plusCircleIcon" class="navBarButton" src="icons/plusCircleIcon.png" alt="">
+         <img id="plusCircleIcon" class="navBarButton plusCircleIcon" src="icons/plusCircleIcon.png" alt="">
         </div>
         <div class="navBarButtonDiv">
           <img class="navBarButton" src="icons/homeIcon.svg" alt="">
@@ -50,7 +51,7 @@
       </div>
     </nav>
     <div class="main">
-        <div class="mainContainer">
+        <div id="homeContainer" class="mainContainer">
 
           <div id="addTaskInputDiv">
             <div id="noTaskAddedWarning" class="bubble" role="alert">
@@ -63,37 +64,43 @@
             <button id="addTaskBtn" class="btn"><p id="addBtnDesktopDescription">Add Task</p><p id="addBtnMobileDescription">+</p></button>
           </div>
 
-          <div id="currentTask">
-            <h1>Tasks <hr></h1>
+            <div id="taskListsSection">
+              <div id="currentTask">
+                <h1>Tasks <hr></h1>
 
-            <ul id="ulTaskList">
+                <ul id="ulTaskList">
+                
+                </ul>
+              </div>
+
+              <div id="completedTask">
+                <div>
+                  <div id="textAndTrashDiv">
+                    <h1 style="display: inline; margin: 0;">Completed</h1>
+                    <button id="clearCompletedBtn" class="btn" onclick="deleteCompletedTasks();"><span id="delCompletedText">Clear Completed</span><img id="delCompletedTrash" src="icons/trash.svg"></button>
+                  </div>
+                  <div id="warningDeleteCompleted">
+                    You are about to delete all completed tasks
+                    <div id="cancelYesBtnDiv">
+                      <button type="button" class="btn btn-primary sure" onclick="cancelDeleteCompleted()">Cancel</button>
+                      <button type="button" class="btn btn-danger sure" style="background-color: #dc3545;" onclick="confirmDeleteCompleted();">Delete</button>
+                    </div>
+                  </div>
+                  <hr>
+                </div>
+                <ul id="ulCompletedTask">
+
+                </ul>
+            
+              </div>
+            </div>
+
+            <div id="taskDetailsDiv">
               
 
-            </ul>
-          </div>
-
-          <div id="completedTask">
-            <div>
-              <div id="textAndTrashDiv">
-                <h1 style="display: inline; margin: 0;">Completed</h1>
-                <button id="clearCompletedBtn" class="btn" onclick="deleteCompletedTasks();"><span id="delCompletedText">Clear Completed</span><img id="delCompletedTrash" src="icons/trash.svg"></button>
-              </div>
-              <div id="warningDeleteCompleted">
-                You are about to delete all completed tasks
-                <div id="cancelYesBtnDiv">
-                  <button type="button" class="btn btn-primary sure" onclick="cancelDeleteCompleted()">Cancel</button>
-                  <button type="button" class="btn btn-danger sure" style="background-color: #dc3545;" onclick="confirmDeleteCompleted();">Delete</button>
-                </div>
-              </div>
-              <hr>
             </div>
-            <ul id="ulCompletedTask">
 
 
-
-            </ul>
-        
-          </div>
         </div>
     </div>
 

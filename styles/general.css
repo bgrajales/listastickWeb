@@ -76,14 +76,13 @@ hr {
     opacity: 100%;
     height: 2px !important;
     border-radius: 30px;
-    width: 50%;
 }
 
 #plusCircleIcon:hover {
     cursor: pointer;
 }
 
-#closeAddTask {
+#closeAddTask, #closeTaskCard {
     width: 20px;
     float: right;
     transition: 0.3s;
@@ -96,13 +95,9 @@ hr {
     justify-content: space-between;
 }
 
-#closeAddTask:hover {
+#closeAddTask:hover, #closeTaskCard:hover {
     cursor: pointer;
     transform: scale(1.1);
-}
-
-#currentTask, #completedTask {
-    width: 60%;
 }
 
 #addTaskInput, #addTaskList, #addTaskDescription {
@@ -236,6 +231,7 @@ hr {
     gap: 10px;
     padding: 20px;
     border: 2px solid #121212;
+    background-color: #fff;
     border-radius: 10px;
     box-shadow: 4px 4px 0 0 #121212;
     width: 500px;
@@ -243,6 +239,7 @@ hr {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    z-index: 5;
 }
 
 #noTaskAddedWarning {
@@ -290,6 +287,19 @@ hr {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+#taskDetails {
+    width: 10px;
+    float: right;
+}
+
+#taskDetailsDiv {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+    align-items: flex-start;
 }
 
 #pfp {
@@ -346,8 +356,57 @@ hr {
     display: none;
 }
 
+#taskListsSection {
+    width: 40%;
+    flex: 1;
+}
+
+#cardCompleted, #cardDelete {
+    width: 40%;
+}
+
+#cardDelete {
+    background-color: #dc3545;
+}
+
+#cardDelete:hover {
+    background-color: #a81f2c;
+}
+
+#plusCircleIconMobile {
+    display: none;
+}
+
+#cardBtn {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+#homeContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 10%;
+}
+
+
+.taskCard {
+    width: 70%;
+    padding: 5%;
+    border: 2px solid #121212;
+    border-radius: 10px;
+    box-shadow: 4px 4px 0 0 #121212;
+}
+
 .sure {
     width: 30%;
+}
+
+.taskElement {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }
 
 .accordion {
@@ -564,6 +623,10 @@ li:hover, label:hover {
         margin: -5px 0px;
     }
 
+    #homeContainer {
+        flex-direction: column;
+    }
+
     #mobileNav {
         height: 100%;
         background-color: #121212;
@@ -572,6 +635,10 @@ li:hover, label:hover {
         align-items: center;
         justify-content: space-around;
         padding-bottom: 15px;
+    }
+
+    #taskListsSection {
+        width: 100%;
     }
 
     #mobilePfp {
@@ -616,14 +683,10 @@ li:hover, label:hover {
         width: 40%;
     }
 
-    #currentTask, #completedTask {
-        width: 100%;
-    }
-
     #addTaskInputDiv {
         flex-direction: column;
         margin-bottom: 20px;
-        width: 100%;
+        width: 90%;
     }
 
     #addTaskInput {
@@ -643,8 +706,17 @@ li:hover, label:hover {
     }
 
     #warningDeleteCompleted {
-        margin: 20px 0;
-        width: 100%;
+        margin: 20px auto;
+        width: 90%;
+    }
+
+    #plusCircleIconMobile {
+        display: block;
+        position: fixed;
+        z-index: 5;
+        bottom: 100px;
+        width: 44px;
+        right: 13px;
     }
 
     #cancelYesBtnDiv {
@@ -678,6 +750,11 @@ li:hover, label:hover {
     .mainContainer {
         border-radius: 0;
         padding: 40px 10px;
+    }
+
+    .taskCard {
+        width: 95%;
+        margin: 0 auto;
     }
 
     .navBtnMobile {
