@@ -2,9 +2,6 @@
 
 var pageName = window.location.pathname
 
-console.log(pageName)
-
-
 switch (pageName) {
     case '/listastickWeb/home.html':
         document.getElementById('homeArrow').classList.toggle('arrowActive');
@@ -65,8 +62,6 @@ if (loginButton != null) {
         const mail = document.getElementById("mail").value
         const password = document.getElementById("password").value
 
-        console.log(mail, password)
-        console.log(loginErrorMsg.innerHTML)
         if (mail === "listastickDev" && password === "webdev") {
             window.location.href = "home.html"
         } else if (mail === "listastickDev") {
@@ -368,7 +363,6 @@ function cancelDeleteCompleted(){
 function confirmDeleteCompleted(){
 
     document.getElementById('ulCompletedTask').innerHTML = '';
-    console.log(document.getElementById('ulCompletedTask').childNodes)
     document.getElementById('warningDeleteCompleted').style = 'display: none';
 
     taskArr = taskArr.filter(function(element, index) {
@@ -400,7 +394,7 @@ function themeToggle(){
 if (window.location.pathname == '/home.html' || window.location.pathname == '/listastickWeb/home.html') {
 
     window.addEventListener('beforeunload', function(e) {
-        console.log(taskArr)
+
         localStorage.setItem('taskArr', JSON.stringify(taskArr))
 
     })
@@ -551,8 +545,6 @@ function cardDeleteAcc() {
 
     var taskTitle = this.parentNode.parentNode.id
 
-    console.log(taskTitle)
-
     document.getElementById(taskTitle).remove()
     document.getElementById(taskTitle + 'listEl').remove()
 
@@ -567,15 +559,11 @@ function cardDeleteAcc() {
 
     })
 
-    console.log(taskArr)
-
 }
 
 // Card Completed Button acction
 
 function cardCompleteAcc() {
-
-    console.log(taskArr)
 
     var taskTitle = this.parentNode.parentNode.id
 
