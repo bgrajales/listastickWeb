@@ -215,7 +215,7 @@ function checkPassword(password) {
 
 //Add new task
 
-var taskArr = [];
+var taskArr = new Array();
 var addTaskBtn = document.querySelector('#addTaskBtn');
 
 if (addTaskBtn != null) 
