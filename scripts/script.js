@@ -219,13 +219,30 @@ function checkPassword(password) {
 
 function addNewTaskFunc() {
 
-        let taskInput = document.getElementById('addTaskInput').value;
+        let taskInput = document.getElementById('addTaskInput').value
+        let isTaskThere = 0
+
+        taskArr.forEach(el =>{
+
+            if (el.title === taskInput) { isTaskThere++ }
+           
+        })
     
         if (taskInput == '') {
+            document.getElementById('noTaskAddedWarning').innerHTML = 'Warning: No task added below'
+
             document.getElementById('noTaskAddedWarning').style = 'display: flex';
             setTimeout(function(){
                 document.getElementById('noTaskAddedWarning').style = 'display: none';
             }, 6000)
+        } else if (isTaskThere > 0 ) {
+            document.getElementById('noTaskAddedWarning').innerHTML = 'Caution: Task Title already exist'
+
+            document.getElementById('noTaskAddedWarning').style = 'display: flex';
+            setTimeout(function(){
+                document.getElementById('noTaskAddedWarning').style = 'display: none';
+            }, 6000)
+
         } else {
 
             let taskEl = {
