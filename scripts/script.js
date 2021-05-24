@@ -251,17 +251,12 @@ function addNewTaskFunc() {
                 taskEl.description = 'No description'
             
             }
-
-            console.log(taskEl)
-            console.log(taskArr)
             
             taskArr.push(taskEl)
 
-            console.log(taskEl)
-            console.log(taskArr)
-
             displayLast(taskArr)
 
+            console.log(taskArr)
         }
     
         document.getElementById('addTaskInput').value = '';
@@ -406,9 +401,18 @@ if (window.location.pathname == '/home.html' || window.location.pathname == '/li
 
     window.onload = function(){
 
-        taskArr = JSON.parse(localStorage.getItem('taskArr'))
+        
+        if (JSON.parse(localStorage.getItem('taskArr')) != null) {
+            
+            taskArr = JSON.parse(localStorage.getItem('taskArr'))
+        
+        } else {
 
-        if (taskArr != null) {
+            taskArr = [];
+
+        }
+
+        if (taskArr != []) {
 
             taskArr.forEach(element => {
 
