@@ -1,3 +1,5 @@
+var taskArr = [];
+
 // Show arrow depending on which page you are on
 
 var pageName = window.location.pathname
@@ -215,13 +217,7 @@ function checkPassword(password) {
 
 //Add new task
 
-var taskArr = new Array();
-var addTaskBtn = document.querySelector('#addTaskBtn');
-
-if (addTaskBtn != null) 
-{
-
-    document.querySelector('#addTaskBtn').addEventListener('click', e =>{
+function addNewTaskFunc() {
 
         let taskInput = document.getElementById('addTaskInput').value;
     
@@ -262,9 +258,9 @@ if (addTaskBtn != null)
         document.getElementById('addTaskInput').value = '';
         document.getElementById('addTaskList').value = '';
         document.getElementById('addTaskDescription').value = '';
-    })
-
 }
+
+
 
 //Display last task added
 
@@ -450,6 +446,8 @@ if (plusCircle != null) {
         document.getElementById('addTaskInputDiv').style = "display: flex"
 
         document.getElementById('addTaskInput').focus()
+
+        document.querySelector('#addTaskBtn').addEventListener('click', addNewTaskFunc)
 
         document.getElementById('closeAddTask').addEventListener("click", function(x){
 
