@@ -1,5 +1,12 @@
 var taskArr = [];
 
+var taskEl = {
+    title: '',
+    status: '',
+    parentList: '',
+    description: ''
+}
+
 // Show arrow depending on which page you are on
 
 var pageName = window.location.pathname
@@ -228,15 +235,11 @@ function addNewTaskFunc() {
             }, 6000)
         } else {
 
-            let taskEl = {
-
-                title: taskInput,
-                status: 'Incomplete',
-                parentList: document.getElementById('addTaskList').value,
-                description: document.getElementById('addTaskDescription').value
+            taskEl.tilte = taskInput
+            taskEl.status = 'Incomplete'
+            taskEl.parentList = document.getElementById('addTaskList').value
+            taskEl.description = document.getElementById('addTaskDescription').value
             
-            }
-
             if (document.getElementById('addTaskList').value == '') {
 
                 taskEl.parentList = 'General Tasks'
@@ -249,7 +252,13 @@ function addNewTaskFunc() {
             
             }
 
+            console.log(taskEl)
+            console.log(taskArr)
+            
             taskArr.push(taskEl)
+
+            console.log(taskEl)
+            console.log(taskArr)
 
             displayLast(taskArr)
 
