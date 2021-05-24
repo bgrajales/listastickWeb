@@ -226,8 +226,6 @@ function checkPassword(password) {
 
 function addNewTaskFunc() {
 
-        let newArr = [];
-
         let taskInput = document.getElementById('addTaskInput').value;
     
         if (taskInput == '') {
@@ -257,9 +255,7 @@ function addNewTaskFunc() {
             console.log(taskEl)
             console.log(taskArr)
             
-            newArr.push(taskEl)
-
-            taskArr = taskArr.concat(newArr)
+            taskArr.push(taskEl)
 
             console.log(taskEl)
             console.log(taskArr)
