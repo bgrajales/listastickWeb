@@ -7,6 +7,8 @@ var taskEl = {
     description: ''
 }
 
+taskArr.push(taskEl);
+
 // Show arrow depending on which page you are on
 
 var pageName = window.location.pathname
@@ -235,7 +237,7 @@ function addNewTaskFunc() {
             }, 6000)
         } else {
 
-            taskEl.tilte = taskInput
+            taskEl.title = taskInput
             taskEl.status = 'Incomplete'
             taskEl.parentList = document.getElementById('addTaskList').value
             taskEl.description = document.getElementById('addTaskDescription').value
