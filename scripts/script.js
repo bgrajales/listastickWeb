@@ -7,11 +7,6 @@ var taskEl = {
     description: ''
 }
 
-taskArr.push(taskEl);
-
-console.log(taskArr)
-//check
-
 // Show arrow depending on which page you are on
 
 var pageName = window.location.pathname
@@ -231,6 +226,8 @@ function checkPassword(password) {
 
 function addNewTaskFunc() {
 
+        let newArr = [];
+
         let taskInput = document.getElementById('addTaskInput').value;
     
         if (taskInput == '') {
@@ -260,7 +257,9 @@ function addNewTaskFunc() {
             console.log(taskEl)
             console.log(taskArr)
             
-            taskArr.push(taskEl)
+            newArr.push(taskEl)
+
+            taskArr = taskArr.concat(newArr)
 
             console.log(taskEl)
             console.log(taskArr)
