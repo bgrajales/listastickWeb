@@ -9,6 +9,9 @@ var taskEl = {
 
 taskArr.push(taskEl);
 
+console.log(taskArr)
+//check
+
 // Show arrow depending on which page you are on
 
 var pageName = window.location.pathname
