@@ -269,11 +269,12 @@ function addNewTaskFunc() {
             displayLast(taskArr)
 
             console.log(taskArr)
+                
+            document.getElementById('addTaskInput').value = '';
+            document.getElementById('addTaskList').value = '';
+            document.getElementById('addTaskDescription').value = '';
         }
     
-        document.getElementById('addTaskInput').value = '';
-        document.getElementById('addTaskList').value = '';
-        document.getElementById('addTaskDescription').value = '';
 }
 
 
@@ -281,7 +282,10 @@ function addNewTaskFunc() {
 //Display last task added
 
 function displayLast(taskArr){
-    let task = '<li id="' + taskArr[taskArr.length - 1].title + 'listEl"><div class="taskElement"><input type="checkbox" name="task1" id=""><span class="checkmark"></span><label for="task1">' +
+
+    let identifier = taskArr[taskArr.length - 1].title.replace(/\s+/g, '-')
+
+    let task = '<li id="' + identifier + 'listEl"><div class="taskElement"><input type="checkbox" name="task1" id=""><span class="checkmark"></span><label for="task1">' +
         taskArr[taskArr.length - 1].title + '</label></div><div style="width: 10%;"><img id="taskDetails" src="icons/arrowRightBlack.png" alt=""></div></li>' 
 
     let taskList = document.querySelector('#currentTask ul');
@@ -429,14 +433,18 @@ if (window.location.pathname == '/home.html' || window.location.pathname == '/li
             taskArr.forEach(element => {
 
                 if (element.status == 'Incomplete') {
-                    let task = '<li id="' + element.title + 'listEl"><div class="taskElement"><input type="checkbox" name="task1" id=""><span class="checkmark"></span><label for="task1">' +
+                    let identifier = element.title.replace(/\s+/g, '-')
+
+                    let task = '<li id="' + identifier + 'listEl"><div class="taskElement"><input type="checkbox" name="task1" id=""><span class="checkmark"></span><label for="task1">' +
                     element.title + '</label></div><div style="width: 10%;"><img id="taskDetails" src="icons/arrowRightBlack.png" alt=""></div></li>';
                 
                     let taskList = document.querySelector('#currentTask ul');
                     taskList.innerHTML = task + taskList.innerHTML
 
                 } else if (element.status == 'Complete') {
-                    let task = '<li id="' + element.title + 'list El"><div class="taskElement"><input type="checkbox" name="task1" id=""><span class="checkmark checkmarkChecked"></span><label for="task1" class="checkedText">' +
+                    let identifier = element.title.replace(/\s+/g, '-')
+
+                    let task = '<li id="' + identifier + 'list El"><div class="taskElement"><input type="checkbox" name="task1" id=""><span class="checkmark checkmarkChecked"></span><label for="task1" class="checkedText">' +
                     element.title + '</label></div><div style="width: 10%;"><img id="taskDetails" src="icons/arrowRightBlack.png" alt=""></div></li>'
 
                     let taskList = document.querySelector('#completedTask ul');
@@ -532,11 +540,13 @@ function showTaskDetails() {
 
     if (document.getElementById(taskArr[index].title) == null) {
 
-        let innerTaskCard = '<div id="' + taskArr[index].title + '" class="taskCard"><img id="closeTaskCard" src="icons/closeIcon.png" alt=""><h1>' +
-        taskArr[index].title + '</h1><h4>' + taskArr[index].parentList + '</h4><p>' + taskArr[index].description + 
-        '</p><div id="cardBtn"><button id="cardDelete" type="button" class="btn btn-danger">Delete Task</button>' + 
-        '<button id="cardCompleted" type="button" class="btn btn-primary">Mark as completed</button></div></div>'
+        let identifier = taskArr[index].title.replace(/\s+/g, '-')
 
+
+        let innerTaskCard = '<div id="' + identifier + '" class="taskCard"><img id="closeTaskCard" src="icons/closeIcon.png" alt=""><div id="detailsHeader"><h1 id="detailTitle">' +
+        taskArr[index].title + '</h1><img id="editIcon" src="icons/edit.png" alt=""></div><h4>' + taskArr[index].parentList + '</h4><p>' + taskArr[index].description + 
+        '</p><div id="cardBtn"><button id="cardDelete" type="button" class="btn btn-danger">Delete Task</button><button id="cardCompleted" type="button" class="btn btn-primary">Mark as completed</button></div></div>'
+        
         detailDiv.innerHTML += innerTaskCard
 
         document.querySelectorAll('#closeTaskCard').forEach(function(el){
@@ -551,7 +561,143 @@ function showTaskDetails() {
             el.addEventListener('click', cardCompleteAcc);
         })
 
+        document.querySelectorAll('#editIcon').forEach(function(el){
+            el.addEventListener('click', editTask);
+        })
+
     }
+}
+
+// Edit task function
+
+function editTask(){
+
+   let taskCurrentTitle = this.parentNode.parentNode.id.replace(/-/g, ' ');
+
+   let index
+
+   taskArr.forEach(el =>{
+
+       if (el.title == taskCurrentTitle){
+           index = taskArr.indexOf(el);
+
+       }
+
+   })
+
+   this.parentNode.parentNode.innerHTML = '<img id="closeTaskCard" src="icons/closeIcon.png" alt=""><input id="changeTaskTitle" class="changeInput" type="text" placeholder="Title: ' + 
+   taskArr[index].title + '"><input id="changeTaskList" class="changeInput" type="text" placeholder="List: ' + taskArr[index].parentList + '"><textarea id="changeTaskDesc" class="changeInput" type="text" placeholder="Description: ' +
+   taskArr[index].description + '"></textarea><div id="cardBtn"><button id="cardCancelChange" type="button" class="btn btn-danger">Cancel</button><button id="cardSaveChange" type="button" class="btn btn-primary">Save changes</button></div>'
+
+    document.querySelectorAll('#cardCancelChange').forEach(function(el){
+        el.addEventListener('click', cancelChange);
+    })
+
+    document.querySelectorAll('#cardSaveChange').forEach(function(el){
+        el.addEventListener('click', saveChange);
+    })
+
+    document.querySelectorAll('#closeTaskCard').forEach(function(el){
+        el.addEventListener('click', closeDetailsCard);
+    })
+}
+
+// Save Change
+
+function saveChange(){
+
+    let inputsDivs = this.parentNode.parentNode
+    let newTaskTitle = inputsDivs.childNodes[1].value
+    let newTaskList = inputsDivs.childNodes[2].value
+    let newTaskDesc = inputsDivs.childNodes[3].value
+    
+    let index
+
+    taskArr.forEach(el =>{
+
+       if (el.title == inputsDivs.id.replace('-',' ')){
+           index = taskArr.indexOf(el);
+
+       }
+
+    })
+    if (newTaskTitle != '') {
+        taskArr[index].title = newTaskTitle
+    }
+    
+    if (newTaskList != '') {
+        taskArr[index].parentList = newTaskList
+    }
+
+    if (newTaskDesc != '') {
+        taskArr[index].description = newTaskDesc
+    }
+    console.log(inputsDivs.id)
+    document.getElementById(inputsDivs.id+'listEl').childNodes[0].childNodes[2].innerHTML = newTaskTitle
+    document.getElementById(inputsDivs.id+'listEl').id = newTaskTitle.replace(/\s+/g, '-')+'listEl'
+    
+    this.parentNode.parentNode.id = newTaskTitle.replace(/\s+/g, '-')
+
+
+    inputsDivs.parentNode.innerHTML = '<div id="' + taskArr[index].title.replace(/\s+/g, '-') + '" class="taskCard"><img id="closeTaskCard" src="icons/closeIcon.png" alt=""><div id="detailsHeader"><h1 id="detailTitle">' +
+    taskArr[index].title + '</h1><img id="editIcon" src="icons/edit.png" alt=""></div><h4>' + taskArr[index].parentList + '</h4><p>' + taskArr[index].description + 
+    '</p><div id="cardBtn"><button id="cardDelete" type="button" class="btn btn-danger">Delete Task</button><button id="cardCompleted" type="button" class="btn btn-primary">Mark as completed</button></div></div>'
+
+    document.querySelectorAll('#closeTaskCard').forEach(function(el){
+        el.addEventListener('click', closeDetailsCard);
+    })
+
+    document.querySelectorAll('#cardDelete').forEach(function(el){
+        el.addEventListener('click', cardDeleteAcc);
+    })
+
+    document.querySelectorAll('#cardCompleted').forEach(function(el){
+        el.addEventListener('click', cardCompleteAcc);
+    })
+
+    document.querySelectorAll('#editIcon').forEach(function(el){
+        el.addEventListener('click', editTask);
+    })
+    
+}
+
+// Cancel change
+
+function cancelChange(){
+
+    let taskCurrentTitle = this.parentNode.parentNode.id.replace(/-/g,' ')
+
+   let index
+
+   taskArr.forEach(el =>{
+
+       if (el.title == taskCurrentTitle){
+           index = taskArr.indexOf(el);
+
+       }
+
+   })
+
+    this.parentNode.parentNode.parentNode.innerHTML = '<div id="' + taskArr[index].title.replace(/\s+/g, '-') + '" class="taskCard"><img id="closeTaskCard" src="icons/closeIcon.png" alt=""><div id="detailsHeader"><h1 id="detailTitle">' +
+    taskArr[index].title + '</h1><img id="editIcon" src="icons/edit.png" alt=""></div><h4>' + taskArr[index].parentList + '</h4><p>' + taskArr[index].description + 
+    '</p><div id="cardBtn"><button id="cardDelete" type="button" class="btn btn-danger">Delete Task</button><button id="cardCompleted" type="button" class="btn btn-primary">Mark as completed</button></div></div>'
+
+    document.querySelectorAll('#closeTaskCard').forEach(function(el){
+        el.addEventListener('click', closeDetailsCard);
+    })
+
+    document.querySelectorAll('#cardDelete').forEach(function(el){
+        el.addEventListener('click', cardDeleteAcc);
+    })
+
+    document.querySelectorAll('#cardCompleted').forEach(function(el){
+        el.addEventListener('click', cardCompleteAcc);
+    })
+
+    document.querySelectorAll('#editIcon').forEach(function(el){
+        el.addEventListener('click', editTask);
+    })
+
 }
 
 // Close task details card
@@ -567,17 +713,19 @@ function closeDetailsCard() {
 function cardDeleteAcc() {
 
     var taskTitle = this.parentNode.parentNode.id
+    console.log(taskTitle)
 
     document.getElementById(taskTitle).remove()
+    console.log(taskTitle+'listEl')
     document.getElementById(taskTitle + 'listEl').remove()
 
 
     taskArr.forEach(function deleteTaskOfCard(element, index){
 
-           if (element.title == taskTitle) {
-
+        if (element.title == taskTitle.replace(/-/g, ' ')) {
+            console.log(element.title)
             taskArr.splice(index, 1);
-
+            console.log(taskArr)
         }
 
     })
@@ -588,9 +736,9 @@ function cardDeleteAcc() {
 
 function cardCompleteAcc() {
 
-    var taskTitle = this.parentNode.parentNode.id
+    var taskTitle = this.parentNode.parentNode.id + 'listEl' 
 
-    document.getElementById(taskTitle + 'listEl').childNodes[0].click()
+    document.getElementById(taskTitle).childNodes[0].click()
 
     
 }

@@ -78,6 +78,10 @@ hr {
     border-radius: 30px;
 }
 
+#changeTaskDesc {
+    height: 150px;
+}
+
 #plusCircleIcon:hover {
     cursor: pointer;
 }
@@ -100,12 +104,16 @@ hr {
     transform: scale(1.1);
 }
 
-#addTaskInput, #addTaskList, #addTaskDescription {
+#addTaskInput, #addTaskList, #addTaskDescription, .changeInput {
     border: none;
     border-bottom: 1.5px solid #1095E0;
     height: 35px;
     font-size: 20px;
     width: 100%;
+}
+
+.changeInput {
+    margin-bottom: 10px;
 }
 
 #addTaskDescription {
@@ -361,15 +369,15 @@ hr {
     flex: 1;
 }
 
-#cardCompleted, #cardDelete {
+#cardCompleted, #cardDelete, #cardCancelChange, #cardSaveChange {
     width: 40%;
 }
 
-#cardDelete {
+#cardDelete, #cardCancelChange {
     background-color: #dc3545;
 }
 
-#cardDelete:hover {
+#cardDelete:hover, #cardCancelChange:hover {
     background-color: #a81f2c;
 }
 
@@ -389,6 +397,27 @@ hr {
     gap: 10%;
 }
 
+#editIcon {
+    width: 20px;
+    opacity: 70%;
+    transition: 0.3s;
+}
+
+#editIcon:hover {
+    cursor: pointer;
+    transform: scale(1.1)
+}
+
+#detailTitle {
+    margin: 0
+}
+
+#detailsHeader {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
 
 .taskCard {
     width: 70%;
