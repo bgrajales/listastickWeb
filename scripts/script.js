@@ -51,7 +51,8 @@ switch (pageName) { // Borrar luego
         document.getElementById('profileArrow').classList.toggle('arrowActive');
         break;
 }
-//Funcionamiento interno del Login Form
+
+// Login function
 
 const loginButton = document.getElementById("login-form-submit");
 const loginErrorMsg = document.getElementById("login-error-msg");
@@ -102,10 +103,7 @@ if (loginButton != null) {
 
 }
 
-// Termina funcionamiento interno de LoginForm
-
-
-// Funcionamiento interno de RegisterForm
+// Register Function
 
 const registerButton = document.getElementById("register-form-submit");
 const registerErrorMsg = document.getElementById("register-error-msg");
@@ -186,9 +184,8 @@ if (registerButton != null) {
 
 }
 
-// Termina funcionamiento iterno de RegisterForm
-
 // Checking if the email of Register Input is correct
+
 function checkEmailValidity(email) {
  if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) {
     return (true)
@@ -198,6 +195,7 @@ function checkEmailValidity(email) {
 }
 
 // Checking if the name of Register Input is correct
+
 function checkFullName(fullName) {
     if (/^[a-zA-Z]+( [a-zA-Z]+)+$/.test(fullName)) {
         return true
@@ -207,6 +205,7 @@ function checkFullName(fullName) {
 }
 
 // Checking if password is longer than 8 characters
+
 function checkPassword(password) {
     if(password.length < 8) {   
         return false;  
@@ -276,8 +275,6 @@ function addNewTaskFunc() {
         }
     
 }
-
-
 
 //Display last task added
 
@@ -350,7 +347,6 @@ document.querySelectorAll('.taskElement').forEach(function(el){
     el.addEventListener('click', checkingTask);
 })
 
-
 var addTaskInput = document.getElementById('addTaskInput');
 
 if (addTaskInput != null) {
@@ -362,7 +358,6 @@ if (addTaskInput != null) {
         }
     })
 }
-
 
 // Delete all completed task
 
@@ -405,7 +400,6 @@ function themeToggle(){
 }
 
 // Display task when home loads
-
 
 if (window.location.pathname == '/home.html' || window.location.pathname == '/listastickWeb/home.html') {
 
@@ -505,6 +499,8 @@ if (plusCircleMobile != null) {
         document.getElementById('addTaskInputDiv').style = "display: flex"
 
         document.getElementById('addTaskInput').focus()
+
+        document.querySelector('#addTaskBtn').addEventListener('click', addNewTaskFunc)
 
         document.getElementById('closeAddTask').addEventListener("click", function(x){
 
