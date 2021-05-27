@@ -391,12 +391,6 @@ hr {
     justify-content: space-around;
 }
 
-#homeContainer {
-    display: flex;
-    flex-direction: row;
-    gap: 10%;
-}
-
 #editIcon {
     width: 20px;
     opacity: 70%;
@@ -424,6 +418,27 @@ hr {
     border-bottom: 1px solid;
     width: 100%;
     font-size: inherit;
+}
+
+#currentMonthTask {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+#currentMonthTask, #upcomingTask, #calendarDiv, #nextTaskdiv {
+    flex: 1
+}
+
+#nextTaskdiv {
+    width: 80%;
+}
+
+.pop {
+    border: 2px solid #121212;
+    border-radius: 10px;
+    box-shadow: 4px 4px 0 0 #121212;
 }
 
 .taskCard {
@@ -590,6 +605,9 @@ li:hover, label:hover {
     background-color: #ffffff;
     border-radius: 25px 0 0 0;
     padding: 40px 50px;
+    display: flex;
+    flex-direction: row;
+    gap: 10%;
 }
 
 .inputField {
@@ -659,7 +677,7 @@ li:hover, label:hover {
         margin: -5px 0px;
     }
 
-    #homeContainer {
+    .mainContainer {
         flex-direction: column;
     }
 

@@ -845,3 +845,26 @@ function cardCompleteAcc() {
 
     
 }
+
+// Filter next task by date
+
+function nextTaskbyDate() {
+
+    let nonCompletedTasks = taskArr.filter(function(element, index) {
+
+        return element.status === 'Incomplete'
+
+    })
+
+    let soonerTask = nonCompletedTasks[0]
+
+    nonCompletedTasks.forEach(function earliestTask(element, index){
+
+        if (element.deadline < soonerTask.deadline) {
+            soonerTask = element
+        }
+        console.log(element)
+        console.log(soonerTask)
+
+    })
+}
