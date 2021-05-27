@@ -230,16 +230,16 @@ function addNewTaskFunc() {
         if (taskInput == '') {
             document.getElementById('noTaskAddedWarning').innerHTML = 'Warning: No task added below'
 
-            document.getElementById('noTaskAddedWarning').style = 'display: flex';
+            document.getElementById('noTaskAddedWarning').style = 'display: flex'
             setTimeout(function(){
-                document.getElementById('noTaskAddedWarning').style = 'display: none';
+                document.getElementById('noTaskAddedWarning').style = 'display: none'
             }, 6000)
         } else if (isTaskThere > 0 ) {
             document.getElementById('noTaskAddedWarning').innerHTML = 'Caution: Task Title already exist'
 
-            document.getElementById('noTaskAddedWarning').style = 'display: flex';
+            document.getElementById('noTaskAddedWarning').style = 'display: flex'
             setTimeout(function(){
-                document.getElementById('noTaskAddedWarning').style = 'display: none';
+                document.getElementById('noTaskAddedWarning').style = 'display: none'
             }, 6000)
 
         } else {
@@ -247,6 +247,7 @@ function addNewTaskFunc() {
             let taskEl = {
                 title: taskInput,
                 status: 'Incomplete',
+                deadline: document.getElementById('deadline').value,
                 parentList: document.getElementById('addTaskList').value,
                 description: document.getElementById('addTaskDescription').value
             }
@@ -262,16 +263,23 @@ function addNewTaskFunc() {
                 taskEl.description = 'No description'
             
             }
+
+            if (document.getElementById('deadline').value == '') {
+
+                taskEl.deadline = 'No deadline'
+            
+            }
             
             taskArr.push(taskEl)
 
             displayLast(taskArr)
 
             console.log(taskArr)
-                
-            document.getElementById('addTaskInput').value = '';
-            document.getElementById('addTaskList').value = '';
-            document.getElementById('addTaskDescription').value = '';
+            
+            document.getElementById('deadline').value = ''
+            document.getElementById('addTaskInput').value = ''
+            document.getElementById('addTaskList').value = ''
+            document.getElementById('addTaskDescription').value = ''
         }
     
 }
@@ -479,9 +487,10 @@ if (plusCircle != null) {
         document.getElementById('closeAddTask').addEventListener("click", function(x){
 
             document.getElementById('addTaskInputDiv').style = "display: none"
-            document.getElementById('addTaskInput').value = '';
-            document.getElementById('addTaskList').value = '';
-            document.getElementById('addTaskDescription').value = '';
+            document.getElementById('addTaskInput').value = ''
+            document.getElementById('addTaskList').value = ''
+            document.getElementById('addTaskDescription').value = ''
+            document.getElementById('deadline').value = ''
 
         })
 
@@ -505,9 +514,10 @@ if (plusCircleMobile != null) {
         document.getElementById('closeAddTask').addEventListener("click", function(x){
 
             document.getElementById('addTaskInputDiv').style = "display: none"
-            document.getElementById('addTaskInput').value = '';
-            document.getElementById('addTaskList').value = '';
-            document.getElementById('addTaskDescription').value = '';
+            document.getElementById('addTaskInput').value = ''
+            document.getElementById('addTaskList').value = ''
+            document.getElementById('addTaskDescription').value = ''
+            document.getElementById('deadline').value = ''
 
         })
 
@@ -533,14 +543,27 @@ function showTaskDetails() {
 
     })
 
+    let deadlineOutput
 
     if (document.getElementById(taskArr[index].title) == null) {
 
         let identifier = taskArr[index].title.replace(/\s+/g, '-')
 
+        if (taskArr[index].deadline != 'No deadline') {
+            deadlineOutput = new Date(taskArr[0].deadline)
+
+            deadlineOutput.setDate(deadlineOutput.getDate() + 1)
+
+
+            deadlineOutput = deadlineOutput.toDateString()
+        } else {
+
+            deadlineOutput = taskArr[index].deadline
+
+        }
 
         let innerTaskCard = '<div id="' + identifier + '" class="taskCard"><img id="closeTaskCard" src="icons/closeIcon.png" alt=""><div id="detailsHeader"><h1 id="detailTitle">' +
-        taskArr[index].title + '</h1><img id="editIcon" src="icons/edit.png" alt=""></div><h4>' + taskArr[index].parentList + '</h4><p>' + taskArr[index].description + 
+        taskArr[index].title + '</h1><img id="editIcon" src="icons/edit.png" alt=""></div><h3 style="margin-bottom: 10px;">Deadline: ' + deadlineOutput + '<h3><h4>' + taskArr[index].parentList + '</h4><p>' + taskArr[index].description + 
         '</p><div id="cardBtn"><button id="cardDelete" type="button" class="btn btn-danger">Delete Task</button><button id="cardCompleted" type="button" class="btn btn-primary">Mark as completed</button></div></div>'
         
         detailDiv.innerHTML += innerTaskCard
@@ -581,9 +604,10 @@ function editTask(){
 
    })
 
-   this.parentNode.parentNode.innerHTML = '<img id="closeTaskCard" src="icons/closeIcon.png" alt=""><input id="changeTaskTitle" class="changeInput" type="text" placeholder="Title: ' + 
-   taskArr[index].title + '"><input id="changeTaskList" class="changeInput" type="text" placeholder="List: ' + taskArr[index].parentList + '"><textarea id="changeTaskDesc" class="changeInput" type="text" placeholder="Description: ' +
-   taskArr[index].description + '"></textarea><div id="cardBtn"><button id="cardCancelChange" type="button" class="btn btn-danger">Cancel</button><button id="cardSaveChange" type="button" class="btn btn-primary">Save changes</button></div>'
+   this.parentNode.parentNode.innerHTML = '<img id="closeTaskCard" src="icons/closeIcon.png" alt=""><label for="newtaskTitle">New task title</label><input id="changeTaskTitle" name="newtaskTitle" class="changeInput" type="text" placeholder="'
+   + taskArr[index].title + '"><label for="newtaskDeadline">New task deadline</label><input type="date" name="newtaskDeadline" id="deadline"><label for="newtaskList">New task list</label><input id="changeTaskList" name="newtaskList" class="changeInput" type="text" placeholder="'
+   + taskArr[index].parentList + '"><label for="newtaskDescription">New task description</label><textarea id="changeTaskDesc" name="newtaskDescription" class="changeInput" type="text" placeholder="'
+   + taskArr[index].description + '"></textarea><div id="cardBtn"><button id="cardCancelChange" type="button" class="btn btn-danger">Cancel</button><button id="cardSaveChange" type="button" class="btn btn-primary">Save changes</button></div>'
 
     document.querySelectorAll('#cardCancelChange').forEach(function(el){
         el.addEventListener('click', cancelChange);
@@ -603,20 +627,21 @@ function editTask(){
 function saveChange(){
 
     let inputsDivs = this.parentNode.parentNode
-    let newTaskTitle = inputsDivs.childNodes[1].value
-    let newTaskList = inputsDivs.childNodes[2].value
-    let newTaskDesc = inputsDivs.childNodes[3].value
-    
+    let newTaskTitle = inputsDivs.childNodes[2].value
+    let newTaskList = inputsDivs.childNodes[6].value
+    let newTaskDesc = inputsDivs.childNodes[8].value
+    let newTaskDeadline = inputsDivs.childNodes[4].value
+
     let index
 
     taskArr.forEach(el =>{
 
        if (el.title == inputsDivs.id.replace('-',' ')){
            index = taskArr.indexOf(el);
-
        }
 
     })
+
     if (newTaskTitle != '') {
         taskArr[index].title = newTaskTitle
     }
@@ -628,15 +653,35 @@ function saveChange(){
     if (newTaskDesc != '') {
         taskArr[index].description = newTaskDesc
     }
-    console.log(inputsDivs.id)
+
+    if (newTaskDeadline != '') {
+        taskArr[index].deadline = newTaskDeadline
+    }
+
+    if (newTaskTitle != '') {
     document.getElementById(inputsDivs.id+'listEl').childNodes[0].childNodes[2].innerHTML = newTaskTitle
     document.getElementById(inputsDivs.id+'listEl').id = newTaskTitle.replace(/\s+/g, '-')+'listEl'
     
     this.parentNode.parentNode.id = newTaskTitle.replace(/\s+/g, '-')
+    }
 
+    let deadlineOutput
+
+    if (taskArr[index].deadline != 'No deadline') {
+        deadlineOutput = new Date(taskArr[0].deadline)
+
+        deadlineOutput.setDate(deadlineOutput.getDate() + 1)
+
+
+        deadlineOutput = deadlineOutput.toDateString()
+    } else {
+
+        deadlineOutput = taskArr[index].deadline
+
+    }
 
     inputsDivs.parentNode.innerHTML = '<div id="' + taskArr[index].title.replace(/\s+/g, '-') + '" class="taskCard"><img id="closeTaskCard" src="icons/closeIcon.png" alt=""><div id="detailsHeader"><h1 id="detailTitle">' +
-    taskArr[index].title + '</h1><img id="editIcon" src="icons/edit.png" alt=""></div><h4>' + taskArr[index].parentList + '</h4><p>' + taskArr[index].description + 
+    taskArr[index].title + '</h1><img id="editIcon" src="icons/edit.png" alt=""></div><h3>Deadline: ' + deadlineOutput + '<h3><h4>' + taskArr[index].parentList + '</h4><p>' + taskArr[index].description + 
     '</p><div id="cardBtn"><button id="cardDelete" type="button" class="btn btn-danger">Delete Task</button><button id="cardCompleted" type="button" class="btn btn-primary">Mark as completed</button></div></div>'
 
     document.querySelectorAll('#closeTaskCard').forEach(function(el){
@@ -674,8 +719,23 @@ function cancelChange(){
 
    })
 
+    let deadlineOutput
+
+    if (taskArr[index].deadline != 'No deadline') {
+        deadlineOutput = new Date(taskArr[0].deadline)
+
+        deadlineOutput.setDate(deadlineOutput.getDate() + 1)
+
+
+        deadlineOutput = deadlineOutput.toDateString()
+    } else {
+
+        deadlineOutput = taskArr[index].deadline
+
+    }
+
     this.parentNode.parentNode.parentNode.innerHTML = '<div id="' + taskArr[index].title.replace(/\s+/g, '-') + '" class="taskCard"><img id="closeTaskCard" src="icons/closeIcon.png" alt=""><div id="detailsHeader"><h1 id="detailTitle">' +
-    taskArr[index].title + '</h1><img id="editIcon" src="icons/edit.png" alt=""></div><h4>' + taskArr[index].parentList + '</h4><p>' + taskArr[index].description + 
+    taskArr[index].title + '</h1><img id="editIcon" src="icons/edit.png" alt=""></div><h3>Deadline: ' + deadlineOutput + '<h3><h4>' + taskArr[index].parentList + '</h4><p>' + taskArr[index].description + 
     '</p><div id="cardBtn"><button id="cardDelete" type="button" class="btn btn-danger">Delete Task</button><button id="cardCompleted" type="button" class="btn btn-primary">Mark as completed</button></div></div>'
 
     document.querySelectorAll('#closeTaskCard').forEach(function(el){

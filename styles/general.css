@@ -117,7 +117,7 @@ hr {
 }
 
 #addTaskDescription {
-    height: 100px;
+    height: 75px;
 }
 
 #addTaskBtn {
@@ -417,6 +417,13 @@ hr {
     align-items: center;
     gap: 15px;
     margin-bottom: 10px;
+}
+
+#deadline {
+    border: none;
+    border-bottom: 1px solid;
+    width: 100%;
+    font-size: inherit;
 }
 
 .taskCard {
