@@ -288,13 +288,17 @@ function addNewTaskFunc() {
 
 function displayLast(taskArr){
 
-    let identifier = taskArr[taskArr.length - 1].title.replace(/\s+/g, '-')
+    let itemTemplate = document.getElementById('taskElementTemplate')
+    let itemClone = itemTemplate.content.cloneNode(true)
 
-    let task = '<li id="' + identifier + 'listEl"><div class="taskElement"><input type="checkbox" name="task1" id=""><span class="checkmark"></span><label for="task1">' +
-        taskArr[taskArr.length - 1].title + '</label></div><div style="width: 10%;"><img id="taskDetails" src="icons/arrowRightBlack.png" alt=""></div></li>' 
+    let identifier = taskArr[taskArr.length - 1].title.replace(/\s+/g, '-') + 'listEl'
 
-    let taskList = document.querySelector('#currentTask ul');
-    taskList.innerHTML = task + taskList.innerHTML;
+    itemClone.querySelector('li').id = identifier
+
+    itemClone.querySelector('label').innerHTML = taskArr[taskArr.length - 1].title
+
+    let taskList = document.querySelector('#currentTask ul')
+    taskList.prepend(itemClone)
 
     document.querySelectorAll('.taskElement').forEach(function(el){
         el.addEventListener('click', checkingTask);
@@ -310,7 +314,7 @@ function displayLast(taskArr){
 
 function checkingTask(e) {
     e.preventDefault();
-
+    console.log(this)
     let checkmark = this.querySelector('.checkmark');
     let taskText = this.parentNode.querySelector('label');
 
@@ -320,18 +324,19 @@ function checkingTask(e) {
     let completedList = document.querySelector('#completedTask ul');
     let taskList = document.querySelector('#currentTask ul');
     if (checkmark.classList.contains('checkmarkChecked')) {
+
         completedList.prepend(this.parentNode);
         let childLabel = this.childNodes;
-        let textTask = childLabel[2].innerHTML
-
+        let textTask = childLabel[5].innerHTML
         let index = taskArr.findIndex(x => x.title == textTask);
 
        taskArr[index].status = 'Complete';
 
     } else {
+
         taskList.prepend(this.parentNode);
         let childLabel = this.childNodes;
-        let textTask = childLabel[2].innerHTML
+        let textTask = childLabel[5].innerHTML
 
         let index = taskArr.findIndex(x => x.title == textTask);
 
@@ -435,23 +440,30 @@ if (window.location.pathname == '/home.html' || window.location.pathname == '/li
             taskArr.forEach(element => {
 
                 if (element.status == 'Incomplete') {
-                    let identifier = element.title.replace(/\s+/g, '-')
 
-                    let task = '<li id="' + identifier + 'listEl"><div class="taskElement"><input type="checkbox" name="task1" id=""><span class="checkmark"></span><label for="task1">' +
-                    element.title + '</label></div><div style="width: 10%;"><img id="taskDetails" src="icons/arrowRightBlack.png" alt=""></div></li>';
-                
-                    let taskList = document.querySelector('#currentTask ul');
-                    taskList.innerHTML = task + taskList.innerHTML
+                    let itemTemplate = document.getElementById('taskElementTemplate')
+                    let itemClone = itemTemplate.content.cloneNode(true)
+
+                    let identifier = element.title.replace(/\s+/g, '-') + 'listEl'
+
+                    itemClone.querySelector('li').id = identifier
+
+                    itemClone.querySelector('label').innerHTML = element.title
+
+                    document.querySelector('#currentTask ul').prepend(itemClone)
 
                 } else if (element.status == 'Complete') {
-                    let identifier = element.title.replace(/\s+/g, '-')
+                    let itemTemplate = document.getElementById('taskElementTemplate')
+                    let itemClone = itemTemplate.content.cloneNode(true)
 
-                    let task = '<li id="' + identifier + 'list El"><div class="taskElement"><input type="checkbox" name="task1" id=""><span class="checkmark checkmarkChecked"></span><label for="task1" class="checkedText">' +
-                    element.title + '</label></div><div style="width: 10%;"><img id="taskDetails" src="icons/arrowRightBlack.png" alt=""></div></li>'
+                    let identifier = element.title.replace(/\s+/g, '-') + 'listEl'
 
-                    let taskList = document.querySelector('#completedTask ul');
-                    taskList.innerHTML = task + taskList.innerHTML
-                    
+                    itemClone.querySelector('li').id = identifier
+                    itemClone.querySelector('span').classList.add('checkmarkChecked')
+                    itemClone.querySelector('label').innerHTML = element.title
+                    itemClone.querySelector('label').classList.add('checkedText')
+
+                    document.querySelector('#completedTask ul').prepend(itemClone)
                 }
 
             })
@@ -530,7 +542,7 @@ if (plusCircleMobile != null) {
 function showTaskDetails() {
 
     let detailDiv = document.getElementById('taskDetailsDiv')
-    let taskTitle = this.parentNode.parentNode.childNodes[0].childNodes[2].innerHTML
+    let taskTitle = this.parentNode.parentNode.querySelector('label').innerHTML
 
     let index
 
@@ -558,15 +570,25 @@ function showTaskDetails() {
             deadlineOutput = deadlineOutput.toDateString()
         } else {
 
-            deadlineOutput = taskArr[index].deadline
+            deadlineOutput = 'None'
 
         }
 
-        let innerTaskCard = '<div id="' + identifier + '" class="taskCard"><img id="closeTaskCard" src="icons/closeIcon.png" alt=""><div id="detailsHeader"><h1 id="detailTitle">' +
-        taskArr[index].title + '</h1><img id="editIcon" src="icons/edit.png" alt=""></div><h3 style="margin-bottom: 10px;">Deadline: ' + deadlineOutput + '<h3><h4>' + taskArr[index].parentList + '</h4><p>' + taskArr[index].description + 
-        '</p><div id="cardBtn"><button id="cardDelete" type="button" class="btn btn-danger">Delete Task</button><button id="cardCompleted" type="button" class="btn btn-primary">Mark as completed</button></div></div>'
+        let cardTemplate = document.getElementById('taskCardTemplate')
+        let cardClone = cardTemplate.content.cloneNode(true)
+
+        cardClone.childNodes[1].id = identifier
+
+        cardClone.querySelector('#detailTitle').innerHTML = taskArr[index].title
+        cardClone.querySelector('h3').innerHTML = 'Deadline:' + deadlineOutput
+        cardClone.querySelector('h4').innerHTML = taskArr[index].parentList
+        cardClone.querySelector('p').innerHTML = taskArr[index].description
+
+
+        console.log(cardClone)
+
         
-        detailDiv.innerHTML += innerTaskCard
+        detailDiv.prepend(cardClone)
 
         document.querySelectorAll('#closeTaskCard').forEach(function(el){
             el.addEventListener('click', closeDetailsCard);
@@ -591,9 +613,9 @@ function showTaskDetails() {
 
 function editTask(){
 
-   let taskCurrentTitle = this.parentNode.parentNode.id.replace(/-/g, ' ');
-
-   let index
+    let parentDiv = this.parentNode.parentNode
+    let taskCurrentTitle = parentDiv.id.replace(/-/g, ' ');
+    let index
 
    taskArr.forEach(el =>{
 
@@ -604,10 +626,17 @@ function editTask(){
 
    })
 
-   this.parentNode.parentNode.innerHTML = '<img id="closeTaskCard" src="icons/closeIcon.png" alt=""><label for="newtaskTitle">New task title</label><input id="changeTaskTitle" name="newtaskTitle" class="changeInput" type="text" placeholder="'
-   + taskArr[index].title + '"><label for="newtaskDeadline">New task deadline</label><input type="date" name="newtaskDeadline" id="deadline"><label for="newtaskList">New task list</label><input id="changeTaskList" name="newtaskList" class="changeInput" type="text" placeholder="'
-   + taskArr[index].parentList + '"><label for="newtaskDescription">New task description</label><textarea id="changeTaskDesc" name="newtaskDescription" class="changeInput" type="text" placeholder="'
-   + taskArr[index].description + '"></textarea><div id="cardBtn"><button id="cardCancelChange" type="button" class="btn btn-danger">Cancel</button><button id="cardSaveChange" type="button" class="btn btn-primary">Save changes</button></div>'
+   let editCardTemplate = document.getElementById('editCardTemplate')
+   let editCardClone = editCardTemplate.content.cloneNode(true)
+
+   editCardClone.querySelector('#changeTaskTitle').placeholder = taskArr[index].title
+   editCardClone.querySelector('#changeTaskList').placeholder = taskArr[index].parentList
+   editCardClone.querySelector('#changeTaskDesc').placeholder = taskArr[index].description
+
+   console.log(this.parentNode.parentNode)
+
+   parentDiv.innerHTML = ''
+   parentDiv.prepend(editCardClone)
 
     document.querySelectorAll('#cardCancelChange').forEach(function(el){
         el.addEventListener('click', cancelChange);
@@ -627,10 +656,11 @@ function editTask(){
 function saveChange(){
 
     let inputsDivs = this.parentNode.parentNode
-    let newTaskTitle = inputsDivs.childNodes[2].value
-    let newTaskList = inputsDivs.childNodes[6].value
-    let newTaskDesc = inputsDivs.childNodes[8].value
-    let newTaskDeadline = inputsDivs.childNodes[4].value
+    
+    let newTaskTitle = inputsDivs.childNodes[5].value
+    let newTaskList = inputsDivs.childNodes[13].value
+    let newTaskDesc = inputsDivs.childNodes[17].value
+    let newTaskDeadline = inputsDivs.childNodes[9].value
 
     let index
 
@@ -659,10 +689,10 @@ function saveChange(){
     }
 
     if (newTaskTitle != '') {
-    document.getElementById(inputsDivs.id+'listEl').childNodes[0].childNodes[2].innerHTML = newTaskTitle
-    document.getElementById(inputsDivs.id+'listEl').id = newTaskTitle.replace(/\s+/g, '-')+'listEl'
+        document.getElementById(inputsDivs.id+'listEl').querySelector('label').innerHTML = newTaskTitle
+        document.getElementById(inputsDivs.id+'listEl').id = newTaskTitle.replace(/\s+/g, '-')+'listEl'
     
-    this.parentNode.parentNode.id = newTaskTitle.replace(/\s+/g, '-')
+       inputsDivs.id = newTaskTitle.replace(/\s+/g, '-')
     }
 
     let deadlineOutput
@@ -680,9 +710,17 @@ function saveChange(){
 
     }
 
-    inputsDivs.parentNode.innerHTML = '<div id="' + taskArr[index].title.replace(/\s+/g, '-') + '" class="taskCard"><img id="closeTaskCard" src="icons/closeIcon.png" alt=""><div id="detailsHeader"><h1 id="detailTitle">' +
-    taskArr[index].title + '</h1><img id="editIcon" src="icons/edit.png" alt=""></div><h3>Deadline: ' + deadlineOutput + '<h3><h4>' + taskArr[index].parentList + '</h4><p>' + taskArr[index].description + 
-    '</p><div id="cardBtn"><button id="cardDelete" type="button" class="btn btn-danger">Delete Task</button><button id="cardCompleted" type="button" class="btn btn-primary">Mark as completed</button></div></div>'
+    let cardTemplate = document.getElementById('taskCardTemplate')
+    let cardClone = cardTemplate.content.cloneNode(true)
+
+    cardClone.childNodes[1].id = taskArr[index].title.replace(/\s+/g, '-')
+
+    cardClone.querySelector('#detailTitle').innerHTML = taskArr[index].title
+    cardClone.querySelector('h3').innerHTML = 'Deadline:' + deadlineOutput
+    cardClone.querySelector('h4').innerHTML = taskArr[index].parentList
+    cardClone.querySelector('p').innerHTML = taskArr[index].description
+
+    inputsDivs.innerHTML = cardClone.childNodes[1].innerHTML
 
     document.querySelectorAll('#closeTaskCard').forEach(function(el){
         el.addEventListener('click', closeDetailsCard);
@@ -706,37 +744,46 @@ function saveChange(){
 
 function cancelChange(){
 
-    let taskCurrentTitle = this.parentNode.parentNode.id.replace(/-/g,' ')
+    let cardDiv = this.parentNode.parentNode
+    let taskCurrentTitle = cardDiv.id.replace(/-/g,' ')
 
-   let index
+    let index
 
-   taskArr.forEach(el =>{
+    taskArr.forEach(el =>{
 
-       if (el.title == taskCurrentTitle){
-           index = taskArr.indexOf(el);
+        if (el.title == taskCurrentTitle){
+            index = taskArr.indexOf(el);
 
-       }
+        }
 
-   })
+    })
 
-    let deadlineOutput
+        let deadlineOutput
 
-    if (taskArr[index].deadline != 'No deadline') {
-        deadlineOutput = new Date(taskArr[0].deadline)
+        if (taskArr[index].deadline != 'No deadline') {
+            deadlineOutput = new Date(taskArr[0].deadline)
 
-        deadlineOutput.setDate(deadlineOutput.getDate() + 1)
+            deadlineOutput.setDate(deadlineOutput.getDate() + 1)
 
 
-        deadlineOutput = deadlineOutput.toDateString()
-    } else {
+            deadlineOutput = deadlineOutput.toDateString()
+        } else {
 
-        deadlineOutput = taskArr[index].deadline
+            deadlineOutput = taskArr[index].deadline
 
-    }
+        }
 
-    this.parentNode.parentNode.parentNode.innerHTML = '<div id="' + taskArr[index].title.replace(/\s+/g, '-') + '" class="taskCard"><img id="closeTaskCard" src="icons/closeIcon.png" alt=""><div id="detailsHeader"><h1 id="detailTitle">' +
-    taskArr[index].title + '</h1><img id="editIcon" src="icons/edit.png" alt=""></div><h3>Deadline: ' + deadlineOutput + '<h3><h4>' + taskArr[index].parentList + '</h4><p>' + taskArr[index].description + 
-    '</p><div id="cardBtn"><button id="cardDelete" type="button" class="btn btn-danger">Delete Task</button><button id="cardCompleted" type="button" class="btn btn-primary">Mark as completed</button></div></div>'
+    let cardTemplate = document.getElementById('taskCardTemplate')
+    let cardClone = cardTemplate.content.cloneNode(true)
+
+    cardClone.childNodes[1].id = taskArr[index].title.replace(/\s+/g, '-')
+
+    cardClone.querySelector('#detailTitle').innerHTML = taskArr[index].title
+    cardClone.querySelector('h3').innerHTML = 'Deadline:' + deadlineOutput
+    cardClone.querySelector('h4').innerHTML = taskArr[index].parentList
+    cardClone.querySelector('p').innerHTML = taskArr[index].description
+
+    cardDiv.innerHTML = cardClone.childNodes[1].innerHTML
 
     document.querySelectorAll('#closeTaskCard').forEach(function(el){
         el.addEventListener('click', closeDetailsCard);
@@ -792,9 +839,9 @@ function cardDeleteAcc() {
 
 function cardCompleteAcc() {
 
-    var taskTitle = this.parentNode.parentNode.id + 'listEl' 
+    var taskTitle = '#' + this.parentNode.parentNode.id + 'listEl' 
 
-    document.getElementById(taskTitle).childNodes[0].click()
+    document.querySelector(taskTitle).querySelector('.taskElement').click()
 
     
 }

@@ -107,6 +107,52 @@
         </div>
     </div>
 
+    <!-- General Task list element template -->
+    <template id="taskElementTemplate">
+      <li>
+        <div class="taskElement">
+          <input type="checkbox" name="task1">
+          <span class="checkmark"></span>
+          <label for="task1"></label>
+        </div>
+        <div style="width: 10%;">
+          <img id="taskDetails" src="icons/arrowRightBlack.png" alt="">
+        </div>
+      </li>
+    </template>
+
+    <template id="taskCardTemplate">
+      <div class="taskCard">
+        <img id="closeTaskCard" src="icons/closeIcon.png" alt="">
+        <div id="detailsHeader">
+          <h1 id="detailTitle"></h1>
+          <img id="editIcon" src="icons/edit.png" alt="">
+        </div>
+        <h3 style="margin-bottom: 10px;"><h3>
+        <h4></h4>
+        <p></p>
+        <div id="cardBtn">
+          <button id="cardDelete" type="button" class="btn btn-danger">Delete Task</button>
+          <button id="cardCompleted" type="button" class="btn btn-primary">Mark as completed</button>
+        </div>
+      </div>
+    </template>
+
+    <template id="editCardTemplate">
+      <img id="closeTaskCard" src="icons/closeIcon.png" alt="">
+      <label for="newtaskTitle">New task title</label>
+      <input id="changeTaskTitle" name="newtaskTitle" class="changeInput" type="text">
+      <label for="newtaskDeadline">New task deadline</label>
+      <input type="date" name="newtaskDeadline" id="deadline">
+      <label for="newtaskList">New task list</label>
+      <input id="changeTaskList" name="newtaskList" class="changeInput" type="text">
+      <label for="newtaskDescription">New task description</label>
+      <textarea id="changeTaskDesc" name="newtaskDescription" class="changeInput" type="text"></textarea>
+      <div id="cardBtn">
+        <button id="cardCancelChange" type="button" class="btn btn-danger">Cancel</button>
+        <button id="cardSaveChange" type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </template>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
     <script src="scripts/script.js"></script>
