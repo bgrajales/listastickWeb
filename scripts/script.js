@@ -881,27 +881,37 @@ if (pageName === '/listastickWeb/calendar.html' || pageName == '/calendar.html')
         let lastTask = nextTaskbyDate()
         let deadlineOutput
 
-        if (lastTask.deadline != 'No deadline') {
-            deadlineOutput = new Date(taskArr[0].deadline)
+        if (taskArr.length > 1) {
+            
+            if (lastTask.deadline != 'No deadline') {
+                deadlineOutput = new Date(taskArr[0].deadline)
+    
+                deadlineOutput.setDate(deadlineOutput.getDate() + 1)
+    
+    
+                deadlineOutput = deadlineOutput.toDateString()
+            } else {
+    
+                deadlineOutput = 'None'
+    
+            }
+    
+            nextTaskClone.querySelector('h2').innerHTML = lastTask.title
+            nextTaskClone.querySelector('h3').innerHTML = 'Deadline: ' + lastTask.deadline
+            nextTaskClone.querySelector('h4').innerHTML = lastTask.parentList
+            nextTaskClone.querySelector('p').innerHTML = lastTask.description
+    
+            nextTaskDiv.prepend(nextTaskClone)
+    
+            document.querySelector('#seeMoreBtn').addEventListener('click', seeMoreTask)
 
-            deadlineOutput.setDate(deadlineOutput.getDate() + 1)
-
-
-            deadlineOutput = deadlineOutput.toDateString()
         } else {
 
-            deadlineOutput = 'None'
+            nextTaskDiv.innerHTML = '<h2>No task with deadlines</h2>'
 
+            document.querySelector('#upcomingTask').innerHTML = '<h1 id="noTasks">Make sure to add tasks with deadlines to see them here!</h1>'
+            document.querySelector('#upcomingTask').style = 'justify-content: center;'
         }
-
-        nextTaskClone.querySelector('h2').innerHTML = lastTask.title
-        nextTaskClone.querySelector('h3').innerHTML = 'Deadline: ' + lastTask.deadline
-        nextTaskClone.querySelector('h4').innerHTML = lastTask.parentList
-        nextTaskClone.querySelector('p').innerHTML = lastTask.description
-
-        nextTaskDiv.prepend(nextTaskClone)
-
-        document.querySelector('#seeMoreBtn').addEventListener('click', seeMoreTask)
 
         var date = new Date()
 

@@ -436,6 +436,7 @@ td {
     display: flex;
     flex-direction: column;
     gap: 40px;
+    overflow: scroll;
 }
 
 #nextTaskdiv {
@@ -479,6 +480,11 @@ td {
     flex-direction: row;
     width: 50%;
     justify-content: space-around;
+}
+
+#noTasks {
+    color: #1095E0;
+    font-size: 1.5rem;
 }
 
 .taskHr {
@@ -761,6 +767,10 @@ li:hover, label:hover {
         width: 100%;
         z-index: 3;
         margin: -5px 0px;
+    }
+
+    #upcomingTask {
+        overflow: auto;
     }
 
     .mainContainer {
