@@ -273,8 +273,6 @@ function addNewTaskFunc() {
             taskArr.push(taskEl)
 
             displayLast(taskArr)
-
-            console.log(taskArr)
             
             document.getElementById('deadline').value = ''
             document.getElementById('addTaskInput').value = ''
@@ -314,7 +312,6 @@ function displayLast(taskArr){
 
 function checkingTask(e) {
     e.preventDefault();
-    console.log(this)
     let checkmark = this.querySelector('.checkmark');
     let taskText = this.parentNode.querySelector('label');
 
@@ -583,10 +580,6 @@ function showTaskDetails() {
         cardClone.querySelector('h3').innerHTML = 'Deadline:' + deadlineOutput
         cardClone.querySelector('h4').innerHTML = taskArr[index].parentList
         cardClone.querySelector('p').innerHTML = taskArr[index].description
-
-
-        console.log(cardClone)
-
         
         detailDiv.prepend(cardClone)
 
@@ -632,8 +625,6 @@ function editTask(){
    editCardClone.querySelector('#changeTaskTitle').placeholder = taskArr[index].title
    editCardClone.querySelector('#changeTaskList').placeholder = taskArr[index].parentList
    editCardClone.querySelector('#changeTaskDesc').placeholder = taskArr[index].description
-
-   console.log(this.parentNode.parentNode)
 
    parentDiv.innerHTML = ''
    parentDiv.prepend(editCardClone)
@@ -816,19 +807,15 @@ function closeDetailsCard() {
 function cardDeleteAcc() {
 
     var taskTitle = this.parentNode.parentNode.id
-    console.log(taskTitle)
 
     document.getElementById(taskTitle).remove()
-    console.log(taskTitle+'listEl')
     document.getElementById(taskTitle + 'listEl').remove()
 
 
     taskArr.forEach(function deleteTaskOfCard(element, index){
 
         if (element.title == taskTitle.replace(/-/g, ' ')) {
-            console.log(element.title)
             taskArr.splice(index, 1);
-            console.log(taskArr)
         }
 
     })
@@ -863,8 +850,236 @@ function nextTaskbyDate() {
         if (element.deadline < soonerTask.deadline) {
             soonerTask = element
         }
-        console.log(element)
-        console.log(soonerTask)
 
     })
+
+    return soonerTask
+}
+
+// On calendar page load display next up task and calendar
+
+if (pageName === '/listastickWeb/calendar.html' || pageName == '/calendar.html') {
+
+    if (JSON.parse(localStorage.getItem('taskArr')) != null) {
+            
+        taskArr = JSON.parse(localStorage.getItem('taskArr'))
+    
+    } else {
+
+        taskArr = [];
+
+    }
+
+    window.onload = function() {
+
+        let nextTaskDiv = document.querySelector('#nextTaskdiv')
+        
+        let nextTaskTemplate = document.querySelector('#nextTaskTemplate')
+
+        let nextTaskClone = nextTaskTemplate.content.cloneNode(true)
+
+        let lastTask = nextTaskbyDate()
+        let deadlineOutput
+
+        if (lastTask.deadline != 'No deadline') {
+            deadlineOutput = new Date(taskArr[0].deadline)
+
+            deadlineOutput.setDate(deadlineOutput.getDate() + 1)
+
+
+            deadlineOutput = deadlineOutput.toDateString()
+        } else {
+
+            deadlineOutput = 'None'
+
+        }
+
+        nextTaskClone.querySelector('h2').innerHTML = lastTask.title
+        nextTaskClone.querySelector('h3').innerHTML = 'Deadline: ' + lastTask.deadline
+        nextTaskClone.querySelector('h4').innerHTML = lastTask.parentList
+        nextTaskClone.querySelector('p').innerHTML = lastTask.description
+
+        nextTaskDiv.prepend(nextTaskClone)
+
+        document.querySelector('#seeMoreBtn').addEventListener('click', seeMoreTask)
+
+        var date = new Date()
+
+        // Calendario funcionamiento
+
+        var month = date.getMonth()
+        var year = date.getFullYear()
+
+        date = new Date(year, month, 01)
+
+        var firstDay = date.getDay()
+
+        date.setMonth(month+1,0)
+
+        var lastDate = date.getDate()
+
+        var day = 1
+
+        let calendarContainer = document.querySelector('#calendarDiv')
+        let actualMonth = new Date()
+
+        actualMonth = actualMonth.toLocaleString('en-US', { month: 'long' })
+
+        calendarContainer.innerHTML ='<h1>' + actualMonth + '</h1><table id="calendarTable"><tr class="days"><td>Mon</td><td>Tue</td><td>Wed</td><td>Thu</td><td>Fri</td><td>Sat</td><td>Su</td>'
+    
+        let weekCounter = 0
+        let inputsCounter = 0
+
+        for(i=1;i<=42;i++){
+
+            if((i%7)==0) {
+                document.querySelector('tbody').innerHTML += '<tr></tr>'
+            }
+            
+            if (inputsCounter == 0) {document.querySelector('tbody').innerHTML += '<tr id="week'+ weekCounter +'"></tr>'}
+
+            if((i>= firstDay) && (day<= lastDate)){
+
+                let today = new Date().getDate()
+
+                if (today == day) {
+                    document.querySelector('#week' + weekCounter).innerHTML += '<td class="today" id="' + day + '">' + day + '</td>'
+                    inputsCounter++
+                    day=day+1;
+                } else {
+                    document.querySelector('#week' + weekCounter).innerHTML += '<td id="' + day + '">' + day + '</td>'
+                    inputsCounter++
+                    day=day+1;
+                }
+
+                if (inputsCounter == 7) {
+                    inputsCounter = 0
+                    weekCounter++
+                }
+            } else {
+                document.querySelector('#week' + weekCounter).innerHTML += '<td></td>'
+                inputsCounter++
+
+                if (inputsCounter == 7) {
+                    inputsCounter = 0
+                    weekCounter++
+                }
+            }
+        }
+
+        calendarContainer.innerHTML += '<div id="identifierDiv"><h3 class="titleDot"><div id="todayDot"></div>Today</h3><h3 class="titleDot"><div id="taskAsDot"></div>Task assigned</h3></div>'
+    }
+     
+    const orderedByDate = taskArr.sort(function (a, b) {
+        if (a.deadline > b.deadline) {
+          return 1;
+        }
+        if (a.deadline < b.deadline) {
+          return -1;
+        }
+        // a must be equal to b
+        return 0;
+      });
+
+    let dateListDiv = document.querySelector('#upcomingTask')
+
+    let detailTaskDivTemplate = document.querySelector('#detailTaskDiv')
+    let detailCalendarTaskTemplate = document.querySelector('#detailCalendarTaskTemplate')
+
+    let groupedArr = {}
+
+    orderedByDate.forEach((element) =>{
+        if (groupedArr[element.deadline] == null){
+            groupedArr[element.deadline] = []
+
+        }
+
+        groupedArr[element.deadline].push(element)
+    })
+
+
+    groupedArr = Object.entries(groupedArr)
+    
+
+    groupedArr.forEach((element) =>{
+        let secondaryArray = element[1]
+        let detailTaskDivClone = detailTaskDivTemplate.content.cloneNode(true)
+
+        let deadlineOutput
+
+        secondaryArray.forEach((individualTask) =>{
+
+            let detailCalendarTaskClone = detailCalendarTaskTemplate.content.cloneNode(true)
+
+            detailCalendarTaskClone.querySelector('h2').innerHTML += individualTask.title
+            detailCalendarTaskClone.querySelector('h4').innerHTML += individualTask.parentList
+            detailCalendarTaskClone.querySelector('p').innerHTML += individualTask.description
+
+            detailTaskDivClone.querySelector('div').appendChild(detailCalendarTaskClone.childNodes[1])
+
+        })
+
+        deadlineOutput = new Date(secondaryArray[0].deadline)
+
+        deadlineOutput.setDate(deadlineOutput.getDate() + 1)
+
+
+        deadlineOutput = deadlineOutput.toDateString()
+        
+        detailTaskDivClone.querySelector('h1').innerHTML = deadlineOutput
+        dateListDiv.appendChild(detailTaskDivClone.childNodes[1])
+
+    })
+
+}
+
+// Under Development
+
+function seeMoreTask() {}
+
+// Add red dots to days with task assigned to
+
+if (pageName === '/listastickWeb/calendar.html' || pageName == '/calendar.html') {
+
+    document.addEventListener('load', function() {
+        // your code here
+    
+        let date = new Date();
+        let firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+        let lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+    
+        monthC = firstDay.getUTCMonth()
+        firstDay = firstDay.getUTCDate()
+        lastDay = lastDay.getUTCDate()
+    
+        let monthTask = []
+    
+        taskArr.forEach(el =>{
+    
+            let taskDeadline = new Date(el.deadline)
+            let month = taskDeadline.getUTCMonth()
+            let taskDay = taskDeadline.getUTCDay()
+    
+            if (taskDay >= firstDay && taskDay <= lastDay && month == monthC) {
+                monthTask.push(el.deadline)
+            }
+            
+        }) 
+    
+        monthTask.forEach(task =>{
+    
+            let taskDate = new Date(task)
+            
+            taskDate = taskDate.getUTCDate()
+            taskDate = taskDate.toString()
+    
+            let calendarDay = document.getElementById(taskDate)
+
+            if (calendarDay != null) {
+                calendarDay.style = 'position:relative;'
+                calendarDay.innerHTML += '<div class="taskDot"></div>'
+            }
+        })
+    }, true);
+
 }

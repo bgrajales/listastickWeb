@@ -78,6 +78,11 @@ hr {
     border-radius: 30px;
 }
 
+td {
+    text-align: center;
+    border-bottom: 2px solid rgb(18 18 18 / 20%);
+}
+
 #changeTaskDesc {
     height: 150px;
 }
@@ -110,10 +115,6 @@ hr {
     height: 35px;
     font-size: 20px;
     width: 100%;
-}
-
-.changeInput {
-    margin-bottom: 10px;
 }
 
 #addTaskDescription {
@@ -431,8 +432,93 @@ hr {
     flex: 1
 }
 
+#upcomingTask {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
 #nextTaskdiv {
     width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;    
+}
+
+#calendarDiv {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+#calendarTable {
+    width: 70%;
+    height: 70%;
+}
+
+#todayDot {
+    width: 10px;
+    height: 10px;
+    background-color: #1095E5;
+    border-radius: 10px;
+}
+
+#taskAsDot {
+    width: 10px;
+    height: 10px;
+    background-color: #dc3545;
+    ;
+    border-radius: 10px;
+}
+
+#identifierDiv {
+    display: flex;
+    flex-direction: row;
+    width: 50%;
+    justify-content: space-around;
+}
+
+.taskHr {
+    width: 50%;
+    opacity: 50%;
+    background-color: #121212;
+}
+
+.titleDot {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.taskDot {
+    width: 10px;
+    height: 10px;
+    background-color: #dc3545;
+    border-radius: 10px;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+}
+
+.today {
+    background-color: #1095E0;
+    border-radius: 25px 25px 0 0;
+    color: #fff;
+}
+
+.days {
+    font-weight: bold;
+}
+
+.fa-sm {
+    margin-left: 10px;
+}
+
+.changeInput {
+    margin-bottom: 10px;
 }
 
 .pop {
@@ -702,6 +788,10 @@ li:hover, label:hover {
 
     #mobileCalendar, #mobileHome {
         height: 50%;
+    }
+
+    #currentMonthTask {
+        padding: 40px 0;
     }
 
     #loginDiv {
