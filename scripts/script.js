@@ -860,17 +860,23 @@ function nextTaskbyDate() {
 
 if (pageName === '/listastickWeb/calendar.html' || pageName == '/calendar.html') {
 
-    if (JSON.parse(localStorage.getItem('taskArr')) != null) {
-            
-        taskArr = JSON.parse(localStorage.getItem('taskArr'))
-    
-    } else {
+    window.addEventListener('beforeunload', function(e) {
 
-        taskArr = [];
+        localStorage.setItem('taskArr', JSON.stringify(taskArr))
 
-    }
+    })
 
     window.onload = function() {
+
+        if (JSON.parse(localStorage.getItem('taskArr')) != null) {
+            
+            taskArr = JSON.parse(localStorage.getItem('taskArr'))
+    
+        } else {
+    
+            taskArr = [];
+    
+        }
 
         let nextTaskDiv = document.querySelector('#nextTaskdiv')
         
@@ -911,6 +917,7 @@ if (pageName === '/listastickWeb/calendar.html' || pageName == '/calendar.html')
 
             document.querySelector('#upcomingTask').innerHTML = '<h1 id="noTasks">Make sure to add tasks with deadlines to see them here!</h1>'
             document.querySelector('#upcomingTask').style = 'justify-content: center;'
+        
         }
 
         var date = new Date()
@@ -978,68 +985,68 @@ if (pageName === '/listastickWeb/calendar.html' || pageName == '/calendar.html')
         }
 
         calendarContainer.innerHTML += '<div id="identifierDiv"><h3 class="titleDot"><div id="todayDot"></div>Today</h3><h3 class="titleDot"><div id="taskAsDot"></div>Task assigned</h3></div>'
-    }
-     
-    const orderedByDate = taskArr.sort(function (a, b) {
-        if (a.deadline > b.deadline) {
-          return 1;
-        }
-        if (a.deadline < b.deadline) {
-          return -1;
-        }
-        // a must be equal to b
-        return 0;
-      });
-
-    let dateListDiv = document.querySelector('#upcomingTask')
-
-    let detailTaskDivTemplate = document.querySelector('#detailTaskDiv')
-    let detailCalendarTaskTemplate = document.querySelector('#detailCalendarTaskTemplate')
-
-    let groupedArr = {}
-
-    orderedByDate.forEach((element) =>{
-        if (groupedArr[element.deadline] == null){
-            groupedArr[element.deadline] = []
-
-        }
-
-        groupedArr[element.deadline].push(element)
-    })
-
-
-    groupedArr = Object.entries(groupedArr)
     
-
-    groupedArr.forEach((element) =>{
-        let secondaryArray = element[1]
-        let detailTaskDivClone = detailTaskDivTemplate.content.cloneNode(true)
-
-        let deadlineOutput
-
-        secondaryArray.forEach((individualTask) =>{
-
-            let detailCalendarTaskClone = detailCalendarTaskTemplate.content.cloneNode(true)
-
-            detailCalendarTaskClone.querySelector('h2').innerHTML += individualTask.title
-            detailCalendarTaskClone.querySelector('h4').innerHTML += individualTask.parentList
-            detailCalendarTaskClone.querySelector('p').innerHTML += individualTask.description
-
-            detailTaskDivClone.querySelector('div').appendChild(detailCalendarTaskClone.childNodes[1])
-
+        const orderedByDate = taskArr.sort(function (a, b) {
+            if (a.deadline > b.deadline) {
+              return 1;
+            }
+            if (a.deadline < b.deadline) {
+              return -1;
+            }
+            // a must be equal to b
+            return 0;
+          });
+    
+        let dateListDiv = document.querySelector('#upcomingTask')
+    
+        let detailTaskDivTemplate = document.querySelector('#detailTaskDiv')
+        let detailCalendarTaskTemplate = document.querySelector('#detailCalendarTaskTemplate')
+    
+        let groupedArr = {}
+    
+        orderedByDate.forEach((element) =>{
+            if (groupedArr[element.deadline] == null){
+                groupedArr[element.deadline] = []
+    
+            }
+    
+            groupedArr[element.deadline].push(element)
         })
-
-        deadlineOutput = new Date(secondaryArray[0].deadline)
-
-        deadlineOutput.setDate(deadlineOutput.getDate() + 1)
-
-
-        deadlineOutput = deadlineOutput.toDateString()
+    
+    
+        groupedArr = Object.entries(groupedArr)
         
-        detailTaskDivClone.querySelector('h1').innerHTML = deadlineOutput
-        dateListDiv.appendChild(detailTaskDivClone.childNodes[1])
-
-    })
+    
+        groupedArr.forEach((element) =>{
+            let secondaryArray = element[1]
+            let detailTaskDivClone = detailTaskDivTemplate.content.cloneNode(true)
+    
+            let deadlineOutput
+    
+            secondaryArray.forEach((individualTask) =>{
+    
+                let detailCalendarTaskClone = detailCalendarTaskTemplate.content.cloneNode(true)
+    
+                detailCalendarTaskClone.querySelector('h2').innerHTML += individualTask.title
+                detailCalendarTaskClone.querySelector('h4').innerHTML += individualTask.parentList
+                detailCalendarTaskClone.querySelector('p').innerHTML += individualTask.description
+    
+                detailTaskDivClone.querySelector('div').appendChild(detailCalendarTaskClone.childNodes[1])
+    
+            })
+    
+            deadlineOutput = new Date(secondaryArray[0].deadline)
+    
+            deadlineOutput.setDate(deadlineOutput.getDate() + 1)
+    
+    
+            deadlineOutput = deadlineOutput.toDateString()
+            
+            detailTaskDivClone.querySelector('h1').innerHTML = deadlineOutput
+            dateListDiv.appendChild(detailTaskDivClone.childNodes[1])
+    
+        })
+    }
 
 }
 
@@ -1052,8 +1059,18 @@ function seeMoreTask() {}
 if (pageName === '/listastickWeb/calendar.html' || pageName == '/calendar.html') {
 
     document.addEventListener('load', function() {
-        // your code here
+
+        if (JSON.parse(localStorage.getItem('taskArr')) != null) {
+            
+            taskArr = JSON.parse(localStorage.getItem('taskArr'))
     
+        } else {
+    
+            taskArr = [];
+    
+        }
+        
+
         let date = new Date();
         let firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
         let lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
@@ -1065,17 +1082,19 @@ if (pageName === '/listastickWeb/calendar.html' || pageName == '/calendar.html')
         let monthTask = []
     
         taskArr.forEach(el =>{
-    
+
             let taskDeadline = new Date(el.deadline)
+
             let month = taskDeadline.getUTCMonth()
-            let taskDay = taskDeadline.getUTCDay()
-    
+            let taskDay = taskDeadline.getUTCDate()
+            
             if (taskDay >= firstDay && taskDay <= lastDay && month == monthC) {
                 monthTask.push(el.deadline)
             }
             
         }) 
     
+
         monthTask.forEach(task =>{
     
             let taskDate = new Date(task)
