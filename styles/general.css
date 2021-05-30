@@ -692,7 +692,7 @@ li:hover, label:hover {
 }
 
 .mainContainer {
-    width: 100%;
+    width: 92%;
     height: 100%;
     background-color: #ffffff;
     border-radius: 25px 0 0 0;
@@ -773,8 +773,13 @@ li:hover, label:hover {
         overflow: auto;
     }
 
+    #calendarTable {
+        width: 90%;
+    }
+
     .mainContainer {
         flex-direction: column;
+        width: 100%;
     }
 
     #mobileNav {

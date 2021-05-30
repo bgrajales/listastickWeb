@@ -914,8 +914,8 @@ if (pageName === '/listastickWeb/calendar.html' || pageName == '/calendar.html')
         } else {
 
             nextTaskDiv.innerHTML = '<h2>No task with deadlines</h2>'
-
-            document.querySelector('#upcomingTask').innerHTML = '<h1 id="noTasks">Make sure to add tasks with deadlines to see them here!</h1>'
+            nextTaskDiv.style = 'align-items: center;'
+            document.querySelector('#upcomingTask').innerHTML = '<h1 id="noTasks" style="text-align: center;">Make sure to add tasks with deadlines to see them here!</h1>'
             document.querySelector('#upcomingTask').style = 'justify-content: center;'
         
         }
