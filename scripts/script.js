@@ -887,7 +887,7 @@ if (pageName === '/listastickWeb/calendar.html' || pageName == '/calendar.html')
         let lastTask = nextTaskbyDate()
         let deadlineOutput
 
-        if (taskArr.length > 1) {
+        if (taskArr.length >= 1) {
             
             if (lastTask.deadline != 'No deadline') {
                 deadlineOutput = new Date(taskArr[0].deadline)
