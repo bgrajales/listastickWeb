@@ -12,148 +12,48 @@
     <title>Listastick</title>
   </head>
   <body>
-    <img id="plusCircleIconMobile" class="navBarButton plusCircleIcon" src="icons/plusCircleIcon.png" alt="">
-
     <nav id="desktopNavBar">
       <div id="navBarDesktopButtons">
-        <div class="navBarButtonDiv">
-         <img id="plusCircleIcon" class="navBarButton plusCircleIcon" src="icons/plusCircleIcon.png" alt="">
-        </div>
-        <div class="navBarButtonDiv">
-          <img class="navBarButton" src="icons/homeIcon.svg" alt="">
-          <div id="homeArrow" class="arrow-left"></div>
-        </div>
-        <div class="navBarButtonDiv">
-          <a href="calendar.html"><img class="navBarButton" src="icons/calendarIcon.svg" alt=""></a>
-          <div id="calendarArrow" class="arrow-left"></div>
-        </div>
+        <img class="navDeskIcon" src="icons/circlePlusIcon.svg" alt="">
+        <img class="navDeskIcon" src="icons/homeIcon.svg" alt="">
+        <img class="navDeskIcon" src="icons/calendarIcon.svg" alt="">
       </div>
       <div style="text-align: center;">
-        <a href="profile.html"><img id="pfp" src="images/pfp.png" alt=""></a>
-        <div id="profileArrow" class="arrow-left arrow-pfp"></div>
+        <a href=""><img id="pfp" src="images/pfp.png" alt=""></a>
       </div>
     </nav>
 
-    <nav id="mobileNavBar">
-      <div id="mobileNav">
-        <div class="navBtnMobile" onclick="window.location='calendar.html'">
-          <div id="calendarArrowMobile" class="navArrowDown"></div>
-          <img id="mobileCalendar" src="icons/calendarIcon.svg" alt="">
-        </div>
-        <div class="navBtnMobile" onclick="window.location='profile.html'">
-          <div id="profileArrowMobile"  class="navArrowDown"></div>
-            <img id="mobilePfp" src="images/pfp.png" alt="">
-        </div>
-        <div class="navBtnMobile">
-          <div id="homeArrowMobile"  class="navArrowDown"></div>
-            <img id="mobileHome" src="icons/homeIcon.svg" alt="">
-        </div>
-      </div>
-    </nav>
-    <div class="main">
-        <div id="homeContainer" class="mainContainer">
-
-          <div id="addTaskInputDiv">
-            <div id="noTaskAddedWarning" class="bubble" role="alert">
-            </div>
-            <div id="topAddTask" class="container"><h2 style="margin: 0;">Add new task</h2><img id="closeAddTask" src="icons/closeIcon.png" alt=""></div>
-            <label for="taskTitle">Task title</label>
-            <input id="addTaskInput" type="text" name="taskTitle" >
-            <label for="deadline">Deadline</label>
-            <input type="date" name="deadline" id="deadline">
-            <label for="taskTitle">Task list</label>
-            <input id="addTaskList" type="text">
-            <label for="taskTitle">Task description</label>
-            <textarea id="addTaskDescription" type="text"></textarea>
-            <button id="addTaskBtn" class="btn"><p id="addBtnDesktopDescription">Add Task</p></button>
+    <div class="mainContainer">
+        <div class="container">
+          <div id="searchBar">
+            <input id="searchInput" type="text">
+            <button id="searchBtn" class="btnBlack">Buscar</button>
           </div>
-
-            <div id="taskListsSection">
-              <div id="currentTask">
-                <h1>Tasks <hr></h1>
-
-                <ul id="ulTaskList">
-                
-                </ul>
-              </div>
-
-              <div id="completedTask">
-                <div>
-                  <div id="textAndTrashDiv">
-                    <h1 style="display: inline; margin: 0;">Completed</h1>
-                    <button id="clearCompletedBtn" class="btn" onclick="deleteCompletedTasks();"><span id="delCompletedText">Clear Completed</span><img id="delCompletedTrash" src="icons/trash.svg"></button>
-                  </div>
-                  <div id="warningDeleteCompleted">
-                    You are about to delete all completed tasks
-                    <div id="cancelYesBtnDiv">
-                      <button type="button" class="btn btn-primary sure" onclick="cancelDeleteCompleted()">Cancel</button>
-                      <button type="button" class="btn btn-danger sure" style="background-color: #dc3545;" onclick="confirmDeleteCompleted();">Delete</button>
-                    </div>
-                  </div>
-                  <hr>
-                </div>
-                <ul id="ulCompletedTask">
-
-                </ul>
+          <div id="categories">
+            <button class="selectionBtn activeSelBtn">Mi día</button>
+            <button class="selectionBtn">Importantes</button>
+            <button class="selectionBtn">Todos</button>
+            <button class="selectionBtn">Lista</button>
+          </div>
+          <div id="taskSection">
             
-              </div>
-            </div>
-
-            <div id="taskDetailsDiv">
-
-            </div>
-
-
+            
+          </div>
         </div>
     </div>
 
-    <!-- General Task list element template -->
-    <template id="taskElementTemplate">
-      <li>
-        <div class="taskElement">
-          <input type="checkbox" name="task1">
-          <span class="checkmark"></span>
-          <label for="task1"></label>
-        </div>
-        <div style="width: 10%;">
-          <img id="taskDetails" src="icons/arrowRightBlack.png" alt="">
-        </div>
-      </li>
-    </template>
-
     <template id="taskCardTemplate">
       <div class="taskCard">
-        <img id="closeTaskCard" src="icons/closeIcon.png" alt="">
-        <div id="detailsHeader">
-          <h1 id="detailTitle"></h1>
-          <img id="editIcon" src="icons/edit.png" alt="">
-        </div>
-        <h3 style="margin-bottom: 10px;"><h3>
-        <h4></h4>
-        <p></p>
-        <div id="cardBtn">
-          <button id="cardDelete" type="button" class="btn btn-danger">Delete Task</button>
-          <button id="cardCompleted" type="button" class="btn btn-primary">Mark as completed</button>
+        <div class="importanceIndicator"></div>
+        <img class="trashCardIcon d-none" src="icons/trashIcon.svg" alt="">
+        <h1 class="taskTitle"></h1>
+        <p class="taskDesc"></p>
+        <div id="taskHoverDiv" class="d-none">
+          <img class="taskHoverBtn changeStatus" src="icons/logoIcon.svg" alt="">
+          <img class="taskHoverBtn viewTodo" src="icons/seeMoreIcon.svg" alt="">
         </div>
       </div>
     </template>
-
-    <template id="editCardTemplate">
-      <img id="closeTaskCard" src="icons/closeIcon.png" alt="">
-      <label for="newtaskTitle">New task title</label>
-      <input id="changeTaskTitle" name="newtaskTitle" class="changeInput" type="text">
-      <label for="newtaskDeadline">New task deadline</label>
-      <input type="date" name="newtaskDeadline" id="deadline">
-      <label for="newtaskList">New task list</label>
-      <input id="changeTaskList" name="newtaskList" class="changeInput" type="text">
-      <label for="newtaskDescription">New task description</label>
-      <textarea id="changeTaskDesc" name="newtaskDescription" class="changeInput" type="text"></textarea>
-      <div id="cardBtn">
-        <button id="cardCancelChange" type="button" class="btn btn-danger">Cancel</button>
-        <button id="cardSaveChange" type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </template>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
     <script src="scripts/script.js"></script>
   </body>
