@@ -180,33 +180,18 @@ function fetchToDos() {
                 completed: false,
                 priority: priority.LOW,
                 dueDate: dueDate,
-                category: '',
+                list: '',
                 location: {
                     latitude: -56.1887393,
                     longitude: -34.8921648
                 },
-                files: [
-                    'https://images.prismic.io/clubhouse/25ac590e-8e8d-4785-910a-be2a532b02a2_home_shapes_1.png?auto=format%2Ccompress&fit=max&q=50&w=800',
-                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIj6Jcgoa1_3PeOF_QEhoAdiPoi7VAs3SKWhDDImmd9fKPK9gAiggGhauGGOjst2Fjfys&usqp=CAU'
-                ],
-                subTasks: [{
-                    title: 'Titulo de la sub-tarea 1',
-                    completed: true
-                }, {
-                    title: 'Titulo de la sub-tarea 2',
-                    completed: false
-                }]
             }, {
                 id: 2,
                 title: 'Test 2',
                 content: 'Contenido de la tarea 2',
                 completed: true,
                 priority: priority.HIGH,
-                category: '',
-                subTasks: [{
-                    title: 'Titulo de la sub-tarea 1',
-                    completed: true
-                }]
+                list: '',
             }, {
                 id: 3,
                 title: 'Test 3',
@@ -222,7 +207,6 @@ function fetchToDos() {
 
 function initialLoad() {
     fetchToDos().then(() =>{
-        console.log(todosArr)
         renderTodosArr()
     })
 }
@@ -240,17 +224,6 @@ function renderTodosArr() {
 
             const taskCardClone = taskCardTemplate.content.cloneNode(true)
 
-            /*<div class="taskCard">
-                <div class="importanceIndicator"></div>
-                <img class="trashCardIcon" src="icons/trashIcon.svg" alt="">
-                <h1 class="taskTitle">Task 1</h1>
-                <p class="taskDesc">Task description</p>
-                <div id="taskHoverDiv">
-                <img class="taskHoverBtn changeStatus" src="icons/logoIcon.svg" alt="">
-                <img class="taskHoverBtn viewTodo" src="icons/seeMoreIcon.svg" alt="">
-                </div>
-            </div>*/
-
             const taskCloneCardElement = taskCardClone.querySelector(".taskCard")
             const taskCloneImportanceIndicator = taskCardClone.querySelector(".importanceIndicator")
             const taskCloneTrashIcon = taskCardClone.querySelector(".trashCardIcon")
@@ -261,7 +234,6 @@ function renderTodosArr() {
             const taskCloneViewTodo = taskCardClone.querySelector(".viewTodo")
 
             taskCloneCardElement.addEventListener("mouseenter", () =>{
-                console.log("in")
                 taskCloneTrashIcon.classList.remove("d-none")
                 taskCloneActions.classList.remove("d-none")
             })
@@ -277,11 +249,12 @@ function renderTodosArr() {
             })
 
             taskCloneViewTodo.addEventListener("click", () =>{
-                alert("View todo ID: " + todosArr[todosIndex])
+                alert("View todo ID: " + todosIndex)
+                showExpandedTodoCard(todosArr[todosIndex])
             })
 
             taskCloneTrashIcon.addEventListener("click", () =>{
-                alert("Delete todo ID: " + todosArr[todosIndex])
+                alert("Delete todo ID: " + todosIndex)
             })
 
             taskCloneImportanceIndicator.classList.add(
@@ -302,6 +275,8 @@ function renderTodosArr() {
 
 }
 
+//Get todo priority
+
 function getTodoImportance(todoPriority) {
     switch (todoPriority) {
         case priority.HIGH:
@@ -311,4 +286,70 @@ function getTodoImportance(todoPriority) {
         default:
             return 'low'
     }
+}
+
+// Show todo expanded card
+
+function showExpandedTodoCard(object) {
+
+    const mainContainer = document.querySelector(".mainContainer")
+    const expandedTaskTemplate = document.getElementById("expandedTaskTemplate")
+
+    const taskExpandClone = expandedTaskTemplate.content.cloneNode(true)
+
+    mainContainer.innerHTML = ""
+
+    const taskTitleTemplate = taskExpandClone.querySelector('#taskTitleExpanded')
+    const taskListTemplate = taskExpandClone.querySelector('#taskList')
+    const taskPriorityTemplate = taskExpandClone.querySelector('#taskPriority')
+    const taskDeadlineTemplate = taskExpandClone.querySelector('#taskDeadline')
+    const taskDescTemplate = taskExpandClone.querySelector('#taskDescriptionExpanded')
+
+    taskTitleTemplate.innerText = object.title
+    taskListTemplate.innerText = 'List: ' + object.list
+    taskPriorityTemplate.innerText = 'Priority: ' + object.priority
+    taskDeadlineTemplate.innerText = 'Deadline: ' + object.dueDate
+    taskDescTemplate.innerText = object.content
+
+    mainContainer.appendChild(taskExpandClone)
+}
+
+if (document.querySelector("#addTaskMain")) {
+    let addTask
+    let addTaskContainer = document.querySelector("#addTaskContainer")
+    let closeTaskContainer = document.querySelector("#closeAddTask")
+    let pickLocation = document.querySelector("#openMapBtn")
+    let saveTask = document.querySelector("#saveTaskBtn")
+
+    addTask = document.querySelector("#addTaskMain")
+    
+    addTask.addEventListener("click", () => {
+
+        addTaskContainer.style.display = "flex"
+
+        closeTaskContainer.addEventListener("click", () =>{
+            addTaskContainer.style.display = "none"
+
+            document.querySelector("#taskTitleInput").value = ""
+            document.querySelector("#taskListInput").value = ""
+            document.querySelector("#taskPriorityInput"). value = ""
+            document.querySelector("#taskDeadlineInput").value = ""
+            document.querySelector("#taskDescInput").value = ""
+
+        })
+
+        openMapBtn.addEventListener("click", () =>{
+
+            console.log("Open map")
+
+        })
+
+        saveTaskBtn.addEventListener("click", () =>{
+
+            console.log("Save Task")
+
+        })
+
+    })
+
 }

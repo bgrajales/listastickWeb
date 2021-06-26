@@ -20,6 +20,10 @@ h1 {
     font-size: 2rem;
 }
 
+input {
+    width: 100%;
+}
+
 #bodyLoginRegister {
     display: flex;
     flex-direction: column;
@@ -128,8 +132,9 @@ h1 {
 }
 
 #pfp {
-    width: 60%;
+    width: 65%;
     border-radius: 100%;
+    border: 2px solid #449dd1;
 }
 
 #searchBar {
@@ -174,6 +179,92 @@ h1 {
     gap: 10px;
 }
 
+#expandedCardDiv {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+}
+
+#taskAndMapDiv {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 40px;
+}
+
+#taskTitleExpanded {
+    font-weight: bold;
+}
+
+#expandedTaskDivBtns {
+    display: flex;
+    flex-direction: row;
+    gap: 100px;
+}
+
+#addTaskContainer {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    border: solid;
+    border-radius: 10px;
+    padding: 20px;
+    border: solid;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 0 20px 0 #1212124a;
+    padding: 20px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30%;
+}
+
+#taskAddBtnSec {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#closeAddTask {
+    width: 15px;
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    transition: all 0.1;
+}
+
+#closeAddTask:hover {
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+.smallInput {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+}
+
+.taskDivText {
+    font-size: 1.5rem;
+}
+
+.expandedTodoCard h1 {
+    display: flex;
+    gap: 10px;
+}
+
+.editCardIcon {
+    width: 20px;
+}
+.closeCardIcon {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 20px;
+}
+
 .importanceIndicator {
     position: absolute;
     width: 0;
@@ -200,18 +291,34 @@ h1 {
 }
 
 .low {
-    border-top: 10px solid #019201;
+    border-top: 10px solid #26C485;
 }
 
 .high {
     border-top: 10px solid #dc3545;
 }
 
-.taskCard {
+.taskCard, .expandedTodoCard {
     position: relative;
     padding: 15px 20px;
     border: 2px solid;
     border-radius: 10px;
+    transition: transform 0.3s;
+}
+
+.btn-success {
+    background-color: #26C485 !important;
+    flex: 1;
+}
+
+.btn-danger {
+    background-color: #BC1313 !important;
+    flex: 1;
+}
+
+.taskCard:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 5px 10px 5px rgb(52 52 52 / 10%);
 }
 
 .taskCard p {
@@ -226,6 +333,14 @@ h1 {
     background-color: #fff;
     border: 2px solid #2e4052;
     color: #2E4052;
+    transition: transform 0.3s;
+}
+
+.selectionBtn:hover {
+    background-color: #2e4052;
+    border: none;
+    color: #fff;
+    transform: scale(1.05)
 }
 
 .activeSelBtn {
@@ -238,7 +353,7 @@ h1 {
     border-radius: 10px;
     border: none;
     color: #FFF;
-    background-color: #2e4052;
+    background-color: #449dd1;
 }
 
 .mainContainer {
@@ -257,6 +372,12 @@ h1 {
 
 .navDeskIcon {
     width: 30px;
+    transition: 0.1s;
+}
+
+.navDeskIcon:hover {
+    cursor: pointer;
+    transform: scale(1.1)
 }
 
 .container {

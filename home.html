@@ -14,7 +14,7 @@
   <body>
     <nav id="desktopNavBar">
       <div id="navBarDesktopButtons">
-        <img class="navDeskIcon" src="icons/circlePlusIcon.svg" alt="">
+        <img id="addTaskMain" class="navDeskIcon" src="icons/circlePlusIcon.svg" alt="">
         <img class="navDeskIcon" src="icons/homeIcon.svg" alt="">
         <img class="navDeskIcon" src="icons/calendarIcon.svg" alt="">
       </div>
@@ -27,7 +27,7 @@
         <div class="container">
           <div id="searchBar">
             <input id="searchInput" type="text">
-            <button id="searchBtn" class="btnBlack">Buscar</button>
+            <button id="searchBtn" class="btn">Buscar</button>
           </div>
           <div id="categories">
             <button class="selectionBtn activeSelBtn">Mi día</button>
@@ -35,12 +35,69 @@
             <button class="selectionBtn">Todos</button>
             <button class="selectionBtn">Lista</button>
           </div>
+          
           <div id="taskSection">
             
             
           </div>
-        </div>
+          <div id="addTaskContainer">
+            <img id="closeAddTask" src="icons/crossIcon.svg" alt="">
+            <label for="taskTitleInput">Task title</label>
+            <input type="text" name="taskTitleInput" id="taskTitleInput">
+            <label for="taskListInput">List</label>
+            <input type="text" name="taskListInput" id="taskListInput">
+
+            <div class="smallInput">
+              <div class="smallInputDiv">
+                <label for="taskPriorityInput">Priority</label>
+                <input list="priorities" name="taskPriorityInput" id="taskPriorityInput">
+                <datalist id="priorities">
+                  <option value="High">
+                  <option value="Medium">
+                  <option value="Low">
+                </datalist>
+              </div>
+              <div class="smallInputDiv">
+                <label for="taskDeadlineInput">Deadline</label>
+                <input type="datetime-local" name="taskDeadlineInput" id="taskDeadlineInput">
+              </div>
+            </div>
+
+            <label for="taskDescInput">Description</label>
+            <textarea name="taskDescInput" id="taskDescInput"></textarea>
+
+            <div id="taskAddBtnSec">
+              <button id="openMapBtn" class="btn">Pick Task Location</button>
+              <button id="saveTaskBtn" class="btn btn-success">Add Task</button>
+            </div>
+          </div>
+        </div>        
+
     </div>
+
+    <template id="expandedTaskTemplate">
+      <div class="container">
+        <div id="taskAndMapDiv">
+          <div>
+            <h1 id="taskTitleExpanded"></h1>
+            <p id="taskList" class="taskDivText"></p>
+            <p id="taskPriority" class="taskDivText"></p>
+            <p id="taskDeadline" class="taskDivText"></p>
+          </div>
+          <div id="mapDiv">
+            <div class="card">
+              <input type="search-box" name="" id="">
+              <div id="map"></div>
+            </div>
+          </div>
+        </div>
+        <p id="taskDescriptionExpanded"></p>
+        <div id="expandedTaskDivBtns">
+          <button class="btn btn-success">Mark as completed</button>
+          <button class="btn btn-danger">Delete task</button>
+        </div>
+      </div>
+    </template>
 
     <template id="taskCardTemplate">
       <div class="taskCard">
@@ -54,6 +111,7 @@
         </div>
       </div>
     </template>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
     <script src="scripts/script.js"></script>
   </body>
