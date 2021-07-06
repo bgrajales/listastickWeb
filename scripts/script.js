@@ -5,6 +5,9 @@ const priority = {
     MID: 'mid',
     HIGH: 'high'
 }
+
+var priorityArr = [priority.LOW, priority.MID, priority.HIGH]
+
 // Login function
 
 const loginButton = document.getElementById("login-form-submit");
@@ -167,42 +170,38 @@ function checkPassword(password) {
      }
 }
 
+const numberOfTasksToGenerate = 8;
+
 function fetchToDos() {
+
     return new Promise((resolve, reject) => {
         setTimeout(() => {
             const dueDate = new Date()
             dueDate.setDate(dueDate.getDate() + 3)
 
-            todosArr = [{
-                id: 1,
-                title: 'Test 1',
-                content: 'Contenido de la tarea 1',
-                completed: false,
-                priority: priority.LOW,
-                dueDate: dueDate,
-                list: '',
-                location: {
-                    latitude: -56.1887393,
-                    longitude: -34.8921648
+            for (let index = 0; index < numberOfTasksToGenerate; index++) {
+
+                todosArr.push({
+                    id: index + 1,
+                    title: faker.commerce.productName(),
+                    content: faker.commerce.productDescription(),
+                    completed: faker.datatype.boolean(),
+                    priority: priorityArr[Math.floor(Math.random() * priorityArr.length)],
+                    dueDate: dueDate,
+                    list: '',
+                    location: {
+                        latitude: -56.1887393,
+                        longitude: -34.8921648
                 },
-            }, {
-                id: 2,
-                title: 'Test 2',
-                content: 'Contenido de la tarea 2',
-                completed: true,
-                priority: priority.HIGH,
-                list: '',
-            }, {
-                id: 3,
-                title: 'Test 3',
-                content: 'Contenido de la tarea 3',
-                completed: true,
-                priority: priority.MID
-            }]
+
+                })
+                
+            }
 
             resolve()
         }, 400)
     })
+
 }
 
 function initialLoad() {
@@ -249,7 +248,6 @@ function renderTodosArr() {
             })
 
             taskCloneViewTodo.addEventListener("click", () =>{
-                alert("View todo ID: " + todosIndex)
                 showExpandedTodoCard(todosArr[todosIndex])
             })
 
@@ -315,6 +313,7 @@ function showExpandedTodoCard(object) {
 }
 
 if (document.querySelector("#addTaskMain")) {
+
     let addTask
     let addTaskContainer = document.querySelector("#addTaskContainer")
     let closeTaskContainer = document.querySelector("#closeAddTask")
@@ -340,7 +339,7 @@ if (document.querySelector("#addTaskMain")) {
 
         openMapBtn.addEventListener("click", () =>{
 
-            console.log("Open map")
+                console.log("Open map")
 
         })
 
