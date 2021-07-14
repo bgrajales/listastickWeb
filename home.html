@@ -11,23 +11,33 @@
 
     <title>Listastick</title>
   </head>
-  <body>
+  <body onunload="Storage.storeTodos(todosArr)" onload="initialLoad()">
     <nav id="desktopNavBar">
       <div id="navBarDesktopButtons">
         <img id="addTaskMain" class="navDeskIcon" src="icons/circlePlusIcon.svg" alt="">
         <img class="navDeskIcon" src="icons/homeIcon.svg" alt="">
-        <img class="navDeskIcon" src="icons/calendarIcon.svg" alt="">
+        <a href="stats.html"><img class="navDeskIcon" src="icons/calendarIcon.svg" alt=""></a>
       </div>
       <div style="text-align: center;">
         <a href=""><img id="pfp" src="images/pfp.png" alt=""></a>
       </div>
     </nav>
 
+    <div id="initialLoadDiv" class="d-none">
+      <lord-icon
+        src="https://cdn.lordicon.com/dpinvufc.json"
+        trigger="loop"
+        colors="primary:#1095e0,secondary:#08a88a"
+        style="width:150px;height:150px">
+      </lord-icon>
+    </div>
+
+
     <div class="mainContainer">
         <div class="container">
           <div id="searchBar">
-            <input id="searchInput" type="text">
-            <button id="searchBtn" class="btn">Buscar</button>
+            <input id="searchInput" type="text" onkeyup="applySearchFilter()">
+            <button id="searchBtn" class="btn" onclick="applySearchFilter()">Buscar</button>
           </div>
           <div id="categories">
             <button class="selectionBtn activeSelBtn">Mi día</button>
@@ -36,10 +46,12 @@
             <button class="selectionBtn">Lista</button>
           </div>
           
+         
           <div id="taskSection">
             
             
           </div>
+
           <div id="addTaskContainer">
             <img id="closeAddTask" src="icons/crossIcon.svg" alt="">
             <label for="taskTitleInput">Task title</label>
@@ -59,7 +71,7 @@
               </div>
               <div class="smallInputDiv">
                 <label for="taskDeadlineInput">Deadline</label>
-                <input type="datetime-local" name="taskDeadlineInput" id="taskDeadlineInput">
+                <input type="date" name="taskDeadlineInput" id="taskDeadlineInput">
               </div>
             </div>
 
@@ -67,41 +79,46 @@
             <textarea name="taskDescInput" id="taskDescInput"></textarea>
 
             <div id="taskAddBtnSec">
-              <button id="openMapBtn" class="btn">Pick Task Location</button>
               <button id="saveTaskBtn" class="btn btn-success">Add Task</button>
             </div>
           </div>
+
         </div>        
 
     </div>
 
     <template id="expandedTaskTemplate">
-      <div class="container">
-        <div id="taskAndMapDiv">
-          <div>
-            <h1 id="taskTitleExpanded"></h1>
-            <p id="taskList" class="taskDivText"></p>
-            <p id="taskPriority" class="taskDivText"></p>
-            <p id="taskDeadline" class="taskDivText"></p>
-          </div>
-          <div id="mapDiv">
-            <div class="card">
-              <input type="search-box" name="" id="">
-              <div id="map"></div>
+        <div class="expandedTodoCardDiv">
+          <div class="expandedTaskBkg">
+            <img id="saveChangesIcon" src="icons/saveChangesIcon.svg" alt="">
+            <div class="backAndTitle">
+              <img id="backIcon" src="icons/backIcon.svg" alt="">
+              <h1 contentEditable="true" id="taskTitleExpanded"></h1>
+            </div>
+            <div class="backAndTitle">
+              <p class="expandedSubTitle">List:</p>
+              <p contentEditable="true" id="taskList" class="taskDivText"></p>
+            </div>
+            <div class="backAndTitle">
+              <p class="expandedSubTitle">Priority:</p>
+              <p contentEditable="true" id="taskPriority" class="taskDivText"></p>
+            </div>
+            <div class="backAndTitle">
+              <p class="expandedSubTitle">Deadline:</p>
+              <p contentEditable="true"  id="taskDeadline" class="taskDivText"></p>
+            </div>
+            <p contentEditable="true" id="taskDescriptionExpanded"></p>
+            <div id="expandedTaskDivBtns">
+              <button class="btn btn-success">Mark as completed</button>
+              <button class="btn btn-danger">Delete task</button>
             </div>
           </div>
         </div>
-        <p id="taskDescriptionExpanded"></p>
-        <div id="expandedTaskDivBtns">
-          <button class="btn btn-success">Mark as completed</button>
-          <button class="btn btn-danger">Delete task</button>
-        </div>
-      </div>
     </template>
 
     <template id="taskCardTemplate">
-      <div class="taskCard">
-        <div class="importanceIndicator"></div>
+      <div class="taskCard shadow">
+        <div class="importanceIndicator"><img src="icons/logoBlue.svg" alt=""></div>
         <img class="trashCardIcon d-none" src="icons/trashIcon.svg" alt="">
         <h1 class="taskTitle"></h1>
         <p class="taskDesc"></p>
@@ -119,6 +136,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
     <script src="scripts/script.js"></script>
-
+    <script src="https://cdn.lordicon.com/libs/frhvbuzj/lord-icon-2.0.2.js"></script>
+    
   </body>
 </html>

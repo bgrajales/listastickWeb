@@ -170,44 +170,87 @@ function checkPassword(password) {
      }
 }
 
-const numberOfTasksToGenerate = 8;
+function showLoader() {
+    document.querySelector('#initialLoadDiv').classList.remove('d-none')
+    document.querySelector('#initialLoadDiv').classList.add('d-flex')
+}
 
+function hideLoader() {
+    document.querySelector('#initialLoadDiv').classList.remove('d-flex')
+    document.querySelector('#initialLoadDiv').classList.add('d-none')
+}
+
+const numberOfTasksToGenerate = 22;
+
+class Storage {
+
+    static storeTodos(todos) {
+        localStorage.setItem('todos', JSON.stringify(todos))
+    }
+
+    static getTodos() {
+        todosArr = JSON.parse(localStorage.getItem('todos'))
+    }
+
+    static clearTodos() {
+
+    }
+
+}
+
+class todoElement {
+    constructor(index, shouldDisplay, title, content, completed, priority, dueDate, list) {
+
+        this.index = index
+        this.shouldDisplay = shouldDisplay
+        this.title = title
+        this.content = content
+        this.completed = completed
+        this.priority = priority
+        this.dueDate = dueDate
+        this.list = list
+
+    }
+}
 function fetchToDos() {
-
+    
     return new Promise((resolve, reject) => {
         setTimeout(() => {
-            const dueDate = new Date()
-            dueDate.setDate(dueDate.getDate() + 3)
 
-            for (let index = 0; index < numberOfTasksToGenerate; index++) {
+            if (todosArr.length == 0) {
+                    
+                for (let index = 0; index < numberOfTasksToGenerate; index++) {
 
-                todosArr.push({
-                    id: index + 1,
-                    title: faker.commerce.productName(),
-                    content: faker.commerce.productDescription(),
-                    completed: faker.datatype.boolean(),
-                    priority: priorityArr[Math.floor(Math.random() * priorityArr.length)],
-                    dueDate: dueDate,
-                    list: '',
-                    location: {
-                        latitude: -56.1887393,
-                        longitude: -34.8921648
-                },
+                    todosArr.push(new todoElement(index + 1, true, faker.commerce.productName(), 
+                    faker.commerce.productDescription(), faker.datatype.boolean(), 
+                    priorityArr[Math.floor(Math.random() * priorityArr.length)], new Date(faker.date.future()), 
+                    "list"))
+                    
+                }
 
-                })
-                
+                resolve()
+            } else {
+                resolve()
             }
 
-            resolve()
         }, 400)
     })
 
 }
 
 function initialLoad() {
-    fetchToDos().then(() =>{
-        renderTodosArr()
-    })
+
+    showLoader()
+
+    Storage.getTodos()
+    
+    setTimeout(function() {
+        hideLoader()
+        fetchToDos().then(() =>{
+            renderTodosArr()
+        })
+    }, 800)    
+
 }
 
 function renderTodosArr() {
@@ -220,56 +263,63 @@ function renderTodosArr() {
     if (todosArr.length > 0) {
 
         for (let todosIndex = 0; todosIndex < todosArr.length; todosIndex++) {
+            if (todosArr[todosIndex].shouldDisplay) {
+                    
+                const taskCardClone = taskCardTemplate.content.cloneNode(true)
 
-            const taskCardClone = taskCardTemplate.content.cloneNode(true)
+                const taskCloneCardElement = taskCardClone.querySelector(".taskCard")
+                const taskCloneImportanceIndicator = taskCardClone.querySelector(".importanceIndicator")
+                const taskCloneTrashIcon = taskCardClone.querySelector(".trashCardIcon")
+                const taskCloneTitle = taskCardClone.querySelector(".taskTitle")
+                const taskCloneDesc = taskCardClone.querySelector(".taskDesc")
+                const taskCloneActions = taskCardClone.querySelector("#taskHoverDiv")
+                const taskCloneChangeStatus = taskCardClone.querySelector(".changeStatus")
+                const taskCloneViewTodo = taskCardClone.querySelector(".viewTodo")
 
-            const taskCloneCardElement = taskCardClone.querySelector(".taskCard")
-            const taskCloneImportanceIndicator = taskCardClone.querySelector(".importanceIndicator")
-            const taskCloneTrashIcon = taskCardClone.querySelector(".trashCardIcon")
-            const taskCloneTitle = taskCardClone.querySelector(".taskTitle")
-            const taskCloneDesc = taskCardClone.querySelector(".taskDesc")
-            const taskCloneActions = taskCardClone.querySelector("#taskHoverDiv")
-            const taskCloneChangeStatus = taskCardClone.querySelector(".changeStatus")
-            const taskCloneViewTodo = taskCardClone.querySelector(".viewTodo")
+                taskCloneCardElement.addEventListener("mouseenter", () =>{
+                    taskCloneTrashIcon.classList.remove("d-none")
+                    taskCloneActions.classList.remove("d-none")
+                })
 
-            taskCloneCardElement.addEventListener("mouseenter", () =>{
-                taskCloneTrashIcon.classList.remove("d-none")
-                taskCloneActions.classList.remove("d-none")
-            })
+                taskCloneCardElement.addEventListener("mouseleave", () =>{
+                    taskCloneTrashIcon.classList.add("d-none")
+                    taskCloneActions.classList.add("d-none")
+                })
 
-            taskCloneCardElement.addEventListener("mouseleave", () =>{
-                taskCloneTrashIcon.classList.add("d-none")
-                taskCloneActions.classList.add("d-none")
-            })
+                taskCloneChangeStatus.addEventListener("click", () =>{
+                    todosArr[todosIndex].completed = !todosArr[todosIndex].completed
+                    renderTodosArr()
+                })
 
-            taskCloneChangeStatus.addEventListener("click", () =>{
-                todosArr[todosIndex].completed = !todosArr[todosIndex].completed
-                renderTodosArr()
-            })
+                taskCloneViewTodo.addEventListener("click", () =>{
+                    showExpandedTodoCard(todosArr[todosIndex])
+                })
 
-            taskCloneViewTodo.addEventListener("click", () =>{
-                showExpandedTodoCard(todosArr[todosIndex])
-            })
+                taskCloneTrashIcon.addEventListener("click", () =>{
+                    todosArr.splice(todosIndex, 1)
+                    renderTodosArr()
+                })
 
-            taskCloneTrashIcon.addEventListener("click", () =>{
-                alert("Delete todo ID: " + todosIndex)
-            })
+                if (!todosArr[todosIndex].completed) {
+                    taskCloneImportanceIndicator.classList.add(
+                        getTodoImportance(todosArr[todosIndex].priority)
+                    )
+                } else {
+                    taskCloneImportanceIndicator.classList.add("completedDot")
+                }
+                
 
-            taskCloneImportanceIndicator.classList.add(
-                getTodoImportance(todosArr[todosIndex].priority)
-            )
+                if (todosArr[todosIndex].completed) {
+                    taskCloneTitle.classList.add("text-decoration-line-through")
+                }
+                taskCloneTitle.innerText = todosArr[todosIndex].title
 
-            taskCloneTitle.innerText = todosArr[todosIndex].title
+                taskCloneDesc.innerText = todosArr[todosIndex].content
 
-            taskCloneDesc.innerText = todosArr[todosIndex].content
-
-            taskCardContainer.appendChild(taskCardClone)
+                taskCardContainer.appendChild(taskCardClone)
+            }
         }
-
-
-
     }
-
 
 }
 
@@ -286,30 +336,100 @@ function getTodoImportance(todoPriority) {
     }
 }
 
+// Search Filter
+
+function applySearchFilter() {
+
+    
+    const searchInputElement = document.getElementById("searchInput")
+    let keywords = searchInputElement.value
+
+    keywords = keywords.trim()
+    keywords = keywords.toLowerCase()
+
+
+    console.log(keywords)
+
+    if (!keywords) {
+
+        todosArr.forEach(todo =>{
+            todo.shouldDisplay = true
+        })
+        
+    } else {
+
+        todosArr.forEach(todo =>{
+            todo.shouldDisplay = false
+        })
+
+        todosArr.filter(todo =>{
+
+            const titleMatch = todo.title.toLowerCase().includes(keywords)
+            const descriptionMatch = todo.content.toLowerCase().includes(keywords)
+
+            return titleMatch || descriptionMatch
+
+        }).forEach(todo =>{
+            todo.shouldDisplay = true
+        })
+
+    }
+
+    renderTodosArr()
+}
+
+
 // Show todo expanded card
 
 function showExpandedTodoCard(object) {
 
-    const mainContainer = document.querySelector(".mainContainer")
+    const bodyElement = document.querySelector("body")
     const expandedTaskTemplate = document.getElementById("expandedTaskTemplate")
 
     const taskExpandClone = expandedTaskTemplate.content.cloneNode(true)
-
-    mainContainer.innerHTML = ""
 
     const taskTitleTemplate = taskExpandClone.querySelector('#taskTitleExpanded')
     const taskListTemplate = taskExpandClone.querySelector('#taskList')
     const taskPriorityTemplate = taskExpandClone.querySelector('#taskPriority')
     const taskDeadlineTemplate = taskExpandClone.querySelector('#taskDeadline')
     const taskDescTemplate = taskExpandClone.querySelector('#taskDescriptionExpanded')
+    const taskExpandedClose = taskExpandClone.querySelector('#backIcon')
+    const taskExpandedSave = taskExpandClone.querySelector('#saveChangesIcon')
+
 
     taskTitleTemplate.innerText = object.title
-    taskListTemplate.innerText = 'List: ' + object.list
-    taskPriorityTemplate.innerText = 'Priority: ' + object.priority
-    taskDeadlineTemplate.innerText = 'Deadline: ' + object.dueDate
+    if (object.list != "") {
+        taskListTemplate.innerText = object.list[0].toUpperCase() + object.list.slice(1)
+    } else {
+        taskListTemplate.innerText = 'None'
+    }
+    dueDate = new Date(object.dueDate)
+
+    taskPriorityTemplate.innerText = object.priority[0].toUpperCase() + object.priority.slice(1)
+    taskDeadlineTemplate.innerText = dueDate.toDateString()
     taskDescTemplate.innerText = object.content
 
-    mainContainer.appendChild(taskExpandClone)
+    taskExpandedClose.addEventListener("click", () => {
+
+        document.querySelector("#backIcon").parentNode.parentNode.parentNode.remove()
+
+    })
+
+    taskExpandedSave.addEventListener("click", function saveChanges() {
+        
+            let newTitle = document.querySelector("#taskTitleExpanded").innerHTML
+            let newList = document.querySelector("#taskList").innerHTML
+            let newPriority = document.querySelector("#taskPriority").innerHTML
+            let newDate = document.querySelector("#taskDeadline").innerHTML
+            let newDesc = document.querySelector("#taskDescriptionExpanded").innerHTML
+
+            object.title = newTitle
+
+            renderTodosArr()
+    })
+
+    bodyElement.prepend(taskExpandClone)
+
 }
 
 if (document.querySelector("#addTaskMain")) {
@@ -317,8 +437,7 @@ if (document.querySelector("#addTaskMain")) {
     let addTask
     let addTaskContainer = document.querySelector("#addTaskContainer")
     let closeTaskContainer = document.querySelector("#closeAddTask")
-    let pickLocation = document.querySelector("#openMapBtn")
-    let saveTask = document.querySelector("#saveTaskBtn")
+    let saveTaskBtn = document.querySelector("#saveTaskBtn")
 
     addTask = document.querySelector("#addTaskMain")
     
@@ -337,18 +456,39 @@ if (document.querySelector("#addTaskMain")) {
 
         })
 
-        openMapBtn.addEventListener("click", () =>{
-
-                console.log("Open map")
-
-        })
-
         saveTaskBtn.addEventListener("click", () =>{
 
-            console.log("Save Task")
+            addNewTask()
 
         })
 
     })
 
 }
+
+function addNewTask() {
+
+    let currentIndex
+
+    if (todosArr.length == 0) {
+        currentIndex = 1
+    } else {
+        currentIndex = todosArr[todosArr.length-1].index + 1
+    }
+    
+    todosArr.push(new todoElement(currentIndex, true, document.getElementById('taskTitleInput').value, document.getElementById('taskDescInput').value, 
+    false, document.getElementById('taskPriorityInput').value, document.getElementById('taskDeadlineInput').value.replace(/-/g, '\/'), document.getElementById('taskListInput').value))
+
+    let addTaskContainer = document.querySelector("#addTaskContainer")
+
+    addTaskContainer.style.display = "none"
+
+    document.querySelector("#taskTitleInput").value = ""
+    document.querySelector("#taskListInput").value = ""
+    document.querySelector("#taskPriorityInput"). value = ""
+    document.querySelector("#taskDeadlineInput").value = ""
+    document.querySelector("#taskDescInput").value = ""
+
+    renderTodosArr()
+}
+

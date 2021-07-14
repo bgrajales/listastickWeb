@@ -26,6 +26,7 @@ header {
 
 h1 {
     font-size: 2rem;
+    margin: 0;
 }
 
 input {
@@ -207,7 +208,7 @@ input {
 #expandedTaskDivBtns {
     display: flex;
     flex-direction: row;
-    gap: 100px;
+    gap: 30px;
 }
 
 #addTaskContainer {
@@ -239,13 +240,76 @@ input {
     width: 15px;
     position: absolute;
     top: 15px;
-    right: 20px;
+    right: 15px;
     transition: all 0.1;
 }
 
-#closeAddTask:hover {
+#searchInput:focus-visible {
+    outline: none;
+    padding-left: 15px;
+}
+
+#closeAddTask:hover, #closeExpandedTask:hover {
     transform: scale(1.2);
     cursor: pointer;
+}
+
+#initialLoadDiv {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+#backIcon {
+    width: 10px;
+    transition: all 0.3s;
+}
+
+#backIcon:hover {
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+#saveChangesIcon {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    width: 20px;
+    transition: transform 0.3s;
+}
+
+#saveChangesIcon:hover {
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+.expandedTodoCardDiv {
+    position: absolute;
+    background-color: #2e4052;
+    z-index: 1000;
+    top: 0;
+    left: 80px;
+    bottom: 0;
+    padding: 60px 60px !important;
+    width: 600px;
+    border-radius: 0 10px 10px 0;
+}
+
+.expandedTaskBkg {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    position: relative;
+}
+
+.backAndTitle {
+    display: flex;
+    gap: 10px;
 }
 
 .smallInput {
@@ -257,6 +321,12 @@ input {
 
 .taskDivText {
     font-size: 1.5rem;
+    margin: 0;
+}
+
+.expandedSubTitle {
+    font-size: 1.5rem;
+    font-weight: bold;
 }
 
 .expandedTodoCard h1 {
@@ -307,10 +377,18 @@ input {
     border-top: 10px solid #dc3545;
 }
 
+.high img, .low img, .mid img {
+    display: none;
+}
+
+.completedDot img {
+    width: 15px;
+    position: absolute;
+}
+
 .taskCard, .expandedTodoCard {
     position: relative;
     padding: 15px 20px;
-    border: 2px solid;
     border-radius: 10px;
     transition: transform 0.3s;
 }
