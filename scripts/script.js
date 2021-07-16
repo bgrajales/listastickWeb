@@ -1,4 +1,6 @@
 var todosArr = []
+var userDataBase = []
+var isLoggedIn = []
 
 const priority = {
     LOW: 'low',
@@ -6,6 +8,48 @@ const priority = {
     HIGH: 'high'
 }
 
+class Storage {
+
+    static storeTodos(todos, users, isLoggedIn) {
+        localStorage.setItem('todos', JSON.stringify(todos))
+        localStorage.setItem('users', JSON.stringify(users))
+        localStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn))
+    }
+
+    static getTodos() {
+        todosArr = JSON.parse(localStorage.getItem('todos'))
+        userDataBase = JSON.parse(localStorage.getItem('users'))
+        isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
+    }
+
+    static clearTodos() {
+
+    }
+
+}
+
+class todoElement {
+    constructor(index, shouldDisplay, title, content, completed, priority, dueDate, list) {
+
+        this.index = index
+        this.shouldDisplay = shouldDisplay
+        this.title = title
+        this.content = content
+        this.completed = completed
+        this.priority = priority
+        this.dueDate = dueDate
+        this.list = list
+
+    }
+}
+
+class user {
+    constructor(email, fullName, password) {
+        this.email = email
+        this.fullName = fullName
+        this.password = password
+    }
+}
 var priorityArr = [priority.LOW, priority.MID, priority.HIGH]
 
 // Login function
@@ -20,10 +64,16 @@ if (loginButton != null) {
 
         const mail = document.getElementById("mail").value
         const password = document.getElementById("password").value
+        
+        const user = userDataBase.filter(user => user.email === mail) 
+        
+        console.log(user)
 
-        if (mail === "listastickDev" && password === "webdev") {
+        if ((user.length != 0) && password === user[0].password) {
+            isLoggedIn = user
+            Storage.storeTodos(todosArr, userDataBase, isLoggedIn)
             window.location.href = "home.html"
-        } else if (mail === "listastickDev") {
+        } else if (user.length != 0) {
             loginErrorMsg.style.display = "block";
             loginErrorMsg.innerHTML = "Error: Wrong password"
         } else {
@@ -108,11 +158,13 @@ if (registerButton != null) {
         }
         
         if (errorCount === 0) {
+            userDataBase.push(new user(email, fullName, password))
+            Storage.storeTodos(todosArr, userDataBase, isLoggedIn)
             window.location.href = "home.html"
         } else {
             registerErrorMsg.style.display = "block"; 
         }
-})
+    })
 
     var input1 = document.getElementById("repeatPassword");
 
@@ -143,11 +195,20 @@ if (registerButton != null) {
 // Checking if the email of Register Input is correct
 
 function checkEmailValidity(email) {
- if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) {
-    return (true)
-  } else {
-    return (false)
-  }
+
+    if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) {
+
+        const exist = userDataBase.filter(user => user.email == email)
+
+        if (exist.length == 0) {
+            return (true);
+        } else { 
+            return (false)
+        }
+
+    } else {
+        return (false)
+    }
 }
 
 // Checking if the name of Register Input is correct
@@ -182,36 +243,6 @@ function hideLoader() {
 
 const numberOfTasksToGenerate = 12;
 
-class Storage {
-
-    static storeTodos(todos) {
-        localStorage.setItem('todos', JSON.stringify(todos))
-    }
-
-    static getTodos() {
-        todosArr = JSON.parse(localStorage.getItem('todos'))
-    }
-
-    static clearTodos() {
-
-    }
-
-}
-
-class todoElement {
-    constructor(index, shouldDisplay, title, content, completed, priority, dueDate, list) {
-
-        this.index = index
-        this.shouldDisplay = shouldDisplay
-        this.title = title
-        this.content = content
-        this.completed = completed
-        this.priority = priority
-        this.dueDate = dueDate
-        this.list = list
-
-    }
-}
 function fetchToDos() {
     
     return new Promise((resolve, reject) => {
@@ -244,7 +275,7 @@ function initialLoad() {
 
     Storage.getTodos()
 
-    Storage.storeTodos(todosArr)
+    Storage.storeTodos(todosArr, userDataBase, isLoggedIn)
     Storage.getTodos()
 
     if (todosArr != []) {
@@ -544,7 +575,7 @@ function addNewTask() {
 
 function hideCompleted() {
 
-    Storage.storeTodos(todosArr)
+    Storage.storeTodos(todosArr, userDataBase, isLoggedIn)
     Storage.getTodos()
 
     let currentTab
@@ -607,7 +638,7 @@ function filterMyDay() {
 
     document.querySelector("#hideCompletedBtn").innerText = 'Hide Completed'
 
-    Storage.storeTodos(todosArr)
+    Storage.storeTodos(todosArr, userDataBase, isLoggedIn)
     Storage.getTodos()
 
     let today = new Date()
@@ -656,4 +687,40 @@ function changeActiveSel(){
 
     document.querySelector(".activeSelBtn").classList.remove("activeSelBtn")
     document.querySelector("#generalTodosBtn").classList.add("activeSelBtn")
+}
+
+function toggleExpandedProfile() {
+
+    document.getElementById("profileExpandedCard").classList.remove("d-none")
+    
+    const backIcon = document.querySelector(".backIconPfp")
+    const logOut = document.querySelector("#logoutBtn")
+
+    document.getElementById("userName").innerText = isLoggedIn[0].fullName
+    document.getElementById("userEmail").innerText = isLoggedIn[0].email
+
+
+    backIcon.addEventListener("click", () =>{
+        document.getElementById("profileExpandedCard").classList.add("d-none")
+    })
+
+    logOut.addEventListener("click", () =>{
+
+        isLoggedIn = []
+
+        window.location.href = "index.html"
+
+    })
+
+
+}
+
+function checkLogIn() {
+
+    Storage.getTodos()
+
+    if (isLoggedIn.length != 0) {
+        window.location.href = "home.html"
+    }
+
 }

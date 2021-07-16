@@ -11,7 +11,7 @@
 
     <title>Listastick</title>
   </head>
-  <body onunload="Storage.storeTodos(todosArr)">
+  <body onunload="Storage.storeTodos(todosArr, userDataBase, isLoggedIn)" onload="Storage.getTodos()">
     <nav id="desktopNavBar">
       <div id="navBarDesktopButtons">
         <img id="addTaskMain" class="navDeskIcon" src="icons/circlePlusIcon.svg" alt="">
@@ -57,7 +57,7 @@
     </div>
 
     <template id="taskCardTemplate">
-      <div id="nextUpTaskCard" class="taskCard shadow">
+      <div id="nextUpTaskCard" class="taskCard shadow-lg">
         <div class="importanceIndicator"><img src="icons/logoBlue.svg" alt=""></div>
         <h1 class="taskTitle"></h1>
         <h1 class="taskList"></h1>
