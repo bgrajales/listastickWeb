@@ -180,7 +180,7 @@ function hideLoader() {
     document.querySelector('#initialLoadDiv').classList.add('d-none')
 }
 
-const numberOfTasksToGenerate = 22;
+const numberOfTasksToGenerate = 12;
 
 class Storage {
 
@@ -243,7 +243,16 @@ function initialLoad() {
     showLoader()
 
     Storage.getTodos()
-    
+
+    Storage.storeTodos(todosArr)
+    Storage.getTodos()
+
+    if (todosArr != []) {
+        todosArr.forEach(todo => {
+            todo.shouldDisplay = true;
+        })
+    }
+
     setTimeout(function() {
         hideLoader()
         fetchToDos().then(() =>{
@@ -340,38 +349,79 @@ function getTodoImportance(todoPriority) {
 
 function applySearchFilter() {
 
-    
+    let today = new Date()
+    today.setHours(0,0,0,0)
+
     const searchInputElement = document.getElementById("searchInput")
     let keywords = searchInputElement.value
 
     keywords = keywords.trim()
     keywords = keywords.toLowerCase()
 
+    let currentTab
+    currentTab = document.querySelector(".activeSelBtn").innerText
 
     console.log(keywords)
 
     if (!keywords) {
 
-        todosArr.forEach(todo =>{
-            todo.shouldDisplay = true
-        })
-        
+        switch (currentTab) {
+
+            case "Todos":
+                todosArr.forEach(todo =>{
+                    todo.shouldDisplay = true
+                })
+                break;
+            case "My Day":
+                todosArr.forEach(todo =>{
+                    todo.shouldDisplay = true
+                })
+                filterMyDay()
+                break;
+
+        }         
+    
     } else {
 
-        todosArr.forEach(todo =>{
-            todo.shouldDisplay = false
-        })
+        switch (currentTab) {
 
-        todosArr.filter(todo =>{
+            case "Todos":
+                todosArr.forEach(todo =>{
+                    todo.shouldDisplay = false
+                })
+        
+                todosArr.filter(todo =>{
+        
+                    const titleMatch = todo.title.toLowerCase().includes(keywords)
+                    const descriptionMatch = todo.content.toLowerCase().includes(keywords)
+        
+                    return titleMatch || descriptionMatch
+        
+                }).forEach(todo =>{
+                    todo.shouldDisplay = true
+                })
+                break;
+            case "My Day":
+                todosArr.forEach(todo =>{
+                    todo.shouldDisplay = false
+                })
 
-            const titleMatch = todo.title.toLowerCase().includes(keywords)
-            const descriptionMatch = todo.content.toLowerCase().includes(keywords)
+                todosArr.filter(todo =>{
+        
+                    const todoDate = new Date(todo.dueDate)
+                    const titleMatch = todo.title.toLowerCase().includes(keywords)
+                    const descriptionMatch = todo.content.toLowerCase().includes(keywords)
+        
+                    return (titleMatch || descriptionMatch) && (today.getYear() == todoDate.getYear() && today.getMonth() == todoDate.getMonth() && today.getDay() == todoDate.getDay())
+        
+                }).forEach(todo =>{
+                    todo.shouldDisplay = true
+                })
 
-            return titleMatch || descriptionMatch
+                break;
 
-        }).forEach(todo =>{
-            todo.shouldDisplay = true
-        })
+        }         
+       
 
     }
 
@@ -411,7 +461,7 @@ function showExpandedTodoCard(object) {
 
     taskExpandedClose.addEventListener("click", () => {
 
-        document.querySelector("#backIcon").parentNode.parentNode.parentNode.remove()
+        document.querySelector("#backIcon").parentNode.remove()
 
     })
 
@@ -492,3 +542,118 @@ function addNewTask() {
     renderTodosArr()
 }
 
+function hideCompleted() {
+
+    Storage.storeTodos(todosArr)
+    Storage.getTodos()
+
+    let currentTab
+    currentTab = document.querySelector(".activeSelBtn").innerText
+
+    todosArr.forEach(todo =>{
+        if (document.querySelector("#hideCompletedBtn").innerText == 'Hide Completed') {
+            
+            switch (currentTab) {
+
+                case "Todos":
+                    if (todo.completed) {
+                        todo.shouldDisplay = false
+                    } else {
+                        todo.shouldDisplay = true
+                    }
+                    break;
+                case "My Day":
+                    if (todo.completed) {
+                        todo.shouldDisplay = false
+                        renderTodosArr()
+                    }
+                    break;
+
+            }         
+            
+        } else {
+
+            switch (currentTab) {
+
+                case "Todos":
+                    console.log(currentTab)
+                    todo.shouldDisplay = true
+                    break;
+                case "My Day":
+                    filterMyDay()
+                    break;
+
+            }            
+
+        }
+        
+    })
+
+    if (document.querySelector("#hideCompletedBtn").innerText == 'Show Completed') {
+
+        document.querySelector("#hideCompletedBtn").innerText = 'Hide Completed'
+    
+    } else {
+    
+        document.querySelector("#hideCompletedBtn").innerText = 'Show Completed'
+    
+    }
+
+    renderTodosArr()
+
+}
+
+function filterMyDay() {
+
+    document.querySelector("#hideCompletedBtn").innerText = 'Hide Completed'
+
+    Storage.storeTodos(todosArr)
+    Storage.getTodos()
+
+    let today = new Date()
+    let numberOfTask = 0
+    let taskDate
+
+    today.setHours(0,0,0,0)
+
+    todosArr.forEach(todo =>{
+
+        taskDate = new Date(todo.dueDate)
+
+        taskDate.setHours(0,0,0,0)
+
+        if (today.getYear() == taskDate.getYear() && today.getMonth() == taskDate.getMonth() && today.getDay() == taskDate.getDay()) {
+
+            todo.shouldDisplay = true
+            numberOfTask += 1
+
+        } else {
+
+            todo.shouldDisplay = false
+
+        }
+
+
+    })
+
+    console.log(numberOfTask)
+
+    document.querySelector(".activeSelBtn").classList.remove("activeSelBtn")
+    document.querySelector("#myDayBtn").classList.add("activeSelBtn")
+
+    renderTodosArr()
+
+    if (numberOfTask == 0) {
+
+        document.getElementById("taskSection").innerHTML = "<h1 id='noTaskText'>No task for today :)</h1>"
+        
+    }
+
+}
+
+function changeActiveSel(){
+    document.querySelector("#hideCompletedBtn").innerText = 'Hide Completed'
+
+    document.querySelector(".activeSelBtn").classList.remove("activeSelBtn")
+    document.querySelector("#generalTodosBtn").classList.add("activeSelBtn")
+}

@@ -38,6 +38,7 @@ input {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    height: 100vh;
 }
 
 #welcometextDivMobile {
@@ -60,8 +61,6 @@ input {
     flex: 1;
     padding: 40px 50px;
     border-radius: 1rem;
-    border: 2px solid #121212;
-    box-shadow: 5px 5px 0 0 #121212;
 }
 
 #formSubDiv .btn {
@@ -79,6 +78,13 @@ input {
     margin: 0;
 }
 
+#statsSec1 {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin: 50px 0;
+}
+
 #logoLogin {
     width: 60px;
 }
@@ -93,7 +99,7 @@ input {
 }
 
 #backArrow {
-    width: 30px;
+    width:10px;
     transition-duration: 0.3s;
     transition-property: transform;
 }
@@ -265,6 +271,9 @@ input {
 #backIcon {
     width: 10px;
     transition: all 0.3s;
+    position: absolute;
+    top: 20px;
+    right: 60px;
 }
 
 #backIcon:hover {
@@ -285,16 +294,21 @@ input {
     cursor: pointer;
 }
 
+#nextUpTaskCard {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
 .expandedTodoCardDiv {
-    position: absolute;
+    position: fixed;
     background-color: #2e4052;
     z-index: 1000;
     top: 0;
     left: 80px;
     bottom: 0;
     padding: 60px 60px !important;
-    width: 600px;
-    border-radius: 0 10px 10px 0;
+    width: 50%;
 }
 
 .expandedTaskBkg {
@@ -305,6 +319,18 @@ input {
     flex-direction: column;
     gap: 15px;
     position: relative;
+}
+
+.charAndTitle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+}
+
+.chartsTitle {
+    font-weight: bold;
+    margin-bottom: 20px;
 }
 
 .backAndTitle {

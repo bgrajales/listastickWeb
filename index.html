@@ -1,65 +1,83 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
-    <link rel="stylesheet" href="styles/general.css">
-
-    <link rel="icon" href="images/logo.png">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Listastick</title>
-  </head>
-  <body id="bodyLoginRegister">
 
-      <main class="container">
-        <div id="loginDiv">
-          <div id="welcometextDivMobile">
-            <img id="logoLoginMobile" src="images/logo.png" alt="">
-            <div style="display: flex; flex-direction: column; justify-content: center;">
-             <h3 id="welcometextMobile">Welcome to Listastick!</h3>
-             </div>
-           </div>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="landingStyle.css">
 
-          <div id="imageSubDiv">
-            <img id="vectorLogin" src="images/loginImage.png" alt="">
-          </div>
+</head>
+<body >
 
-            <div id="formSubDiv">
-              <div id="welcometextDiv">
-               <img id="logoLogin" src="images/logo.png" alt="">
-               <div style="display: flex; flex-direction: column; justify-content: center;">
-                <h3 id="welcometext">Welcome to Listastick!</h3>
-                </div>
-              </div>
-
-              <div id="login-error-msg" class="alert alert-danger" role="alert">
-                Error: User does not exist
-              </div>
-
-              <form name="loginForm" method="GET" style="margin: 25px 0;">
-                <label for="basic-url" class="form-label">Email</label>
-                <input id="mail" type="email" class="form-control shadow-sm" placeholder="jhondoe@gmail.com" aria-label="Email" aria-describedby="basic-addon1">
-              
-                <label for="basic-url" class="form-label">Password</label>
-                <input id="password" type="password" class="form-control shadow-sm" placeholder="Type your password here" aria-label="Email" aria-describedby="basic-addon1">
-              
-                <button id="login-form-submit" style="margin: 30px 0;" type="button" class="btn btn-primary">Log In</button>
-              </form>
-
-              <div style="text-align: center;">
-                <p>Don't have an account?</p>
-                <a href="register.html"><button id="newAccBtn" type="button" class="btn btn-secondary">Create new account</button></a>
-              </div>
-
-            </div>
-          </div>
+    <header class="container">
+        <img src="images/headerLogo.svg" alt="">
+        <div id="headerBtnsDiv">
+            <button class="secondaryHeaderBtn">Features</button>
+            <button class="secondaryHeaderBtn">Feedback</button>
+            <a href="login.html"><button class="btn btn-primary">Login</button></a>
         </div>
-      </main>
+    </header>
 
+    <div class="container">
+        <section class="section1">
 
+            <h1>The organizing tool your life  always needed</h1>
+            <div>
+                <img class="images" src="images/taskDemonstrationImage.svg" alt="">
+            </div>
+
+        </section>
+
+        <section class="section2">
+
+            <div>
+                <img src="images/devicesImage.svg" alt="">
+            </div>
+            <h1>Wherever you need it</h1>
+            <p>Listastick is a multi platform tool design to help you orginize 
+                your life across multiple platforms, integrating each device in a seemless way</p>
+
+        </section>
+
+        <section class="section3">
+
+            <div>
+                <img src="images/dummyReview.svg" alt="">
+            </div>
+            <div>
+                <img src="images/dummyReview.svg" alt="">
+            </div>
+            <div>
+                <img src="images/dummyReview.svg" alt="">
+            </div>
+        </section>
+
+        <section class="section1">
+
+            <div>
+                <img class="images" src="images/startNowImage.png" alt="">
+            </div>
+            <div>
+                <h1>Start your organized journey today</h1>
+                <a href="register.html"><button id="startNowBtn" class="btn btn-primary">Get Started</button></a>
+            </div>
+        </section>
+    </div>
+    <footer>
+        <img src="images/whiteLogo.svg" alt="">
+
+        <div id="socialDiv">
+            <a href=""><img src="images/social/Google.svg" alt=""></a>
+            <a href=""><img src="images/social/Instagram.svg" alt=""></a>
+            <a href=""><img src="images/social/Twitter.svg" alt=""></a>
+            <a href=""><img src="images/social/Facebook.svg" alt=""></a>
+        </div>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
-    <script src="scripts/script.js"></script>
-  </body>
+
+</body>
 </html>

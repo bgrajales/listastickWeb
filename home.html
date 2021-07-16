@@ -16,7 +16,7 @@
       <div id="navBarDesktopButtons">
         <img id="addTaskMain" class="navDeskIcon" src="icons/circlePlusIcon.svg" alt="">
         <img class="navDeskIcon" src="icons/homeIcon.svg" alt="">
-        <a href="stats.html"><img class="navDeskIcon" src="icons/calendarIcon.svg" alt=""></a>
+        <a href="stats.html"><img class="navDeskIcon" src="icons/statsIcon.svg" alt=""></a>
       </div>
       <div style="text-align: center;">
         <a href=""><img id="pfp" src="images/pfp.png" alt=""></a>
@@ -40,10 +40,9 @@
             <button id="searchBtn" class="btn" onclick="applySearchFilter()">Buscar</button>
           </div>
           <div id="categories">
-            <button class="selectionBtn activeSelBtn">Mi día</button>
-            <button class="selectionBtn">Importantes</button>
-            <button class="selectionBtn">Todos</button>
-            <button class="selectionBtn">Lista</button>
+            <button id="generalTodosBtn" class="selectionBtn activeSelBtn" onclick="initialLoad(), changeActiveSel()">Todos</button>
+            <button id="myDayBtn" class="selectionBtn" onclick="filterMyDay()">My Day</button>
+            <button id="hideCompletedBtn" class="selectionBtn" onclick="hideCompleted()">Hide Completed</button>
           </div>
           
          
@@ -89,10 +88,10 @@
 
     <template id="expandedTaskTemplate">
         <div class="expandedTodoCardDiv">
+          <img id="backIcon" src="icons/backIcon.svg" alt="">
           <div class="expandedTaskBkg">
             <img id="saveChangesIcon" src="icons/saveChangesIcon.svg" alt="">
             <div class="backAndTitle">
-              <img id="backIcon" src="icons/backIcon.svg" alt="">
               <h1 contentEditable="true" id="taskTitleExpanded"></h1>
             </div>
             <div class="backAndTitle">

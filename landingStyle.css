@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Karla:wght@400;600;700&display=swap');
+
+body {
+    font-family: 'Karla', sans-serif;
+    margin: 0;
+    background-color: #fff;
+    color: #2E4052;
+}
+
+header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 30px 0 100px 0;
+}
+
+h1 {
+    font-size: 4rem;
+}
+
+p {
+    font-size: 1.5rem;
+}
+
+footer {
+    background-color: #1095E0;
+    width: 100%;
+    padding: 50px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.secondaryHeaderBtn {
+    border: none;
+    background-color: #fff;
+}
+
+.section1 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 100px;
+}
+
+.section2 {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 15px;
+    text-align: center;
+}
+
+.section3 {
+    display: flex;
+    margin: 100px 0;
+}
+
+.images {
+    width: 500px;
+}
+
+#startNowBtn {
+    width: 100%;
+    margin-top: 50px;
+}
+
+#socialDiv {
+    display: flex;
+    flex-direction: row;
+    gap: 25px;
+}
+
+#headerBtnsDiv {
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+}

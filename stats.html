@@ -11,12 +11,12 @@
 
     <title>Listastick</title>
   </head>
-  <body>
+  <body onunload="Storage.storeTodos(todosArr)">
     <nav id="desktopNavBar">
       <div id="navBarDesktopButtons">
         <img id="addTaskMain" class="navDeskIcon" src="icons/circlePlusIcon.svg" alt="">
         <a href="home.html"><img class="navDeskIcon" src="icons/homeIcon.svg" alt=""></a>
-        <img class="navDeskIcon" src="icons/calendarIcon.svg" alt="">
+        <img class="navDeskIcon" src="icons/statsIcon.svg" alt="">
       </div>
       <div style="text-align: center;">
         <a href=""><img id="pfp" src="images/pfp.png" alt=""></a>
@@ -25,19 +25,147 @@
 
     <div class="mainContainer">
           
+      <div id="generalStatsDiv" class="container">
+
+        <section id="statsSec1">
+
+          <div class="charAndTitle">
+            <h1 class="chartsTitle">Tasks Status</h1>
+            <canvas id="taskCompletedChart" width="" height=""></canvas>
+          </div>
+
+          <div class="charAndTitle">
+            <h1 class="chartsTitle">Tasks Priority</h1>
+            <canvas id="taskPriorityChart" width="" height=""></canvas>
+          </div>
+        </section>
+
+        <section id="statsSec1">
+
+          <div class="charAndTitle">
+            <h1 class="chartsTitle">Total number of Tasks</h1>
+            <h2 id="numberOfTasks"></h2>
+          </div>
+
+          <div id="upcomingTask" class="charAndTitle">
+          </div>
+        </section>
+
+      </div>
 
 
     </div>
 
-    
+    <template id="taskCardTemplate">
+      <div id="nextUpTaskCard" class="taskCard shadow">
+        <div class="importanceIndicator"><img src="icons/logoBlue.svg" alt=""></div>
+        <h1 class="taskTitle"></h1>
+        <h1 class="taskList"></h1>
+        <h1 class="taskDate"></h1>
+        <p class="taskDesc"></p>
+        <div id="taskHoverDiv" class="d-none">
+          <img class="taskHoverBtn changeStatus" src="icons/logoIcon.svg" alt="">
+          <img class="taskHoverBtn viewTodo" src="icons/seeMoreIcon.svg" alt="">
+        </div>
+      </div>
+    </template>
 
     <!-- Fakerjs -->
     <script src="https://cdn.jsdelivr.net/npm/faker@5.5.3/dist/faker.min.js" integrity="sha256-ItysnEXzZySzG3n8oL357uAk+51hKjTF4yHeZWwoQwU=" crossorigin="anonymous"></script>
  
+    <!-- Chartjs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.4.1/dist/chart.min.js"></script>
+
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.4.1/dist/chart.min.js" integrity="sha256-GMN9UIJeUeOsn/Uq4xDheGItEeSpI5Hcfp/63GclDZk=" crossorigin="anonymous"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
     <script src="scripts/script.js"></script>
-    
+    <script>
+      var ctx1 = document.getElementById('taskCompletedChart').getContext('2d');
+
+      Storage.getTodos()
+
+      let completed = todosArr.filter(task => task.completed == true).length
+      let pending = todosArr.length - completed
+
+      var myChart1 = new Chart(ctx1, {
+      type: 'doughnut',
+      data: {
+          labels: ['Pending Tasks', 'Completed'],
+          datasets: [{
+              label: '# Tasks',
+              data: [pending, completed],
+              backgroundColor: [
+                  'rgba(0, 0, 0, 1)',
+                  'rgba(54, 162, 235, 1)',
+              ],
+          }]
+          },
+          options: {
+            responsive: false,
+          },
+      });
+
+      var ctx2 = document.getElementById('taskPriorityChart').getContext('2d');
+      
+      let high = todosArr.filter(task => task.priority == "high").length
+      let mid = todosArr.filter(task => task.priority == "mid").length
+      let low = todosArr.length - high - mid
+
+      console.log(high, mid, low)
+      var myChart2 = new Chart(ctx2, {
+      type: 'doughnut',
+      data: {
+          labels: ['High', 'Medium', 'Low'],
+          datasets: [{
+              label: '# Tasks',
+              data: [high, mid, low],
+              backgroundColor: [
+                  'rgba(176, 0, 0, 1)',
+                  'rgba(255, 200, 0, 1)',
+                  'rgba(52, 207, 90, 1)',
+              ],
+          }]
+          },
+          options: {
+            responsive: false,
+          },
+      });
+
+      document.getElementById("numberOfTasks").innerText = todosArr.length;
+
+      const upcomingTaskDiv = document.getElementById("upcomingTask")
+      const upcomTaskTemplate = document.getElementById("taskCardTemplate")
+
+      upcomingTaskDiv.innerHTML = "<h1 class='chartsTitle'>Next Up Task</h1>"
+
+      const upcomTaskClone = upcomTaskTemplate.content.cloneNode(true)
+
+      const taskCloneCardElement = upcomTaskClone.querySelector(".taskCard")
+      const taskCloneImportanceIndicator = upcomTaskClone.querySelector(".importanceIndicator")
+      const taskCloneTitle = upcomTaskClone.querySelector(".taskTitle")
+      const taskCloneList = upcomTaskClone.querySelector(".taskList")
+      const taskCloneDate = upcomTaskClone.querySelector(".taskDate")
+      const taskCloneDesc = upcomTaskClone.querySelector(".taskDesc")
+      const taskCloneActions = upcomTaskClone.querySelector("#taskHoverDiv")
+
+      if (!todosArr[0].completed) {
+          taskCloneImportanceIndicator.classList.add(
+              getTodoImportance(todosArr[0].priority)
+          )
+      } else {
+          taskCloneImportanceIndicator.classList.add("completedDot")
+      }
+      taskCloneList.innerText = 'Task List: ' + todosArr[0].list
+
+      taskCloneDate.innerText = 'Due Date: ' + new Date(todosArr[0].dueDate).toDateString()
+      taskCloneTitle.innerText = todosArr[0].title
+
+      taskCloneDesc.innerText = todosArr[0].content
+
+      upcomingTaskDiv.appendChild(upcomTaskClone)
+
+    </script>
   </body>
 </html>
