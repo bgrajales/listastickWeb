@@ -501,8 +501,12 @@ function showExpandedTodoCard(object) {
     const taskExpandedClose = taskExpandClone.querySelector('#backIcon')
     const taskExpandedSave = taskExpandClone.querySelector('#saveChangesIcon')
 
-    document.querySelector("#hambMobileMenu").style.display = 'none'
-    document.querySelector("#desktopNavBar").style.display = 'none'
+    if (screen.width < 600) {
+
+        document.querySelector("#hambMobileMenu").style.display = 'none'
+        document.querySelector("#desktopNavBar").style.display = 'none'
+
+    }
 
     taskTitleTemplate.innerText = object.title
     if (object.list != "") {
@@ -519,9 +523,13 @@ function showExpandedTodoCard(object) {
     taskExpandedClose.addEventListener("click", () => {
 
         document.querySelector("#backIcon").parentNode.remove()
-        document.querySelector("#hambMobileMenu").style.display = 'block'
-        document.querySelector("#desktopNavBar").style.display = 'none'
 
+        if (screen.width < 600) {
+
+            document.querySelector("#hambMobileMenu").style.display = 'block'
+            document.querySelector("#desktopNavBar").style.display = 'none'
+            
+        }
     })
 
     taskExpandedSave.addEventListener("click", function saveChanges() {
