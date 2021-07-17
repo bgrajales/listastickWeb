@@ -15,15 +15,15 @@ const priority = {
 class Storage {
 
     static storeTodos(todos, users, isLoggedIn) {
-        localStorage.setItem('todos', JSON.stringify(todos))
-        localStorage.setItem('users', JSON.stringify(users))
-        localStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn))
+        sessionStorage.setItem('todos', JSON.stringify(todos))
+        sessionStorage.setItem('users', JSON.stringify(users))
+        sessionStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn))
     }
 
     static getTodos() {
-        todosArr = JSON.parse(localStorage.getItem('todos'))
-        userDataBase = JSON.parse(localStorage.getItem('users'))
-        isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
+        todosArr = JSON.parse(sessionStorage.getItem('todos'))
+        userDataBase = JSON.parse(sessionStorage.getItem('users'))
+        isLoggedIn = JSON.parse(sessionStorage.getItem('isLoggedIn'))
     }
 
     static clearTodos() {
