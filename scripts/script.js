@@ -1,6 +1,10 @@
-var todosArr = []
-var userDataBase = []
-var isLoggedIn = []
+var todosArr = new Array();
+var userDataBase = new Array();
+var isLoggedIn = new Array();
+
+todosArr = []
+userDataBase = []
+isLoggedIn = []
 
 const priority = {
     LOW: 'low',
