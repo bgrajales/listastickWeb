@@ -21,9 +21,24 @@ class Storage {
     }
 
     static getTodos() {
+
         todosArr = JSON.parse(sessionStorage.getItem('todos'))
+
+        if (todosArr == null) {
+            todosArr = []
+        }
+
         userDataBase = JSON.parse(sessionStorage.getItem('users'))
+
+        if (userDataBase == null) {
+            userDataBase = []
+        }
+        
         isLoggedIn = JSON.parse(sessionStorage.getItem('isLoggedIn'))
+
+        if (isLoggedIn == null) {
+            isLoggedIn = []
+        }
     }
 
     static clearTodos() {
