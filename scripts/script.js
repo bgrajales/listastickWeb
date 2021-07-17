@@ -244,7 +244,7 @@ function hideLoader() {
     document.querySelector('#initialLoadDiv').classList.add('d-none')
 }
 
-const numberOfTasksToGenerate = 12;
+const numberOfTasksToGenerate = 0;
 
 function fetchToDos() {
     
