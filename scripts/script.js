@@ -44,10 +44,12 @@ class todoElement {
 }
 
 class user {
-    constructor(email, fullName, password) {
+    constructor(email, fullName, password, pfp, theme) {
         this.email = email
         this.fullName = fullName
         this.password = password
+        this.pfp = pfp
+        this.theme = theme
     }
 }
 var priorityArr = [priority.LOW, priority.MID, priority.HIGH]
@@ -158,7 +160,8 @@ if (registerButton != null) {
         }
         
         if (errorCount === 0) {
-            userDataBase.push(new user(email, fullName, password))
+            userDataBase.push(new user(email, fullName, password, "images/pfp.png", "default"));
+            isLoggedIn= userDataBase.filter(user => user.email === email)
             Storage.storeTodos(todosArr, userDataBase, isLoggedIn)
             window.location.href = "home.html"
         } else {
@@ -271,11 +274,6 @@ function fetchToDos() {
 
 function initialLoad() {
 
-    showLoader()
-
-    Storage.getTodos()
-
-    Storage.storeTodos(todosArr, userDataBase, isLoggedIn)
     Storage.getTodos()
 
     if (todosArr != []) {
@@ -284,12 +282,38 @@ function initialLoad() {
         })
     }
 
-    setTimeout(function() {
-        hideLoader()
-        fetchToDos().then(() =>{
-            renderTodosArr()
-        })
-    }, 800)    
+    if (document.getElementById("homeBody") != null) {
+        showLoader()
+
+        setTimeout(function() {
+            hideLoader()
+            fetchToDos().then(() =>{
+                renderTodosArr()
+            })
+        }, 800)
+    }
+     
+
+    if (isLoggedIn[0].pfp == "images/pfp.png") {
+        document.querySelector("#pfp").setAttribute("src", "images/pfp.png")
+        document.querySelector("#photo").setAttribute("src", "images/pfp.png")
+    } else {
+        document.querySelector("#pfp").setAttribute("src", isLoggedIn[0].pfp)
+        document.querySelector("#photo").setAttribute("src", isLoggedIn[0].pfp)
+    }
+
+    if (isLoggedIn[0].theme == "dark") {
+        document.querySelector("#darkCheck").click()
+        document.documentElement.setAttribute("data-theme", "dark")
+    }
+
+    document.querySelector("#hambMobileMenu").addEventListener("click", function() {
+        if (document.querySelector("#desktopNavBar").style.display == "flex") {
+            document.querySelector("#desktopNavBar").style.display = "none"
+        } else {
+            document.querySelector("#desktopNavBar").style.display = "flex"
+        }
+    })
 
 }
 
@@ -477,6 +501,8 @@ function showExpandedTodoCard(object) {
     const taskExpandedClose = taskExpandClone.querySelector('#backIcon')
     const taskExpandedSave = taskExpandClone.querySelector('#saveChangesIcon')
 
+    document.querySelector("#hambMobileMenu").style.display = 'none'
+    document.querySelector("#desktopNavBar").style.display = 'none'
 
     taskTitleTemplate.innerText = object.title
     if (object.list != "") {
@@ -493,6 +519,8 @@ function showExpandedTodoCard(object) {
     taskExpandedClose.addEventListener("click", () => {
 
         document.querySelector("#backIcon").parentNode.remove()
+        document.querySelector("#hambMobileMenu").style.display = 'block'
+        document.querySelector("#desktopNavBar").style.display = 'none'
 
     })
 
@@ -691,27 +719,63 @@ function changeActiveSel(){
 
 function toggleExpandedProfile() {
 
-    document.getElementById("profileExpandedCard").classList.remove("d-none")
+    if (screen.width < 600) {
+        document.getElementById("profileExpandedCard").classList.remove("d-none")
     
-    const backIcon = document.querySelector(".backIconPfp")
-    const logOut = document.querySelector("#logoutBtn")
+        const backIcon = document.querySelector(".backIconPfp")
+        const logOut = document.querySelector("#logoutBtn")
+    
+        document.getElementById("userName").innerText = isLoggedIn[0].fullName
+        document.getElementById("userEmail").innerText = isLoggedIn[0].email
+    
+    
+        backIcon.addEventListener("click", () =>{
+            document.getElementById("profileExpandedCard").classList.add("d-none")
+            document.querySelector("#hambMobileMenu").style.display = "block"
+            document.querySelector("#desktopNavBar").style.display = "flex"
+        })
+    
+        logOut.addEventListener("click", () =>{
+    
+            isLoggedIn = []
+    
+            window.location.href = "index.html"
+    
+        })
+    
+        document.querySelector("#hambMobileMenu").style.display = "none"
+        document.querySelector("#desktopNavBar").style.display = "none"
 
-    document.getElementById("userName").innerText = isLoggedIn[0].fullName
-    document.getElementById("userEmail").innerText = isLoggedIn[0].email
-
-
-    backIcon.addEventListener("click", () =>{
-        document.getElementById("profileExpandedCard").classList.add("d-none")
-    })
-
-    logOut.addEventListener("click", () =>{
-
-        isLoggedIn = []
-
-        window.location.href = "index.html"
-
-    })
-
+        changePfp()
+    
+        themeSelection()
+    } else {
+        document.getElementById("profileExpandedCard").classList.remove("d-none")
+    
+        const backIcon = document.querySelector(".backIconPfp")
+        const logOut = document.querySelector("#logoutBtn")
+    
+        document.getElementById("userName").innerText = isLoggedIn[0].fullName
+        document.getElementById("userEmail").innerText = isLoggedIn[0].email
+    
+    
+        backIcon.addEventListener("click", () =>{
+            document.getElementById("profileExpandedCard").classList.add("d-none")
+        })
+    
+        logOut.addEventListener("click", () =>{
+    
+            isLoggedIn = []
+    
+            window.location.href = "index.html"
+    
+        })
+    
+        changePfp()
+    
+        themeSelection()
+    
+    }
 
 }
 
@@ -722,5 +786,87 @@ function checkLogIn() {
     if (isLoggedIn.length != 0) {
         window.location.href = "home.html"
     }
+
+}
+
+function changePfp() {
+
+    const imgDiv = document.querySelector(".profilePicDiv")
+    const img = document.querySelector("#photo")
+    const file = document.querySelector("#file")
+    const uploadBtn = document.querySelector("#uploadBtn")
+
+    imgDiv.addEventListener("mouseenter", function() {
+        uploadBtn.style.display = "block"
+    })
+
+    imgDiv.addEventListener("mouseleave", function() {
+        uploadBtn.style.display = "none"
+    })
+
+    file.addEventListener("change", function() {
+        const choosedFile = this.files[0];
+
+        if (choosedFile) {
+            const reader = new FileReader();
+
+            reader.addEventListener("load", function() {
+                img.setAttribute("src", reader.result)
+                console.log(reader.result)
+                document.querySelector("#pfp").setAttribute("src", reader.result)
+                isLoggedIn[0].pfp = reader.result
+
+                userDataBase.forEach(user => {
+                    if (user.email == isLoggedIn[0].email) {
+                        user.pfp = reader.result
+                    }
+                })
+            })
+            
+            reader.readAsDataURL(choosedFile)
+
+        }
+    })
+}
+
+function themeSelection() {
+
+    const lightBtn = document.querySelector("#lightCheck")
+    const darkBtn = document.querySelector("#darkCheck")
+
+    lightBtn.addEventListener("click", (event) => {
+        document.documentElement.setAttribute("data-theme", "default")
+        userDataBase.forEach(user => {
+            if (user.email == isLoggedIn[0].email) {
+                user.theme = "default"
+                isLoggedIn[0].theme = "default"
+             }
+        })
+    })
+
+    darkBtn.addEventListener("click", (event) => {
+        document.documentElement.setAttribute("data-theme", "dark")
+        userDataBase.forEach(user => {
+            if (user.email == isLoggedIn[0].email) {
+                user.theme = "dark"
+                isLoggedIn[0].theme = "dark"
+            }
+        })
+    })
+
+}
+
+if (document.querySelector("#hambLanding") != null) {
+
+    document.querySelector("#hambLanding").addEventListener("click", function(){
+        document.querySelector("#hambDisplay").style.display = "flex"
+        document.querySelector("#closeHambMenu").style.display = "block"
+
+        document.querySelector("#closeHambMenu").addEventListener("click", function() {
+            document.querySelector("#hambDisplay").style.display = "none"
+            document.querySelector("#closeHambMenu").style.display = "none"
+        })
+    })
+
 
 }

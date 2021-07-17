@@ -1,10 +1,29 @@
 @import url('https://fonts.googleapis.com/css2?family=Karla:wght@400;600;700&display=swap');
 
+/*** Light Mode Theme ***/
+:root, [data-theme="default"] {
+    --body-bg-color: #fff;
+    --card-bg-color: #fff;
+    --text-color: #2E4052;
+    --inverted-bg-color: #2E4052;
+    --box-shadow-color: #1212124a;
+    --btn-white-text-color: #fff;
+  }
+  /* Dark Mode Theme */
+[data-theme="dark"] {
+    --body-bg-color: #121212;
+    --card-bg-color: #121212;
+    --text-color: hsl(0, 0%, 70%);
+    --inverted-bg-color: hsl(0, 0%, 5%);
+    --box-shadow-color: #1212124a;
+}
+
+
 body {
     font-family: 'Karla', sans-serif;
     margin: 0;
-    background-color: #fff;
-    color: #2E4052;
+    background-color: var(--body-bg-color);
+    color: var(--text-color);
 }
 
 body {
@@ -131,7 +150,7 @@ input {
     z-index: 1;
     top: 0;
     left: 0;
-    background-color: #2E4052;
+    background-color: var(--inverted-bg-color);
     overflow-x: hidden;
     padding: 50px 0 20px 0;
     display: flex;
@@ -147,7 +166,8 @@ input {
 }
 
 #pfp {
-    width: 65%;
+    width: 60px;
+    height: 60px;
     border-radius: 100%;
     border: 2px solid #449dd1;
 }
@@ -163,12 +183,12 @@ input {
     box-shadow: inset 0px 0px 3px 0px rgb(0 0 0 / 20%);
     border: none;
     border-radius: 10px 0 0 10px;
-    background-color: #ffffff;
+    background-color: var(--card-bg-color);
 }
 
 #searchBtn {
-    width: 15%;
     border-radius: 0 10px 10px 0;
+    background-color: var(--text-color)
 }
 
 #categories {
@@ -226,8 +246,8 @@ input {
     padding: 20px;
     border: solid;
     border-radius: 10px;
-    background: #fff;
-    box-shadow: 0 0 20px 0 #1212124a;
+    background: var(--card-bg-color);
+    box-shadow: 0 0 20px 0 var(--box-shadow-color);
     padding: 20px;
     position: fixed;
     top: 50%;
@@ -305,9 +325,33 @@ input {
     text-align: center;
 }
 
+#file {
+    display: none;
+}
+
+#uploadBtn {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    background:rgb(0, 0, 0, 0.7);
+    color: #fff;
+    line-height: 60px;
+    cursor: pointer;
+    display: none;
+}
+
+.profilePicDiv {
+    position: relative;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
 .expandedTodoCardDiv {
     position: fixed;
-    background-color: #2e4052;
+    background-color: var(--inverted-bg-color);
     z-index: 1000;
     top: 0;
     left: 80px;
@@ -318,11 +362,12 @@ input {
 
 .profilePicExpanded {
     width: 200px;
+    height: 200px;
     border-radius: 100%;
 }
 
 .expandedProfile {
-    background-color: #fff;
+    background-color: var(--card-bg-color);
     border-radius: 10px;
     padding: 20px 40px;
     display: flex;
@@ -342,7 +387,7 @@ input {
 }
 
 .expandedTaskBkg {
-    background-color: #fff;
+    background-color: var(--card-bg-color);
     border-radius: 10px;
     padding: 20px 40px;
     display: flex;
@@ -473,34 +518,28 @@ input {
     border: none;
     width: 20%;
     height: 35px;
-    background-color: #fff;
-    border: 2px solid #2e4052;
-    color: #2E4052;
+    background-color: var(--card-bg-color);
+    border: 2px solid var(--text-color);
+    color: var(--text-color);
     transition: transform 0.3s;
 }
 
 .selectionBtn:hover {
-    background-color: #2e4052;
+    background-color: var(--inverted-bg-color);
     border: none;
-    color: #fff;
+    color: var(--btn-white-text-color);
     transform: scale(1.05)
 }
 
 .activeSelBtn {
-    background-color: #2e4052;
+    background-color: var(--inverted-bg-color);
     border: none;
-    color: #fff;
+    color: var(--btn-white-text-color);
 }
 
-.btnBlack {
-    border-radius: 10px;
-    border: none;
-    color: #FFF;
-    background-color: #449dd1;
-}
 
 .mainContainer {
-    background-color: #ffffff;
+    background-color: var(--card-bg-color);
     margin-left: 80px;
     border-radius: 25px 0 0 0;
 }
@@ -522,4 +561,179 @@ input {
 .container {
     height: 100%;
     padding: 40px 10px;
+}
+
+#hambMobileMenu {
+    display: none;
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    width: 40px;
+    z-index: 2000;
+    cursor: pointer;
+}
+
+@media (max-width: 1240px) {
+
+    #taskSection {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    #statsSec1 {
+        margin: 25px 0;
+    }
+
+    .container {
+        padding: 40px 30px;
+    }
+
+    .expandedTodoCardDiv {
+        width: 60%;
+    }
+
+}
+
+@media (max-width: 1000px) {
+
+    #imageSubDiv {
+        display: none;
+    }
+
+}
+
+@media (max-width: 768px) {
+
+    #taskSection {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    #statsSec1 {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    #welcometextDiv {
+        grid-template-columns: auto;
+        text-align: center;
+        gap: 10px;
+    }
+
+    .selectionBtn {
+        width: 30%;
+    }
+
+    .expandedTodoCardDiv {
+        width: 70%;
+    }
+
+    .container {
+        padding: 40px 40px;
+    }
+
+}
+
+@media (max-width: 600px) {
+
+    h1 {
+        font-size: 1rem;
+        font-weight: bold;
+    }
+
+    p {
+        font-size: 0.8rem;
+    }
+
+    #desktopNavBar{
+        display: none;
+        width: 40px;
+        height: 88vh;
+        border-radius: 100px;
+        top: 10px;
+        margin-left: 10px;
+    }
+
+    #formSubDiv {
+        padding: 25px 15px;
+    }
+
+    #pfp {
+        width: 35px;
+        height: 35px;
+    }
+
+    #taskHoverDiv {
+        right: -15px;
+        bottom: -15px;
+    }
+
+    #hambMobileMenu {
+        display: block;
+    }
+
+    #userEmail {
+        font-size: 1rem;
+    }
+
+    #backIcon {
+        right: 20px;
+    }
+
+    #expandedTaskDivBtns {
+        flex-direction: column;
+    }
+
+    #taskTitleExpanded {
+        font-size: 1.3rem;
+    }
+
+    .expandedTaskBkg {
+        padding: 20px 20px;
+    }
+
+    .backAndTitle {
+        flex-direction: column;
+    }
+
+    .expandedSubTitle, .taskDivText {
+        margin: 0;
+        font-size: 1rem;
+    }
+
+    .expandedTodoCardDiv {
+        padding: 60px 20px 20px 20px !important;
+    }
+
+    .expandedProfile {
+        padding: 20px 20px;
+    }
+
+    .expandedTodoCardDiv {
+        width: 100%;
+        left: 0;
+    }
+
+    .profilePicExpanded {
+        width: 140px;
+        height: 140px;
+    }
+
+    .trashCardIcon {
+        width: 15px;
+    }
+
+    .mainContainer {
+        margin-left: 0;
+    }
+
+    .selectionBtn {
+        font-size: 0.8rem;
+    }
+
+    .taskHoverBtn {
+        width: 30px;
+    }
+
+    .container {
+        padding: 30px 40px;
+    }
 }

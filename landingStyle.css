@@ -76,3 +76,101 @@ footer {
     flex-direction: row;
     gap: 50px;
 }
+
+#mobileBtnDiv {
+    display: none;
+}
+
+#hambLanding {
+    width: 20px;
+}
+
+#hambDisplay {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    background-color: #fff;
+}
+
+#closeHambMenu {
+    width: 10px;
+    position: fixed;
+    z-index: 2000;
+    display: none;
+}
+
+.secondaryHeaderBtn {
+    height: 40px;
+    width: 100%
+}
+
+@media (max-width: 1000px) {
+    header {
+        margin: 30px 0 30px 0;
+    }
+
+    header img, footer img {
+        width: 120px;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    p {
+        font-size: 1rem;
+    }
+
+    section {
+        margin: 0 0 30px 0 !important;
+    }
+
+    footer {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    #mobileBtnDiv {
+        display: block;
+    }
+
+    #headerBtnsDiv {
+        display: none;
+    }
+
+    #socialDiv img {
+        width: 30px;
+    }
+
+    #socialDiv {
+        gap: 10px;
+    }
+
+    .section2 img {
+        width: 100%
+    }
+
+    .section1 {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .section3 {
+        flex-direction: column;
+    }
+
+    .section3 img {
+        width: 100%;
+    }
+
+    .images {
+        width: 100%;
+    }
+}
