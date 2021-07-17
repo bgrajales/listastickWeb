@@ -63,12 +63,11 @@
             <div class="smallInput">
               <div class="smallInputDiv">
                 <label for="taskPriorityInput">Priority</label>
-                <input list="priorities" name="taskPriorityInput" id="taskPriorityInput">
-                <datalist id="priorities">
-                  <option value="High">
-                  <option value="Medium">
-                  <option value="Low">
-                </datalist>
+                <select class="form-select" id="taskPriorityInput" aria-label="Default select example">
+                  <option value="1" select>Low</option>
+                  <option value="2">Medium</option>
+                  <option value="3">High</option>
+                </select>
               </div>
               <div class="smallInputDiv">
                 <label for="taskDeadlineInput">Deadline</label>

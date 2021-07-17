@@ -579,6 +579,10 @@ input {
         grid-template-columns: repeat(2, 1fr);
     }
 
+    #addTaskContainer {
+        width: 50%;
+    }
+
     #statsSec1 {
         margin: 25px 0;
     }
@@ -618,6 +622,10 @@ input {
         gap: 10px;
     }
 
+    #addTaskContainer {
+        width: 60%;
+    }
+
     .selectionBtn {
         width: 30%;
     }
@@ -641,6 +649,10 @@ input {
 
     p {
         font-size: 0.8rem;
+    }
+
+    #addTaskContainer {
+        width: 90%;
     }
 
     #desktopNavBar{

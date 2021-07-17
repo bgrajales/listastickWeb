@@ -7,9 +7,9 @@ userDataBase = []
 isLoggedIn = []
 
 const priority = {
-    LOW: 'low',
-    MID: 'mid',
-    HIGH: 'high'
+    LOW: 'Low',
+    MID: 'Medium',
+    HIGH: 'High'
 }
 
 class Storage {
@@ -613,7 +613,7 @@ function addNewTask() {
     }
     
     todosArr.push(new todoElement(currentIndex, true, document.getElementById('taskTitleInput').value, document.getElementById('taskDescInput').value, 
-    false, document.getElementById('taskPriorityInput').value, document.getElementById('taskDeadlineInput').value.replace(/-/g, '\/'), document.getElementById('taskListInput').value))
+    false, document.querySelector("#taskPriorityInput").selectedOptions[0].label, document.getElementById('taskDeadlineInput').value.replace(/-/g, '\/'), document.getElementById('taskListInput').value))
 
     let addTaskContainer = document.querySelector("#addTaskContainer")
 
@@ -621,7 +621,7 @@ function addNewTask() {
 
     document.querySelector("#taskTitleInput").value = ""
     document.querySelector("#taskListInput").value = ""
-    document.querySelector("#taskPriorityInput"). value = ""
+    document.querySelector("#taskPriorityInput").value = ""
     document.querySelector("#taskDeadlineInput").value = ""
     document.querySelector("#taskDescInput").value = ""
 
