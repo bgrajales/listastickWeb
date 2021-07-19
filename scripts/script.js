@@ -200,7 +200,7 @@ if (registerButton != null) {
         }
         
         if (errorCount === 0) {
-            userDataBase.push(new user(email, fullName, password, "images/pfp.png", "default", "No Tasks"));
+            userDataBase.push(new user(email, fullName, password, "images/pfp.png", "default", []));
             isLoggedIn= userDataBase.filter(user => user.email === email)
             Storage.storeTodos(userDataBase, isLoggedIn)
             window.location.href = "home.html"
@@ -350,13 +350,6 @@ function initialLoad() {
         document.documentElement.setAttribute("data-theme", "dark")
     }
 
-    document.querySelector("#hambMobileMenu").addEventListener("click", function() {
-        if (document.querySelector("#desktopNavBar").style.display == "flex") {
-            document.querySelector("#desktopNavBar").style.display = "none"
-        } else {
-            document.querySelector("#desktopNavBar").style.display = "flex"
-        }
-    })
 
 }
 
@@ -544,13 +537,6 @@ function showExpandedTodoCard(object) {
     const taskExpandedClose = taskExpandClone.querySelector('#backIcon')
     const taskExpandedSave = taskExpandClone.querySelector('#saveChangesIcon')
 
-    if (screen.width < 600) {
-
-        document.querySelector("#hambMobileMenu").style.display = 'none'
-        document.querySelector("#desktopNavBar").style.display = 'none'
-
-    }
-
     taskTitleTemplate.innerText = object.title
     if (object.list != "") {
         taskListTemplate.innerText = object.list[0].toUpperCase() + object.list.slice(1)
@@ -567,12 +553,6 @@ function showExpandedTodoCard(object) {
 
         document.querySelector("#backIcon").parentNode.remove()
 
-        if (screen.width < 600) {
-
-            document.querySelector("#hambMobileMenu").style.display = 'block'
-            document.querySelector("#desktopNavBar").style.display = 'none'
-            
-        }
     })
 
     taskExpandedSave.addEventListener("click", function saveChanges() {
@@ -779,13 +759,6 @@ function toggleExpandedProfile() {
         document.getElementById("userName").innerText = isLoggedIn[0].fullName
         document.getElementById("userEmail").innerText = isLoggedIn[0].email
     
-    
-        backIcon.addEventListener("click", () =>{
-            document.getElementById("profileExpandedCard").classList.add("d-none")
-            document.querySelector("#hambMobileMenu").style.display = "block"
-            document.querySelector("#desktopNavBar").style.display = "flex"
-        })
-    
         logOut.addEventListener("click", function(){
             const pos = userDataBase.map(function(e) { return e.email; }).indexOf(isLoggedIn[0].email);
         
@@ -799,9 +772,6 @@ function toggleExpandedProfile() {
 
             window.location.href = "index.html"
         })
-
-        document.querySelector("#hambMobileMenu").style.display = "none"
-        document.querySelector("#desktopNavBar").style.display = "none"
 
         changePfp()
     

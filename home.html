@@ -12,15 +12,14 @@
     <title>Listastick</title>
   </head>
   <body id="homeBody" onunload="Storage.storeTodos(userDataBase, isLoggedIn)" onload="initialLoad()">
-    <img id="hambMobileMenu" src="icons/hambMenu.svg">
-    
+
     <nav id="desktopNavBar">
       <div id="navBarDesktopButtons">
         <img id="addTaskMain" class="navDeskIcon" src="icons/circlePlusIcon.svg" alt="">
         <img class="navDeskIcon" src="icons/homeIcon.svg" alt="">
         <a href="stats.html"><img class="navDeskIcon" src="icons/statsIcon.svg" alt=""></a>
       </div>
-      <div style="text-align: center;">
+      <div id="profileDivNavBar" style="text-align: center;">
         <img onclick="toggleExpandedProfile()" id="pfp" src="images/pfp.png" alt="">
       </div>
     </nav>

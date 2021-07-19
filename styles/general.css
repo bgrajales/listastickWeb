@@ -642,6 +642,10 @@ input {
 
 @media (max-width: 600px) {
 
+    body {
+        margin-bottom: 75px;
+    }
+    
     h1 {
         font-size: 1rem;
         font-weight: bold;
@@ -656,12 +660,22 @@ input {
     }
 
     #desktopNavBar{
-        display: none;
-        width: 40px;
-        height: 88vh;
-        border-radius: 100px;
-        top: 10px;
-        margin-left: 10px;
+        height: auto;
+        width: 100%;
+        bottom: 0;
+        top: auto;
+        flex-direction: row-reverse;
+        padding: 20px 0;
+    }
+
+    #profileDivNavBar {
+        flex: 1;
+    }
+
+    #navBarDesktopButtons {
+        flex-direction: row-reverse;
+        flex: 3;
+        justify-content: space-around;
     }
 
     #formSubDiv {

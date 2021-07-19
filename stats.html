@@ -12,7 +12,6 @@
     <title>Listastick</title>
   </head>
   <body id="statsBody" onunload="Storage.storeTodos(userDataBase, isLoggedIn)" onload="initialLoad()">
-    <img id="hambMobileMenu" src="icons/hambMenu.svg">
 
     <nav id="desktopNavBar">
       <div id="navBarDesktopButtons">
@@ -20,7 +19,7 @@
         <a href="home.html"><img class="navDeskIcon" src="icons/homeIcon.svg" alt=""></a>
         <img class="navDeskIcon" src="icons/statsIcon.svg" alt="">
       </div>
-      <div style="text-align: center;">
+      <div id="profileDivNavBar" style="text-align: center;">
         <img onclick="toggleExpandedProfile()" id="pfp" src="images/pfp.png" alt="">
       </div>
     </nav>
