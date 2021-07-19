@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="landingStyle.css">
 
 </head>
-<body onunload="Storage.storeTodos(todosArr, userDataBase, isLoggedIn)" onload="checkLogIn()">
+<body id="indexBody" onunload="Storage.storeTodos(userDataBase, isLoggedIn)" onload="checkLogIn()">
 
     <header class="container">
         <img src="images/headerLogo.svg" alt="">

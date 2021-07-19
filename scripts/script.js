@@ -1,10 +1,14 @@
-var todosArr = new Array();
-var userDataBase = new Array();
-var isLoggedIn = new Array();
+if (todosArr == null) {
+    var todosArr = []
+}
 
-todosArr = []
-userDataBase = []
-isLoggedIn = []
+if (isLoggedIn == null) {
+    var isLoggedIn = []
+}
+
+if (userDataBase == null) {
+    var userDataBase = []
+}
 
 const priority = {
     LOW: 'Low',
@@ -14,31 +18,48 @@ const priority = {
 
 class Storage {
 
-    static storeTodos(todos, users, isLoggedIn) {
-        localStorage.setItem('todos', JSON.stringify(todos))
+    static storeTodos(users, isLoggedIn) {
+
+        if (isLoggedIn.length != 0) {
+            const locIndex = document.getElementById("indexBody") 
+            const locLogin = document.getElementById("bodyLoginRegister")
+
+            const pos = userDataBase.map(function(e) { return e.email; }).indexOf(isLoggedIn[0].email);
+        
+            if ((locIndex == null) && (locLogin == null)) {
+                userDataBase[pos].tasks = todosArr
+            }
+            
+        }
+
         localStorage.setItem('users', JSON.stringify(users))
         localStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn))
     }
 
     static getTodos() {
 
-        todosArr = JSON.parse(localStorage.getItem('todos'))
-
-        if (todosArr == null) {
-            todosArr = []
-        }
-
         userDataBase = JSON.parse(localStorage.getItem('users'))
-
-        if (userDataBase == null) {
-            userDataBase = []
-        }
 
         isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
 
         if (isLoggedIn == null) {
             isLoggedIn = []
         }
+
+        if (userDataBase == null) {
+            userDataBase = []
+        }
+        
+        if (isLoggedIn.length > 0) {
+            const pos = userDataBase.map(function(e) { return e.email; }).indexOf(isLoggedIn[0].email)
+
+            todosArr = userDataBase[pos].tasks
+        }
+
+        if (todosArr == null) {
+            todosArr = []
+        }
+
     }
 
     static clearTodos() {
@@ -63,12 +84,13 @@ class todoElement {
 }
 
 class user {
-    constructor(email, fullName, password, pfp, theme) {
+    constructor(email, fullName, password, pfp, theme, tasks) {
         this.email = email
         this.fullName = fullName
         this.password = password
         this.pfp = pfp
         this.theme = theme
+        this.tasks = tasks
     }
 }
 var priorityArr = [priority.LOW, priority.MID, priority.HIGH]
@@ -79,20 +101,19 @@ const loginButton = document.getElementById("login-form-submit");
 const loginErrorMsg = document.getElementById("login-error-msg");
 
 if (loginButton != null) {
-    
+  
     loginButton.addEventListener("click", (action) => {
+
         action.preventDefault();
 
         const mail = document.getElementById("mail").value
         const password = document.getElementById("password").value
         
         const user = userDataBase.filter(user => user.email === mail) 
-        
-        console.log(user)
 
         if ((user.length != 0) && password === user[0].password) {
             isLoggedIn = user
-            Storage.storeTodos(todosArr, userDataBase, isLoggedIn)
+            Storage.storeTodos(userDataBase, isLoggedIn)
             window.location.href = "home.html"
         } else if (user.length != 0) {
             loginErrorMsg.style.display = "block";
@@ -101,7 +122,7 @@ if (loginButton != null) {
             loginErrorMsg.style.display = "block";
             loginErrorMsg.innerHTML = "Error: User does not exist" 
         }
-   
+
     })
 
     var input1 = document.getElementById("password");
@@ -179,9 +200,9 @@ if (registerButton != null) {
         }
         
         if (errorCount === 0) {
-            userDataBase.push(new user(email, fullName, password, "images/pfp.png", "default"));
+            userDataBase.push(new user(email, fullName, password, "images/pfp.png", "default", "No Tasks"));
             isLoggedIn= userDataBase.filter(user => user.email === email)
-            Storage.storeTodos(todosArr, userDataBase, isLoggedIn)
+            Storage.storeTodos(userDataBase, isLoggedIn)
             window.location.href = "home.html"
         } else {
             registerErrorMsg.style.display = "block"; 
@@ -263,7 +284,7 @@ function hideLoader() {
     document.querySelector('#initialLoadDiv').classList.add('d-none')
 }
 
-const numberOfTasksToGenerate = 0;
+const numberOfTasksToGenerate = 6;
 
 function fetchToDos() {
     
@@ -311,7 +332,10 @@ function initialLoad() {
             })
         }, 800)
     }
-     
+
+    if (document.getElementById("statsBody") != null) {
+        statsPageSetup()
+    }
 
     if (isLoggedIn[0].pfp == "images/pfp.png") {
         document.querySelector("#pfp").setAttribute("src", "images/pfp.png")
@@ -630,7 +654,7 @@ function addNewTask() {
 
 function hideCompleted() {
 
-    Storage.storeTodos(todosArr, userDataBase, isLoggedIn)
+    Storage.storeTodos(userDataBase, isLoggedIn)
     Storage.getTodos()
 
     let currentTab
@@ -693,7 +717,7 @@ function filterMyDay() {
 
     document.querySelector("#hideCompletedBtn").innerText = 'Hide Completed'
 
-    Storage.storeTodos(todosArr, userDataBase, isLoggedIn)
+    Storage.storeTodos(userDataBase, isLoggedIn)
     Storage.getTodos()
 
     let today = new Date()
@@ -762,14 +786,20 @@ function toggleExpandedProfile() {
             document.querySelector("#desktopNavBar").style.display = "flex"
         })
     
-        logOut.addEventListener("click", () =>{
-    
+        logOut.addEventListener("click", function(){
+            const pos = userDataBase.map(function(e) { return e.email; }).indexOf(isLoggedIn[0].email);
+        
+            userDataBase[pos].tasks = todosArr
+        
+            localStorage.setItem('users', JSON.stringify(userDataBase))
+        
             isLoggedIn = []
-    
+        
+            localStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn))
+
             window.location.href = "index.html"
-    
         })
-    
+
         document.querySelector("#hambMobileMenu").style.display = "none"
         document.querySelector("#desktopNavBar").style.display = "none"
 
@@ -790,14 +820,20 @@ function toggleExpandedProfile() {
             document.getElementById("profileExpandedCard").classList.add("d-none")
         })
     
-        logOut.addEventListener("click", () =>{
-    
+        logOut.addEventListener("click", function(){
+            const pos = userDataBase.map(function(e) { return e.email; }).indexOf(isLoggedIn[0].email);
+        
+            userDataBase[pos].tasks = todosArr
+        
+            localStorage.setItem('users', JSON.stringify(userDataBase))
+        
             isLoggedIn = []
-    
+        
+            localStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn))
+
             window.location.href = "index.html"
-    
         })
-    
+
         changePfp()
     
         themeSelection()
@@ -895,5 +931,91 @@ if (document.querySelector("#hambLanding") != null) {
         })
     })
 
+
+}
+
+function statsPageSetup() {
+    
+    var ctx1 = document.getElementById('taskCompletedChart').getContext('2d');
+
+    let completed = todosArr.filter(task => task.completed == true).length
+    let pending = todosArr.length - completed
+
+    var myChart1 = new Chart(ctx1, {
+    type: 'doughnut',
+    data: {
+        labels: ['Pending Tasks', 'Completed'],
+        datasets: [{
+            label: '# Tasks',
+            data: [pending, completed],
+            backgroundColor: [
+                'rgba(0, 0, 0, 1)',
+                'rgba(54, 162, 235, 1)',
+            ],
+        }]
+        },
+        options: {
+          responsive: false,
+        },
+    });
+
+    var ctx2 = document.getElementById('taskPriorityChart').getContext('2d');
+    
+    let high = todosArr.filter(task => task.priority == "high").length
+    let mid = todosArr.filter(task => task.priority == "mid").length
+    let low = todosArr.length - high - mid
+
+    console.log(high, mid, low)
+    var myChart2 = new Chart(ctx2, {
+    type: 'doughnut',
+    data: {
+        labels: ['High', 'Medium', 'Low'],
+        datasets: [{
+            label: '# Tasks',
+            data: [high, mid, low],
+            backgroundColor: [
+                'rgba(176, 0, 0, 1)',
+                'rgba(255, 200, 0, 1)',
+                'rgba(52, 207, 90, 1)',
+            ],
+        }]
+        },
+        options: {
+          responsive: false,
+        },
+    });
+
+    document.getElementById("numberOfTasks").innerText = todosArr.length;
+
+    const upcomingTaskDiv = document.getElementById("upcomingTask")
+    const upcomTaskTemplate = document.getElementById("taskCardTemplate")
+
+    upcomingTaskDiv.innerHTML = "<h1 class='chartsTitle'>Next Up Task</h1>"
+
+    const upcomTaskClone = upcomTaskTemplate.content.cloneNode(true)
+
+    const taskCloneCardElement = upcomTaskClone.querySelector(".taskCard")
+    const taskCloneImportanceIndicator = upcomTaskClone.querySelector(".importanceIndicator")
+    const taskCloneTitle = upcomTaskClone.querySelector(".taskTitle")
+    const taskCloneList = upcomTaskClone.querySelector(".taskList")
+    const taskCloneDate = upcomTaskClone.querySelector(".taskDate")
+    const taskCloneDesc = upcomTaskClone.querySelector(".taskDesc")
+    const taskCloneActions = upcomTaskClone.querySelector("#taskHoverDiv")
+
+    if (!todosArr[0].completed) {
+        taskCloneImportanceIndicator.classList.add(
+            getTodoImportance(todosArr[0].priority)
+        )
+    } else {
+        taskCloneImportanceIndicator.classList.add("completedDot")
+    }
+    taskCloneList.innerText = 'Task List: ' + todosArr[0].list
+
+    taskCloneDate.innerText = 'Due Date: ' + new Date(todosArr[0].dueDate).toDateString()
+    taskCloneTitle.innerText = todosArr[0].title
+
+    taskCloneDesc.innerText = todosArr[0].content
+
+    upcomingTaskDiv.appendChild(upcomTaskClone)
 
 }

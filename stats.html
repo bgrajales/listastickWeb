@@ -11,7 +11,7 @@
 
     <title>Listastick</title>
   </head>
-  <body onunload="Storage.storeTodos(todosArr, userDataBase, isLoggedIn)" onload="initialLoad()">
+  <body id="statsBody" onunload="Storage.storeTodos(userDataBase, isLoggedIn)" onload="initialLoad()">
     <img id="hambMobileMenu" src="icons/hambMenu.svg">
 
     <nav id="desktopNavBar">
@@ -133,91 +133,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
     <script src="scripts/script.js"></script>
-    <script>
-      var ctx1 = document.getElementById('taskCompletedChart').getContext('2d');
 
-      Storage.getTodos()
-
-      let completed = todosArr.filter(task => task.completed == true).length
-      let pending = todosArr.length - completed
-
-      var myChart1 = new Chart(ctx1, {
-      type: 'doughnut',
-      data: {
-          labels: ['Pending Tasks', 'Completed'],
-          datasets: [{
-              label: '# Tasks',
-              data: [pending, completed],
-              backgroundColor: [
-                  'rgba(0, 0, 0, 1)',
-                  'rgba(54, 162, 235, 1)',
-              ],
-          }]
-          },
-          options: {
-            responsive: false,
-          },
-      });
-
-      var ctx2 = document.getElementById('taskPriorityChart').getContext('2d');
-      
-      let high = todosArr.filter(task => task.priority == "high").length
-      let mid = todosArr.filter(task => task.priority == "mid").length
-      let low = todosArr.length - high - mid
-
-      console.log(high, mid, low)
-      var myChart2 = new Chart(ctx2, {
-      type: 'doughnut',
-      data: {
-          labels: ['High', 'Medium', 'Low'],
-          datasets: [{
-              label: '# Tasks',
-              data: [high, mid, low],
-              backgroundColor: [
-                  'rgba(176, 0, 0, 1)',
-                  'rgba(255, 200, 0, 1)',
-                  'rgba(52, 207, 90, 1)',
-              ],
-          }]
-          },
-          options: {
-            responsive: false,
-          },
-      });
-
-      document.getElementById("numberOfTasks").innerText = todosArr.length;
-
-      const upcomingTaskDiv = document.getElementById("upcomingTask")
-      const upcomTaskTemplate = document.getElementById("taskCardTemplate")
-
-      upcomingTaskDiv.innerHTML = "<h1 class='chartsTitle'>Next Up Task</h1>"
-
-      const upcomTaskClone = upcomTaskTemplate.content.cloneNode(true)
-
-      const taskCloneCardElement = upcomTaskClone.querySelector(".taskCard")
-      const taskCloneImportanceIndicator = upcomTaskClone.querySelector(".importanceIndicator")
-      const taskCloneTitle = upcomTaskClone.querySelector(".taskTitle")
-      const taskCloneList = upcomTaskClone.querySelector(".taskList")
-      const taskCloneDate = upcomTaskClone.querySelector(".taskDate")
-      const taskCloneDesc = upcomTaskClone.querySelector(".taskDesc")
-      const taskCloneActions = upcomTaskClone.querySelector("#taskHoverDiv")
-
-      if (!todosArr[0].completed) {
-          taskCloneImportanceIndicator.classList.add(
-              getTodoImportance(todosArr[0].priority)
-          )
-      } else {
-          taskCloneImportanceIndicator.classList.add("completedDot")
-      }
-      taskCloneList.innerText = 'Task List: ' + todosArr[0].list
-
-      taskCloneDate.innerText = 'Due Date: ' + new Date(todosArr[0].dueDate).toDateString()
-      taskCloneTitle.innerText = todosArr[0].title
-
-      taskCloneDesc.innerText = todosArr[0].content
-
-      upcomingTaskDiv.appendChild(upcomTaskClone)
-
-    </script>
   </body>
 </html>
