@@ -350,6 +350,9 @@ function initialLoad() {
         document.documentElement.setAttribute("data-theme", "dark")
     }
 
+    if (document.getElementById("homeBody") != null) {
+        document.getElementById("dropdownMenuButton1").innerText = "Todos"
+    }
 
 }
 
@@ -682,11 +685,13 @@ function hideCompleted() {
     if (document.querySelector("#hideCompletedBtn").innerText == 'Show Completed') {
 
         document.querySelector("#hideCompletedBtn").innerText = 'Hide Completed'
-    
+        document.querySelector("#hideCompletedMobile").innerText = 'Hide Completed'
+
     } else {
     
         document.querySelector("#hideCompletedBtn").innerText = 'Show Completed'
-    
+        document.querySelector("#hideCompletedMobile").innerText = 'Show Completed'
+
     }
 
     renderTodosArr()
@@ -738,6 +743,8 @@ function filterMyDay() {
         document.getElementById("taskSection").innerHTML = "<h1 id='noTaskText'>No task for today :)</h1>"
         
     }
+
+    document.getElementById("dropdownMenuButton1").innerText = "My Day"
 
 }
 

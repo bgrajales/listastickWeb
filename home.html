@@ -45,6 +45,17 @@
             <button id="myDayBtn" class="selectionBtn" onclick="filterMyDay()">My Day</button>
             <button id="hideCompletedBtn" class="selectionBtn" onclick="hideCompleted()">Hide Completed</button>
           </div>
+
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+              Todos
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+              <li><a class="dropdown-item" onclick="initialLoad()">Todos</a></li>
+              <li><a class="dropdown-item" onclick="filterMyDay()">My Day</a></li>
+              <li><a id="hideCompletedMobile" class="dropdown-item" onclick="hideCompleted()">Hide Completed</a></li>
+            </ul>
+          </div>
           
          
           <div id="taskSection">
