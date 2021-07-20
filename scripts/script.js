@@ -10,6 +10,10 @@ if (userDataBase == null) {
     var userDataBase = []
 }
 
+if (categoriesArr == null) {
+    var categoriesArr = ["Study", "FullStack", "Work"]
+}
+
 const priority = {
     LOW: 'Low',
     MID: 'Medium',
@@ -821,11 +825,11 @@ function toggleExpandedProfile() {
 
 function checkLogIn() {
 
-    Storage.getTodos()
+    //Storage.getTodos()
 
-    if (isLoggedIn.length != 0) {
-        window.location.href = "home.html"
-    }
+   // if (isLoggedIn.length != 0) {
+  //      window.location.href = "home.html"
+  //  }
 
 }
 
@@ -933,16 +937,16 @@ function statsPageSetup() {
         },
         options: {
           responsive: false,
+          borderColor: 'rgba(54, 162, 235, 0)',
         },
     });
 
     var ctx2 = document.getElementById('taskPriorityChart').getContext('2d');
     
-    let high = todosArr.filter(task => task.priority == "high").length
-    let mid = todosArr.filter(task => task.priority == "mid").length
+    let high = todosArr.filter(task => task.priority == "High").length
+    let mid = todosArr.filter(task => task.priority == "Medium").length
     let low = todosArr.length - high - mid
 
-    console.log(high, mid, low)
     var myChart2 = new Chart(ctx2, {
     type: 'doughnut',
     data: {
@@ -959,6 +963,7 @@ function statsPageSetup() {
         },
         options: {
           responsive: false,
+          borderColor: 'rgba(54, 162, 235, 0)',
         },
     });
 
@@ -995,4 +1000,44 @@ function statsPageSetup() {
 
     upcomingTaskDiv.appendChild(upcomTaskClone)
 
+}
+
+function listExpanded() {
+
+    const lisElTemplate = document.getElementById("listElementTemplate")    
+    const categoriesList = document.querySelector("#categUL")
+    
+    if (categoriesList != null) {
+        categoriesList.innerHTML = ""
+    }
+
+    document.querySelector("#expandedCategList").classList.remove("d-none")
+
+    document.querySelector("#backListIcon").addEventListener("click", function() {
+        document.querySelector("#backListIcon").parentNode.classList.add("d-none")
+    })
+
+    if (categoriesArr.length == 0) {
+        document.querySelector("#categListDiv").innerHTML = "<h4>No categories added yet</h4>"
+    } else {
+        for (let listIndex = 0; listIndex < categoriesArr.length; listIndex++) {
+
+            const lisElClone = lisElTemplate.content.cloneNode(true)
+
+            const liEl = lisElClone.querySelector("p")
+            const liDel = lisElClone.querySelector(".trashIcon")
+
+            liEl.innerText = categoriesArr[listIndex] + liEl.innerText
+
+            console.log(lisElClone)
+
+            liDel.addEventListener("click", () => {
+                categoriesArr.splice(listIndex, 1)
+                listExpanded()
+            })
+
+            categoriesList.append(lisElClone)
+
+        }
+    }
 }

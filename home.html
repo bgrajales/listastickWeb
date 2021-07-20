@@ -18,6 +18,7 @@
         <img id="addTaskMain" class="navDeskIcon" src="icons/circlePlusIcon.svg" alt="">
         <img class="navDeskIcon" src="icons/homeIcon.svg" alt="">
         <a href="stats.html"><img class="navDeskIcon" src="icons/statsIcon.svg" alt=""></a>
+        <img class="navDeskIcon" onclick="listExpanded()" src="icons/listIcon.svg" alt="">
       </div>
       <div id="profileDivNavBar" style="text-align: center;">
         <img onclick="toggleExpandedProfile()" id="pfp" src="images/pfp.png" alt="">
@@ -147,6 +148,28 @@
       </div>
     </div>
     
+    <div id="expandedCategList" class="expandedTodoCardDiv d-none">
+      <img id="backListIcon" src="icons/backIcon.svg" alt="">
+      <div class="expandedListBkg">
+        <h1>Categories</h1>
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Search" aria-label="Recipient's username" aria-describedby="button-addon2">
+          <button id="searchList" class="btn btn-outline-secondary" type="button" id="button-addon2"><img style="width: 25px;" src="icons/searchIcon.svg" alt=""></button>
+        </div>
+        <div id="categListDiv">
+          <ul id="categUL">
+            <li><p>List A</p><img class="trashIcon" src="icons/trashIcon.svg" alt=""></li>
+
+          </ul>
+        </div>
+      </div>
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="New Category" aria-label="Recipient's username" aria-describedby="button-addon2">
+        <button id="addNewListBtn" class="btn btn-outline-secondary" type="button" id="button-addon2">Add New</button>
+      </div>
+    </div>
+
+
     <template id="expandedTaskTemplate">
         <div class="expandedTodoCardDiv">
           <img id="backIcon" src="icons/backIcon.svg" alt="">
@@ -187,6 +210,10 @@
           <img class="taskHoverBtn viewTodo" src="icons/seeMoreIcon.svg" alt="">
         </div>
       </div>
+    </template>
+
+    <template id="listElementTemplate">
+      <li><p></p><img class="trashIcon" src="icons/trashIcon.svg" alt=""></li>
     </template>
 
     <!-- Fakerjs -->
