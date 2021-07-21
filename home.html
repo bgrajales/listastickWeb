@@ -64,14 +64,21 @@
             
           </div>
 
-          <div id="addTaskContainer">
-            <img id="closeAddTask" src="icons/crossIcon.svg" alt="">
-            <label for="taskTitleInput">Task title</label>
-            <input type="text" name="taskTitleInput" id="taskTitleInput">
-            <label for="taskListInput">List</label>
-            <input type="text" name="taskListInput" id="taskListInput">
+          <div id="addTaskContainer" class="expandedTodoCardDiv d-none">
+            <div class="expandedAddTask">
 
-            <div class="smallInput">
+              <img id="closeAddTask" src="icons/crossIcon.svg" alt="">
+
+              <label for="taskTitleInput">Task title</label>
+              <input type="text" name="taskTitleInput" id="taskTitleInput">
+            
+              <div class="smallInputDiv">
+                <label for="taskListInput">List</label>
+                <select class="form-select" id="taskListInput" aria-label="Default select example">
+                  
+                </select>
+              </div>
+
               <div class="smallInputDiv">
                 <label for="taskPriorityInput">Priority</label>
                 <select class="form-select" id="taskPriorityInput" aria-label="Default select example">
@@ -80,17 +87,19 @@
                   <option value="3">High</option>
                 </select>
               </div>
+
               <div class="smallInputDiv">
                 <label for="taskDeadlineInput">Deadline</label>
                 <input type="date" name="taskDeadlineInput" id="taskDeadlineInput">
               </div>
-            </div>
 
-            <label for="taskDescInput">Description</label>
-            <textarea name="taskDescInput" id="taskDescInput"></textarea>
+              <label for="taskDescInput">Description</label>
+              <textarea name="taskDescInput" id="taskDescInput"></textarea>
 
-            <div id="taskAddBtnSec">
-              <button id="saveTaskBtn" class="btn btn-success">Add Task</button>
+              <div id="taskAddBtnSec">
+                <button id="saveTaskBtn" class="btn btn-success" onclick="addNewTask()">Add Task</button>
+              </div>
+
             </div>
           </div>
 
@@ -158,17 +167,17 @@
         </div>
         <div id="categListDiv">
           <ul id="categUL">
-            <li><p>List A</p><img class="trashIcon" src="icons/trashIcon.svg" alt=""></li>
 
           </ul>
         </div>
       </div>
       <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="New Category" aria-label="Recipient's username" aria-describedby="button-addon2">
-        <button id="addNewListBtn" class="btn btn-outline-secondary" type="button" id="button-addon2">Add New</button>
+        <input id="addNewListInput" type="text" class="form-control" placeholder="New Category" aria-label="Recipient's username" aria-describedby="button-addon2">
+        <button id="addNewListBtn" class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="addNewListAction()">Add New</button>
       </div>
     </div>
 
+  <!-- Templates -->
 
     <template id="expandedTaskTemplate">
         <div class="expandedTodoCardDiv">

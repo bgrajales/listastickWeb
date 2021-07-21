@@ -1,18 +1,8 @@
-if (todosArr == null) {
-    var todosArr = []
-}
+var todosArr = []
+var isLoggedIn = []
+var userDataBase = []
+var categoriesArr = ["General"]
 
-if (isLoggedIn == null) {
-    var isLoggedIn = []
-}
-
-if (userDataBase == null) {
-    var userDataBase = []
-}
-
-if (categoriesArr == null) {
-    var categoriesArr = ["Study", "FullStack", "Work"]
-}
 
 const priority = {
     LOW: 'Low',
@@ -32,19 +22,20 @@ class Storage {
         
             if ((locIndex == null) && (locLogin == null)) {
                 userDataBase[pos].tasks = todosArr
+                userDataBase[pos].listgroup = categoriesArr
             }
             
         }
 
-        localStorage.setItem('users', JSON.stringify(users))
-        localStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn))
+        sessionStorage.setItem('users', JSON.stringify(users))
+        sessionStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn))
     }
 
     static getTodos() {
 
-        userDataBase = JSON.parse(localStorage.getItem('users'))
+        userDataBase = JSON.parse(sessionStorage.getItem('users'))
 
-        isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
+        isLoggedIn = JSON.parse(sessionStorage.getItem('isLoggedIn'))
 
         if (isLoggedIn == null) {
             isLoggedIn = []
@@ -58,15 +49,17 @@ class Storage {
             const pos = userDataBase.map(function(e) { return e.email; }).indexOf(isLoggedIn[0].email)
 
             todosArr = userDataBase[pos].tasks
+
+            if (userDataBase[pos].listgroup.length == 0) {
+                categoriesArr = ["General"]
+            } else {
+                categoriesArr = userDataBase[pos].listgroup
+            }
         }
 
         if (todosArr == null) {
             todosArr = []
         }
-
-    }
-
-    static clearTodos() {
 
     }
 
@@ -88,15 +81,17 @@ class todoElement {
 }
 
 class user {
-    constructor(email, fullName, password, pfp, theme, tasks) {
+    constructor(email, fullName, password, pfp, theme, tasks, listgroup) {
         this.email = email
         this.fullName = fullName
         this.password = password
         this.pfp = pfp
         this.theme = theme
         this.tasks = tasks
+        this.listgroup = listgroup
     }
 }
+
 var priorityArr = [priority.LOW, priority.MID, priority.HIGH]
 
 // Login function
@@ -204,7 +199,7 @@ if (registerButton != null) {
         }
         
         if (errorCount === 0) {
-            userDataBase.push(new user(email, fullName, password, "images/pfp.png", "default", []));
+            userDataBase.push(new user(email, fullName, password, "images/pfp.png", "default", [], []));
             isLoggedIn= userDataBase.filter(user => user.email === email)
             Storage.storeTodos(userDataBase, isLoggedIn)
             window.location.href = "home.html"
@@ -288,7 +283,7 @@ function hideLoader() {
     document.querySelector('#initialLoadDiv').classList.add('d-none')
 }
 
-const numberOfTasksToGenerate = 6;
+const numberOfTasksToGenerate = 0;
 
 function fetchToDos() {
     
@@ -372,7 +367,7 @@ function renderTodosArr() {
         for (let todosIndex = 0; todosIndex < todosArr.length; todosIndex++) {
             if (todosArr[todosIndex].shouldDisplay) {
                     
-                const taskCardClone = taskCardTemplate.content.cloneNode(true)
+                const taskCardClone = taskCardTemplates.content.cloneNode(true)
 
                 const taskCloneCardElement = taskCardClone.querySelector(".taskCard")
                 const taskCloneImportanceIndicator = taskCardClone.querySelector(".importanceIndicator")
@@ -419,6 +414,7 @@ function renderTodosArr() {
                 if (todosArr[todosIndex].completed) {
                     taskCloneTitle.classList.add("text-decoration-line-through")
                 }
+
                 taskCloneTitle.innerText = todosArr[todosIndex].title
 
                 taskCloneDesc.innerText = todosArr[todosIndex].content
@@ -458,8 +454,6 @@ function applySearchFilter() {
 
     let currentTab
     currentTab = document.querySelector(".activeSelBtn").innerText
-
-    console.log(keywords)
 
     if (!keywords) {
 
@@ -581,31 +575,29 @@ function showExpandedTodoCard(object) {
 
 if (document.querySelector("#addTaskMain")) {
 
-    let addTask
+    let addTask = document.querySelector("#addTaskMain")
     let addTaskContainer = document.querySelector("#addTaskContainer")
     let closeTaskContainer = document.querySelector("#closeAddTask")
     let saveTaskBtn = document.querySelector("#saveTaskBtn")
+    let userLists = document.querySelector("#taskListInput")
 
-    addTask = document.querySelector("#addTaskMain")
-    
     addTask.addEventListener("click", () => {
 
-        addTaskContainer.style.display = "flex"
+        userLists.innerHTML = ""
+        
+        for (let listIndex = 0; listIndex < categoriesArr.length; listIndex++) {
+            let elem = '<option value="' + listIndex + '">' + categoriesArr[listIndex] + '</option>'
+            userLists.innerHTML = userLists.innerHTML + elem;
+        }
+
+        addTaskContainer.classList.remove("d-none")
 
         closeTaskContainer.addEventListener("click", () =>{
-            addTaskContainer.style.display = "none"
+            addTaskContainer.classList.add("d-none")
 
             document.querySelector("#taskTitleInput").value = ""
-            document.querySelector("#taskListInput").value = ""
-            document.querySelector("#taskPriorityInput"). value = ""
             document.querySelector("#taskDeadlineInput").value = ""
             document.querySelector("#taskDescInput").value = ""
-
-        })
-
-        saveTaskBtn.addEventListener("click", () =>{
-
-            addNewTask()
 
         })
 
@@ -615,28 +607,35 @@ if (document.querySelector("#addTaskMain")) {
 
 function addNewTask() {
 
-    let currentIndex
+    if ( document.getElementById('taskTitleInput').value !== "" ) {
+            
+        let currentIndex
 
-    if (todosArr.length == 0) {
-        currentIndex = 1
-    } else {
-        currentIndex = todosArr[todosArr.length-1].index + 1
+        if (todosArr.length == 0) {
+            currentIndex = 1
+        } else {
+            currentIndex = todosArr.length - 1
+        }
+        
+        todosArr.push(new todoElement(currentIndex, 
+            true, 
+            document.getElementById('taskTitleInput').value, 
+            document.getElementById('taskDescInput').value, 
+            false, 
+            document.querySelector("#taskPriorityInput").selectedOptions[0].label, 
+            document.getElementById('taskDeadlineInput').value.replace(/-/g, '\/'), 
+            document.querySelector("#taskListInput").selectedOptions[0].label))
+
+        let addTaskContainer = document.querySelector("#addTaskContainer")
+
+        addTaskContainer.classList.add("d-none")
+
+        document.querySelector("#taskTitleInput").value = ""
+        document.querySelector("#taskDeadlineInput").value = ""
+        document.querySelector("#taskDescInput").value = ""
+
+        renderTodosArr()
     }
-    
-    todosArr.push(new todoElement(currentIndex, true, document.getElementById('taskTitleInput').value, document.getElementById('taskDescInput').value, 
-    false, document.querySelector("#taskPriorityInput").selectedOptions[0].label, document.getElementById('taskDeadlineInput').value.replace(/-/g, '\/'), document.getElementById('taskListInput').value))
-
-    let addTaskContainer = document.querySelector("#addTaskContainer")
-
-    addTaskContainer.style.display = "none"
-
-    document.querySelector("#taskTitleInput").value = ""
-    document.querySelector("#taskListInput").value = ""
-    document.querySelector("#taskPriorityInput").value = ""
-    document.querySelector("#taskDeadlineInput").value = ""
-    document.querySelector("#taskDescInput").value = ""
-
-    renderTodosArr()
 }
 
 function hideCompleted() {
@@ -673,7 +672,6 @@ function hideCompleted() {
             switch (currentTab) {
 
                 case "Todos":
-                    console.log(currentTab)
                     todo.shouldDisplay = true
                     break;
                 case "My Day":
@@ -735,8 +733,6 @@ function filterMyDay() {
 
     })
 
-    console.log(numberOfTask)
-
     document.querySelector(".activeSelBtn").classList.remove("activeSelBtn")
     document.querySelector("#myDayBtn").classList.add("activeSelBtn")
 
@@ -775,11 +771,11 @@ function toggleExpandedProfile() {
         
             userDataBase[pos].tasks = todosArr
         
-            localStorage.setItem('users', JSON.stringify(userDataBase))
+            sessionStorage.setItem('users', JSON.stringify(userDataBase))
         
             isLoggedIn = []
         
-            localStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn))
+            sessionStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn))
 
             window.location.href = "index.html"
         })
@@ -806,11 +802,11 @@ function toggleExpandedProfile() {
         
             userDataBase[pos].tasks = todosArr
         
-            localStorage.setItem('users', JSON.stringify(userDataBase))
+            sessionStorage.setItem('users', JSON.stringify(userDataBase))
         
             isLoggedIn = []
         
-            localStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn))
+            sessionStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn))
 
             window.location.href = "index.html"
         })
@@ -825,11 +821,11 @@ function toggleExpandedProfile() {
 
 function checkLogIn() {
 
-    //Storage.getTodos()
+   // Storage.getTodos()
 
-   // if (isLoggedIn.length != 0) {
-  //      window.location.href = "home.html"
-  //  }
+   //if (isLoggedIn.length != 0) {
+   //     window.location.href = "home.html"
+   //}
 
 }
 
@@ -856,7 +852,6 @@ function changePfp() {
 
             reader.addEventListener("load", function() {
                 img.setAttribute("src", reader.result)
-                console.log(reader.result)
                 document.querySelector("#pfp").setAttribute("src", reader.result)
                 isLoggedIn[0].pfp = reader.result
 
@@ -1004,7 +999,10 @@ function statsPageSetup() {
 
 function listExpanded() {
 
-    const lisElTemplate = document.getElementById("listElementTemplate")    
+    const lisElTemplate = document.getElementById("listElementTemplate")
+
+    document.getElementById("categListDiv").innerHTML = '<ul id="categUL"></ul>'  
+
     const categoriesList = document.querySelector("#categUL")
     
     if (categoriesList != null) {
@@ -1015,6 +1013,7 @@ function listExpanded() {
 
     document.querySelector("#backListIcon").addEventListener("click", function() {
         document.querySelector("#backListIcon").parentNode.classList.add("d-none")
+        Storage.storeTodos(userDataBase, isLoggedIn)
     })
 
     if (categoriesArr.length == 0) {
@@ -1029,15 +1028,48 @@ function listExpanded() {
 
             liEl.innerText = categoriesArr[listIndex] + liEl.innerText
 
-            console.log(lisElClone)
-
             liDel.addEventListener("click", () => {
+                todosArr.forEach(element =>{
+                    if (element.list == categoriesArr[listIndex]) {
+                        element.list = "No List"
+                    }
+                })
+                
                 categoriesArr.splice(listIndex, 1)
+                
                 listExpanded()
+                renderTodosArr()
             })
 
             categoriesList.append(lisElClone)
 
         }
     }
+
+    const newListInput = document.getElementById("addNewListInput")
+    
+    newListInput.addEventListener("keyup", function(event) {
+
+        if (event.keyCode === 13) {
+
+            event.preventDefault();
+
+            document.getElementById("addNewListBtn").click();
+    }
+    })
+}
+
+function addNewListAction() {
+
+    const newList = document.getElementById("addNewListInput").value
+
+    if (newList !== "") {
+        
+        categoriesArr.push(newList)
+
+        document.getElementById("addNewListInput").value = ""
+
+        listExpanded()
+    }
+
 }

@@ -271,22 +271,7 @@ li p {
 }
 
 #addTaskContainer {
-    display: none;
-    flex-direction: column;
-    gap: 10px;
-    border: solid;
-    border-radius: 10px;
-    padding: 20px;
-    border: solid;
-    border-radius: 10px;
-    background: var(--theme-background-color);
-    box-shadow: 0 0 20px 0 var(--theme-background-color);
-    padding: 20px;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 30%;
+    justify-content: center;
 }
 
 #taskAddBtnSec {
@@ -427,6 +412,16 @@ li p {
     height: 100%;
     align-items: center;
     justify-content: space-evenly;
+}
+
+.expandedAddTask {
+    background-color: var(--theme-background-color);
+    border-radius: 10px;
+    padding: 20px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    position: relative;
 }
 
 .profilePfpAndData {
@@ -650,10 +645,6 @@ li p {
         padding: 0;
     }
 
-    #addTaskContainer {
-        width: 50%;
-    }
-
     #statsSec1 {
         margin: 25px 0;
     }
@@ -693,10 +684,6 @@ li p {
         gap: 10px;
     }
 
-    #addTaskContainer {
-        width: 60%;
-    }
-
     .selectionBtn {
         width: 30%;
     }
@@ -728,10 +715,6 @@ li p {
 
     #dropdownMenuButton1 {
         display: block;
-    }
-
-    #addTaskContainer {
-        width: 90%;
     }
 
     #categories {
