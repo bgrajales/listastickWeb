@@ -283,7 +283,7 @@ function hideLoader() {
     document.querySelector('#initialLoadDiv').classList.add('d-none')
 }
 
-const numberOfTasksToGenerate = 0;
+const numberOfTasksToGenerate = 6
 
 function fetchToDos() {
     
@@ -578,10 +578,44 @@ if (document.querySelector("#addTaskMain")) {
     let addTask = document.querySelector("#addTaskMain")
     let addTaskContainer = document.querySelector("#addTaskContainer")
     let closeTaskContainer = document.querySelector("#closeAddTask")
-    let saveTaskBtn = document.querySelector("#saveTaskBtn")
     let userLists = document.querySelector("#taskListInput")
 
     addTask.addEventListener("click", () => {
+
+        if (screen.width < 600) {
+            addTaskContainer.classList.remove("d-none")
+            addTaskContainer.classList.remove("animate__slideOutDown")
+            addTaskContainer.classList.add("animate__slideInUp")
+        
+            closeTaskContainer.addEventListener("click", () =>{
+                addTaskContainer.classList.remove("animate__slideInUp")
+                addTaskContainer.classList.add("animate__slideOutDown")
+
+            setTimeout(function(){ addTaskContainer.classList.add("d-none"); }, 300);
+
+                document.querySelector("#taskTitleInput").value = ""
+                document.querySelector("#taskDeadlineInput").value = ""
+                document.querySelector("#taskDescInput").value = ""
+            })
+        } else {
+            addTaskContainer.classList.remove("d-none")
+            addTaskContainer.classList.remove("animate__slideOutLeft")
+            addTaskContainer.classList.add("animate__slideInLeft")
+
+            closeTaskContainer.addEventListener("click", () =>{
+
+                addTaskContainer.classList.remove("animate__slideInLeft")
+                addTaskContainer.classList.add("animate__slideOutLeft")
+    
+                setTimeout(function(){ addTaskContainer.classList.add("d-none"); }, 300);
+    
+    
+                document.querySelector("#taskTitleInput").value = ""
+                document.querySelector("#taskDeadlineInput").value = ""
+                document.querySelector("#taskDescInput").value = ""
+    
+            })
+        }
 
         userLists.innerHTML = ""
         
@@ -589,17 +623,6 @@ if (document.querySelector("#addTaskMain")) {
             let elem = '<option value="' + listIndex + '">' + categoriesArr[listIndex] + '</option>'
             userLists.innerHTML = userLists.innerHTML + elem;
         }
-
-        addTaskContainer.classList.remove("d-none")
-
-        closeTaskContainer.addEventListener("click", () =>{
-            addTaskContainer.classList.add("d-none")
-
-            document.querySelector("#taskTitleInput").value = ""
-            document.querySelector("#taskDeadlineInput").value = ""
-            document.querySelector("#taskDescInput").value = ""
-
-        })
 
     })
 
@@ -759,10 +782,20 @@ function toggleExpandedProfile() {
 
     if (screen.width < 600) {
         document.getElementById("profileExpandedCard").classList.remove("d-none")
-    
+        document.getElementById("profileExpandedCard").classList.remove("animate__slideOutDown")
+        document.getElementById("profileExpandedCard").classList.add("animate__slideInUp")
+
         const backIcon = document.querySelector(".backIconPfp")
-        const logOut = document.querySelector("#logoutBtn")
     
+        backIcon.addEventListener("click", () =>{
+            document.getElementById("profileExpandedCard").classList.remove("animate__slideInUp")
+            document.getElementById("profileExpandedCard").classList.add("animate__slideOutDown")
+
+            setTimeout(function(){ document.getElementById("profileExpandedCard").classList.add("d-none"); }, 300);
+        })
+
+        const logOut = document.querySelector("#logoutBtn")
+
         document.getElementById("userName").innerText = isLoggedIn[0].fullName
         document.getElementById("userEmail").innerText = isLoggedIn[0].email
     
@@ -785,7 +818,9 @@ function toggleExpandedProfile() {
         themeSelection()
     } else {
         document.getElementById("profileExpandedCard").classList.remove("d-none")
-    
+        document.getElementById("profileExpandedCard").classList.remove("animate__slideOutLeft")
+        document.getElementById("profileExpandedCard").classList.add("animate__slideInLeft")
+
         const backIcon = document.querySelector(".backIconPfp")
         const logOut = document.querySelector("#logoutBtn")
     
@@ -794,7 +829,11 @@ function toggleExpandedProfile() {
     
     
         backIcon.addEventListener("click", () =>{
-            document.getElementById("profileExpandedCard").classList.add("d-none")
+            document.getElementById("profileExpandedCard").classList.remove("animate__slideInLeft")
+            document.getElementById("profileExpandedCard").classList.add("animate__slideOutLeft")
+
+            setTimeout(function(){ document.getElementById("profileExpandedCard").classList.add("d-none"); }, 300);
+
         })
     
         logOut.addEventListener("click", function(){
@@ -1009,12 +1048,34 @@ function listExpanded() {
         categoriesList.innerHTML = ""
     }
 
-    document.querySelector("#expandedCategList").classList.remove("d-none")
+    if (screen.width < 600) {
+        document.querySelector("#expandedCategList").classList.remove("d-none")
+        document.querySelector("#expandedCategList").classList.remove("animate__slideOutDown")
+        document.querySelector("#expandedCategList").classList.add("animate__slideInUp")
 
-    document.querySelector("#backListIcon").addEventListener("click", function() {
-        document.querySelector("#backListIcon").parentNode.classList.add("d-none")
-        Storage.storeTodos(userDataBase, isLoggedIn)
-    })
+        document.querySelector("#backListIcon").addEventListener("click", function() {
+            document.querySelector("#expandedCategList").classList.remove("animate__slideInUp")
+            document.querySelector("#expandedCategList").classList.add("animate__slideOutDown")
+
+            setTimeout(function(){ document.querySelector("#expandedCategList").classList.add("d-none"); }, 300);
+
+            Storage.storeTodos(userDataBase, isLoggedIn)
+        })
+    } else {
+        document.querySelector("#expandedCategList").classList.remove("d-none")
+        document.querySelector("#expandedCategList").classList.remove("animate__slideOutLeft")
+        document.querySelector("#expandedCategList").classList.add("animate__slideInLeft")
+
+        document.querySelector("#backListIcon").addEventListener("click", function() {
+            document.querySelector("#expandedCategList").classList.remove("animate__slideInLeft")
+            document.querySelector("#expandedCategList").classList.add("animate__slideOutLeft")
+
+            setTimeout(function(){ document.querySelector("#expandedCategList").classList.add("d-none"); }, 300);
+
+            Storage.storeTodos(userDataBase, isLoggedIn)
+        })
+    }
+    
 
     if (categoriesArr.length == 0) {
         document.querySelector("#categListDiv").innerHTML = "<h4>No categories added yet</h4>"
