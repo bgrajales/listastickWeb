@@ -45,9 +45,8 @@ class Storage {
             userDataBase = []
         }
         
-        if (isLoggedIn.length > 0) {
+        if (isLoggedIn.length == 1) {
             const pos = userDataBase.map(function(e) { return e.email; }).indexOf(isLoggedIn[0].email)
-
             todosArr = userDataBase[pos].tasks
 
             if (userDataBase[pos].listgroup.length == 0) {
@@ -346,7 +345,12 @@ function initialLoad() {
 
     if (isLoggedIn[0].theme == "dark") {
         document.querySelector("#darkCheck").click()
+        
+        document.querySelectorAll(".trashCardIcon").forEach(element => {element.src = "icons/trashIconWhite.svg"})
+        document.querySelectorAll(".trashIcon").forEach(element => {element.src = "icons/trashIconWhite.svg"})
+
         document.documentElement.setAttribute("data-theme", "dark")
+        
     }
 
     if (document.getElementById("homeBody") != null) {
@@ -356,6 +360,9 @@ function initialLoad() {
 }
 
 function renderTodosArr() {
+
+    Storage.storeTodos(userDataBase, isLoggedIn)
+    Storage.getTodos()
 
     const taskCardContainer = document.getElementById("taskSection")
     const taskCardTemplates = document.getElementById("taskCardTemplate")
@@ -394,12 +401,19 @@ function renderTodosArr() {
                 })
 
                 taskCloneViewTodo.addEventListener("click", () =>{
-                    showExpandedTodoCard(todosArr[todosIndex])
+                    showExpandedTodoCard(todosArr[todosIndex], todosIndex)
                 })
 
                 taskCloneTrashIcon.addEventListener("click", () =>{
-                    todosArr.splice(todosIndex, 1)
-                    renderTodosArr()
+                    Swal.fire({
+                        template: '#aboutToDeleteTask'
+                    }).then(result => {
+                        if (result.isConfirmed) {
+                            todosArr.splice(todosIndex, 1)
+                            renderTodosArr()
+                        }
+                    })
+                    
                 })
 
                 if (!todosArr[todosIndex].completed) {
@@ -523,7 +537,7 @@ function applySearchFilter() {
 
 // Show todo expanded card
 
-function showExpandedTodoCard(object) {
+function showExpandedTodoCard(object, todosIndex) {
 
     const bodyElement = document.querySelector("body")
     const expandedTaskTemplate = document.getElementById("expandedTaskTemplate")
@@ -537,6 +551,8 @@ function showExpandedTodoCard(object) {
     const taskDescTemplate = taskExpandClone.querySelector('#taskDescriptionExpanded')
     const taskExpandedClose = taskExpandClone.querySelector('#backIcon')
     const taskExpandedSave = taskExpandClone.querySelector('#saveChangesIcon')
+    const taskMarkComplete = taskExpandClone.querySelector("#markCompletedBtn")
+    const deleteTaskBtn = taskExpandClone.querySelector("#deleteTaskBtn")
 
     taskTitleTemplate.innerText = object.title
     if (object.list != "") {
@@ -556,6 +572,24 @@ function showExpandedTodoCard(object) {
 
     })
 
+    taskMarkComplete.addEventListener("click", () => {
+        todosArr[todosIndex].completed = !todosArr[todosIndex].completed
+        document.querySelector("#backIcon").parentNode.remove()
+        renderTodosArr()
+    })
+
+    deleteTaskBtn.addEventListener("click", () => {
+        Swal.fire({
+            template: '#aboutToDeleteTask'
+        }).then(result => {
+            if (result.isConfirmed) {
+                todosArr.splice(todosIndex, 1)
+                document.querySelector("#backIcon").parentNode.remove()
+                renderTodosArr()
+            }
+        })
+    })
+
     taskExpandedSave.addEventListener("click", function saveChanges() {
         
             let newTitle = document.querySelector("#taskTitleExpanded").innerHTML
@@ -568,6 +602,8 @@ function showExpandedTodoCard(object) {
 
             renderTodosArr()
     })
+
+
 
     bodyElement.prepend(taskExpandClone)
 
@@ -924,6 +960,9 @@ function themeSelection() {
 
     darkBtn.addEventListener("click", (event) => {
         document.documentElement.setAttribute("data-theme", "dark")
+        document.querySelectorAll(".trashCardIcon").forEach(element => {element.src = "icons/trashIconWhite.svg"})
+        document.querySelectorAll(".trashIcon").forEach(element => {element.src = "icons/trashIconWhite.svg"})
+
         userDataBase.forEach(user => {
             if (user.email == isLoggedIn[0].email) {
                 user.theme = "dark"
@@ -1090,16 +1129,23 @@ function listExpanded() {
             liEl.innerText = categoriesArr[listIndex] + liEl.innerText
 
             liDel.addEventListener("click", () => {
-                todosArr.forEach(element =>{
-                    if (element.list == categoriesArr[listIndex]) {
-                        element.list = "No List"
+                Swal.fire({
+                    template: "#deleteListTemplate"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        todosArr.forEach(element =>{
+                            if (element.list == categoriesArr[listIndex]) {
+                                element.list = "No List"
+                            }
+                        })
+                        
+                        categoriesArr.splice(listIndex, 1)
+                        
+                        listExpanded()
+                        renderTodosArr()
                     }
                 })
-                
-                categoriesArr.splice(listIndex, 1)
-                
-                listExpanded()
-                renderTodosArr()
+
             })
 
             categoriesList.append(lisElClone)
