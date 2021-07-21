@@ -688,6 +688,14 @@ li p {
         gap: 10px;
     }
 
+    #addTaskContainer {
+        justify-content: flex-start;
+    }
+
+    #backIcon, #backListIcon {
+        right: 20px;
+    }
+
     .selectionBtn {
         width: 30%;
     }
@@ -798,6 +806,7 @@ li p {
 
     .expandedProfile {
         padding: 20px 20px;
+        margin: 0 0 75px 0;
     }
 
     .expandedTodoCardDiv {
