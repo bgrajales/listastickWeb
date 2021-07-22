@@ -12,22 +12,23 @@
     <link rel="icon" href="icons/logoBlue.svg">
 
 </head>
-<body id="indexBody" onunload="Storage.storeTodos(userDataBase, isLoggedIn)" onload="checkLogIn()">
+<body id="indexBody" onunload="Storage.storeTodos(userDataBase, isLoggedIn), storeleng()" onload="checkLogIn()">
 
     <header class="container">
         <img src="images/headerLogo.svg" alt="">
         <div id="headerBtnsDiv">
-            <button class="secondaryHeaderBtn">Features</button>
-            <button class="secondaryHeaderBtn">Feedback</button>
-            <a href="login.html"><button class="btn btn-primary">Login</button></a>
+            <button id="lenguageBtn" class="secondaryHeaderBtn">Lenguage</button>
+            <button id="featuresBtn" class="secondaryHeaderBtn">Features</button>
+            <button id="feedbackBtn" class="secondaryHeaderBtn">Feedback</button>
+            <a href="login.html"><button id="loginIndexBtn" class="btn btn-primary">Login</button></a>
         </div>
         <div id="mobileBtnDiv">
             <img id="closeHambMenu" src="icons/backIconBlack.svg" alt="">
             <img id="hambLanding" src="icons/hambLanding.svg">
             <div id="hambDisplay">
-                <button class="secondaryHeaderBtn">Features</button>
-                <button class="secondaryHeaderBtn">Feedback</button>
-                <a class="secondaryHeaderBtn" href="login.html"><button class="secondaryHeaderBtn">Login</button></a>
+                <button id="featuresBtnHamb" class="secondaryHeaderBtn">Features</button>
+                <button id="feedbackBtnHamb" class="secondaryHeaderBtn">Feedback</button>
+                <a class="secondaryHeaderBtn" href="login.html"><button id="loginIndexBtnHamb" class="secondaryHeaderBtn">Login</button></a>
             </div>
         </div>
     </header>
@@ -35,7 +36,7 @@
     <div class="container">
         <section class="section1">
 
-            <h1>The organizing tool your life  always needed</h1>
+            <h1 id="indexText1">The organizing tool your life  always needed</h1>
             <div>
                 <img class="images" src="images/taskDemonstrationImage.svg" alt="">
             </div>
@@ -47,8 +48,8 @@
             <div>
                 <img class="images2" src="images/devicesImage.png" alt="">
             </div>
-            <h1>Wherever you need it</h1>
-            <p>Listastick is a multi platform tool design to help you orginize 
+            <h1 id="indexText2">Wherever you need it</h1>
+            <p id="indexText3">Listastick is a multi platform tool design to help you orginize 
                 your life across multiple platforms, integrating each device in a seemless way</p>
 
         </section>
@@ -72,7 +73,7 @@
                 <img class="images" src="images/startNowImage.png" alt="">
             </div>
             <div>
-                <h1>Start your organized journey today</h1>
+                <h1 id="indexText4">Start your organized journey today!</h1>
                 <a href="register.html"><button id="startNowBtn" class="btn btn-primary">Get Started</button></a>
             </div>
         </section>
@@ -89,6 +90,9 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="scripts/lenguage.js"></script>
     <script src="scripts/script.js"></script>
 </body>
 </html>
