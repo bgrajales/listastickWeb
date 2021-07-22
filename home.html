@@ -45,7 +45,6 @@
           <div id="categories">
             <button id="generalTodosBtn" class="selectionBtn activeSelBtn" onclick="initialLoad(), changeActiveSel()">Todos</button>
             <button id="myDayBtn" class="selectionBtn" onclick="filterMyDay()">My Day</button>
-            <button id="hideCompletedBtn" class="selectionBtn" onclick="hideCompleted()">Hide Completed</button>
           </div>
 
           <div class="dropdown">
@@ -55,7 +54,6 @@
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
               <li><a class="dropdown-item" onclick="initialLoad()">Todos</a></li>
               <li><a class="dropdown-item" onclick="filterMyDay()">My Day</a></li>
-              <li><a id="hideCompletedMobile" class="dropdown-item" onclick="hideCompleted()">Hide Completed</a></li>
             </ul>
           </div>
           
@@ -64,25 +62,41 @@
             
             
           </div>
-
+          
+          <nav id="pagesNavigation" class="d-none" aria-label="Page navigation example">
+            <ul class="pagination">
+              <li id="previousPage" class="page-item">
+                <a class="page-link" aria-label="Previous" onclick="previousPageOfArray()">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+             
+              <li id="nextPage" class="page-item" onclick="nextPageOfArray()">
+                <a class="page-link" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+          
           <div id="addTaskContainer" class="expandedTodoCardDiv d-none animate__animated">
             <div class="expandedAddTask">
 
               <img id="closeAddTask" src="icons/crossIcon.svg" alt="">
 
               <label for="taskTitleInput">Task title</label>
-              <input type="text" name="taskTitleInput" id="taskTitleInput">
+              <input class="addTaskInputStyle" type="text" name="taskTitleInput" id="taskTitleInput">
             
               <div class="smallInputDiv">
                 <label for="taskListInput">List</label>
-                <select class="form-select" id="taskListInput" aria-label="Default select example">
+                <select class="form-select addTaskInputStyle" id="taskListInput" aria-label="Default select example">
                   
                 </select>
               </div>
 
               <div class="smallInputDiv">
                 <label for="taskPriorityInput">Priority</label>
-                <select class="form-select" id="taskPriorityInput" aria-label="Default select example">
+                <select class="form-select addTaskInputStyle" id="taskPriorityInput" aria-label="Default select example">
                   <option value="1" select>Low</option>
                   <option value="2">Medium</option>
                   <option value="3">High</option>
@@ -91,11 +105,11 @@
 
               <div class="smallInputDiv">
                 <label for="taskDeadlineInput">Deadline</label>
-                <input type="date" name="taskDeadlineInput" id="taskDeadlineInput">
+                <input class="addTaskInputStyle" type="date" name="taskDeadlineInput" id="taskDeadlineInput">
               </div>
 
               <label for="taskDescInput">Description</label>
-              <textarea name="taskDescInput" id="taskDescInput"></textarea>
+              <textarea class="addTaskInputStyle" name="taskDescInput" id="taskDescInput"></textarea>
 
               <div id="taskAddBtnSec">
                 <button id="saveTaskBtn" class="btn btn-success" onclick="addNewTask()">Add Task</button>
@@ -249,7 +263,7 @@
       </swal-title>
       <swal-icon type="warning" color="red"></swal-icon>
       <swal-button type="confirm">
-        yes, delete
+        Yes, delete
       </swal-button>
       <swal-button type="cancel">
         Cancel

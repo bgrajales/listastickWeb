@@ -282,7 +282,7 @@ function hideLoader() {
     document.querySelector('#initialLoadDiv').classList.add('d-none')
 }
 
-const numberOfTasksToGenerate = 6
+const numberOfTasksToGenerate = 22
 
 function fetchToDos() {
     
@@ -293,7 +293,7 @@ function fetchToDos() {
                     
                 for (let index = 0; index < numberOfTasksToGenerate; index++) {
 
-                    todosArr.push(new todoElement(index + 1, true, faker.commerce.productName(), 
+                    todosArr.push(new todoElement(index + 1, true, "task "+ (index+1), 
                     faker.commerce.productDescription(), faker.datatype.boolean(), 
                     priorityArr[Math.floor(Math.random() * priorityArr.length)], new Date(faker.date.future()), 
                     "list"))
@@ -302,6 +302,24 @@ function fetchToDos() {
 
                 resolve()
             } else {
+                Storage.getTodos()
+
+                if (todosArr != []) {
+                    if (todosArr.length <= 9) {
+                        todosArr.forEach(todo => {
+                            todo.shouldDisplay = true;
+                        })
+                    } else {
+                        for (let q = 0; q < 9; q++){
+                            todosArr[q].shouldDisplay = true
+                        }
+
+                        for (let p = 9; p < todosArr.length; p++) {
+                            todosArr[p].shouldDisplay = false
+                        }
+                    }
+                    
+                }
                 resolve()
             }
 
@@ -314,21 +332,28 @@ function initialLoad() {
 
     Storage.getTodos()
 
-    if (todosArr != []) {
-        todosArr.forEach(todo => {
-            todo.shouldDisplay = true;
-        })
-    }
-
     if (document.getElementById("homeBody") != null) {
         showLoader()
 
         setTimeout(function() {
             hideLoader()
+
             fetchToDos().then(() =>{
                 renderTodosArr()
+                
+                if (isLoggedIn[0].theme == "dark") {
+                    document.querySelectorAll(".trashCardIcon").forEach(element => element.src = "icons/trashIconWhite.svg")
+                }
+
+                if (todosArr.length > 9) {
+
+                    document.getElementById("pagesNavigation").classList.remove("d-none")
+
+                }
             })
         }, 800)
+
+        
     }
 
     if (document.getElementById("statsBody") != null) {
@@ -345,9 +370,6 @@ function initialLoad() {
 
     if (isLoggedIn[0].theme == "dark") {
         document.querySelector("#darkCheck").click()
-        
-        document.querySelectorAll(".trashCardIcon").forEach(element => {element.src = "icons/trashIconWhite.svg"})
-        document.querySelectorAll(".trashIcon").forEach(element => {element.src = "icons/trashIconWhite.svg"})
 
         document.documentElement.setAttribute("data-theme", "dark")
         
@@ -409,7 +431,17 @@ function renderTodosArr() {
                         template: '#aboutToDeleteTask'
                     }).then(result => {
                         if (result.isConfirmed) {
+                            for (let index = todosIndex; index < todosArr.length; index++) {
+                            
+                                if (todosArr[index].shouldDisplay == false && todosArr[index-1].shouldDisplay == true) {
+                                    todosArr[index].shouldDisplay = true
+                                    break;
+                                }
+                                
+                            }
+
                             todosArr.splice(todosIndex, 1)
+                            
                             renderTodosArr()
                         }
                     })
@@ -743,25 +775,13 @@ function hideCompleted() {
         
     })
 
-    if (document.querySelector("#hideCompletedBtn").innerText == 'Show Completed') {
-
-        document.querySelector("#hideCompletedBtn").innerText = 'Hide Completed'
-        document.querySelector("#hideCompletedMobile").innerText = 'Hide Completed'
-
-    } else {
-    
-        document.querySelector("#hideCompletedBtn").innerText = 'Show Completed'
-        document.querySelector("#hideCompletedMobile").innerText = 'Show Completed'
-
-    }
-
     renderTodosArr()
 
 }
 
 function filterMyDay() {
 
-    document.querySelector("#hideCompletedBtn").innerText = 'Hide Completed'
+    document.querySelector("#pagesNavigation").classList.add("d-none")
 
     Storage.storeTodos(userDataBase, isLoggedIn)
     Storage.getTodos()
@@ -808,8 +828,6 @@ function filterMyDay() {
 }
 
 function changeActiveSel(){
-    document.querySelector("#hideCompletedBtn").innerText = 'Hide Completed'
-
     document.querySelector(".activeSelBtn").classList.remove("activeSelBtn")
     document.querySelector("#generalTodosBtn").classList.add("activeSelBtn")
 }
@@ -950,6 +968,8 @@ function themeSelection() {
 
     lightBtn.addEventListener("click", (event) => {
         document.documentElement.setAttribute("data-theme", "default")
+        document.querySelectorAll(".trashCardIcon").forEach(element => {element.src = "icons/trashIcon.svg"})
+
         userDataBase.forEach(user => {
             if (user.email == isLoggedIn[0].email) {
                 user.theme = "default"
@@ -961,7 +981,6 @@ function themeSelection() {
     darkBtn.addEventListener("click", (event) => {
         document.documentElement.setAttribute("data-theme", "dark")
         document.querySelectorAll(".trashCardIcon").forEach(element => {element.src = "icons/trashIconWhite.svg"})
-        document.querySelectorAll(".trashIcon").forEach(element => {element.src = "icons/trashIconWhite.svg"})
 
         userDataBase.forEach(user => {
             if (user.email == isLoggedIn[0].email) {
@@ -1150,6 +1169,10 @@ function listExpanded() {
 
             categoriesList.append(lisElClone)
 
+            if (isLoggedIn[0].theme === "dark") {
+                document.querySelectorAll(".trashIcon").forEach(element => element.src = "icons/trashIconWhite.svg")
+            }
+
         }
     }
 
@@ -1179,4 +1202,70 @@ function addNewListAction() {
         listExpanded()
     }
 
+}
+
+function nextPageOfArray() {
+
+    if (!todosArr[todosArr.length-1].shouldDisplay) {
+        let lastDisplayIndex = 0
+
+        for (let iteration = 1; iteration < todosArr.length-1; iteration++) {
+            if (todosArr[iteration].shouldDisplay == true && todosArr[iteration+1].shouldDisplay == false) {
+                lastDisplayIndex = iteration
+            }
+        }
+
+        for (let q = 0; q <= lastDisplayIndex; q++){
+            todosArr[q].shouldDisplay = false
+        }
+
+        let firstToDisplay = lastDisplayIndex + 1
+        let LastToDisplay = firstToDisplay + 9
+
+        while (firstToDisplay < LastToDisplay) {
+            if (firstToDisplay < todosArr.length) {
+                todosArr[firstToDisplay].shouldDisplay = true
+            }
+
+            firstToDisplay++
+        }
+
+        renderTodosArr()
+    }
+    
+}
+
+function previousPageOfArray() {
+
+    if (!todosArr[0].shouldDisplay) {
+        let firstDisplayIndex = 0
+
+        for (let iteration = 1; iteration < todosArr.length; iteration++) {
+            console.log(todosArr[iteration])
+            if (todosArr[iteration-1].shouldDisplay == false && todosArr[iteration].shouldDisplay == true) {
+                firstDisplayIndex = iteration
+            }
+        }
+
+        let index = firstDisplayIndex
+        console.log(index)
+
+        while (index < firstDisplayIndex + 9) {
+            if (index < todosArr.length) {
+                todosArr[index].shouldDisplay = false
+            }
+
+            index++
+        }
+
+        let firstToDisplay = firstDisplayIndex - 9
+        
+        while (firstToDisplay < firstDisplayIndex) {
+            todosArr[firstToDisplay].shouldDisplay = true
+            firstToDisplay++
+        }
+
+        renderTodosArr()
+    }
+    
 }
