@@ -3,6 +3,13 @@ var isLoggedIn = []
 var userDataBase = []
 var categoriesArr = ["General"]
 
+var maxDisplayed
+
+if (screen.width < 1240) {
+    maxDisplayed = 8
+} else {
+    maxDisplayed = 9
+}
 
 const priority = {
     LOW: 'Low',
@@ -305,16 +312,16 @@ function fetchToDos() {
                 Storage.getTodos()
 
                 if (todosArr != []) {
-                    if (todosArr.length <= 9) {
+                    if (todosArr.length <= maxDisplayed) {
                         todosArr.forEach(todo => {
                             todo.shouldDisplay = true;
                         })
                     } else {
-                        for (let q = 0; q < 9; q++){
+                        for (let q = 0; q < maxDisplayed; q++){
                             todosArr[q].shouldDisplay = true
                         }
 
-                        for (let p = 9; p < todosArr.length; p++) {
+                        for (let p = maxDisplayed; p < todosArr.length; p++) {
                             todosArr[p].shouldDisplay = false
                         }
                     }
@@ -345,7 +352,7 @@ function initialLoad() {
                     document.querySelectorAll(".trashCardIcon").forEach(element => element.src = "icons/trashIconWhite.svg")
                 }
 
-                if (todosArr.length > 9) {
+                if (todosArr.length > maxDisplayed) {
 
                     document.getElementById("pagesNavigation").classList.remove("d-none")
 
@@ -1220,7 +1227,7 @@ function nextPageOfArray() {
         }
 
         let firstToDisplay = lastDisplayIndex + 1
-        let LastToDisplay = firstToDisplay + 9
+        let LastToDisplay = firstToDisplay + maxDisplayed
 
         while (firstToDisplay < LastToDisplay) {
             if (firstToDisplay < todosArr.length) {
@@ -1250,7 +1257,7 @@ function previousPageOfArray() {
         let index = firstDisplayIndex
         console.log(index)
 
-        while (index < firstDisplayIndex + 9) {
+        while (index < firstDisplayIndex + maxDisplayed) {
             if (index < todosArr.length) {
                 todosArr[index].shouldDisplay = false
             }
@@ -1258,7 +1265,7 @@ function previousPageOfArray() {
             index++
         }
 
-        let firstToDisplay = firstDisplayIndex - 9
+        let firstToDisplay = firstDisplayIndex - maxDisplayed
         
         while (firstToDisplay < firstDisplayIndex) {
             todosArr[firstToDisplay].shouldDisplay = true

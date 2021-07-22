@@ -396,12 +396,17 @@ li p {
 }
 
 .pagination {
-    gap: 10px;
+    display: flex;
+    padding: 0 15px;
+    list-style: none;
+    width: 100%;
+    justify-content: space-between;
 }
 
 .page-link {
     background-color: var(--secondaryBtn-color);
-    color: var(--theme-background-color)
+    color: var(--theme-background-color);
+    border-radius: 5px;
 }
 
 .page-link:hover {
