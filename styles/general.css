@@ -399,14 +399,19 @@ li p {
     display: flex;
     padding: 0 15px;
     list-style: none;
-    width: 100%;
+    width: 90%;
     justify-content: space-between;
+    position: fixed;
+    bottom: 0;
 }
 
 .page-link {
-    background-color: var(--secondaryBtn-color);
-    color: var(--theme-background-color);
-    border-radius: 5px;
+    font-weight: bold;
+    font-size: 1.5rem;
+    background: none;
+    color: var(--secondaryBtn-color);
+    border-radius: 10px;
+    border: none;
 }
 
 .page-link:hover {
@@ -818,6 +823,7 @@ li p {
         gap: 0px;
     }
 
+
     #formSubDiv {
         padding: 25px 15px;
     }
@@ -854,6 +860,11 @@ li p {
 
     .expandedTaskBkg {
         padding: 20px 20px;
+    }
+
+    .pagination {
+        position: fixed;
+        bottom: 75px;
     }
 
     .backAndTitle {
