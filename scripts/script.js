@@ -34,15 +34,15 @@ class Storage {
             
         }
 
-        sessionStorage.setItem('users', JSON.stringify(users))
-        sessionStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn))
+        localStorage.setItem('users', JSON.stringify(users))
+        localStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn))
     }
 
     static getTodos() {
 
-        userDataBase = JSON.parse(sessionStorage.getItem('users'))
+        userDataBase = JSON.parse(localStorage.getItem('users'))
 
-        isLoggedIn = JSON.parse(sessionStorage.getItem('isLoggedIn'))
+        isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
 
         if (isLoggedIn == null) {
             isLoggedIn = []
@@ -122,10 +122,18 @@ if (loginButton != null) {
             window.location.href = "home.html"
         } else if (user.length != 0) {
             loginErrorMsg.style.display = "block";
-            loginErrorMsg.innerHTML = "Error: Wrong password"
+            if (storedLeng == "spanish") {
+                loginErrorMsg.innerHTML = "Error: Contraseña incorrecta" 
+            } else if (storedLeng == "english") {
+                loginErrorMsg.innerHTML = "Error: Wrong password"
+            }
         } else {
             loginErrorMsg.style.display = "block";
-            loginErrorMsg.innerHTML = "Error: User does not exist" 
+            if (storedLeng == "spanish") {
+                loginErrorMsg.innerHTML = "Error: Usuario no existe" 
+            } else if (storedLeng == "english") {
+                loginErrorMsg.innerHTML = "Error: User does not exist" 
+            }
         }
 
     })
@@ -174,7 +182,7 @@ if (registerButton != null) {
 
         if (!checkEmailValidity(email)) {
             registerErrorMsg.style.display = "block"
-            document.getElementById("email").style = "box-shadow: rgb(181 49 49) 0px 0px 0px 5px;"
+            document.getElementById("email").style = "box-shadow: rgb(181 49 49) 0px 0px 0px 2px !important;"
             errorCount++;
         } else {
             document.getElementById("email").style = "box-shadow: none"
@@ -182,7 +190,7 @@ if (registerButton != null) {
 
         if (!checkFullName(fullName)) {
             registerErrorMsg.style.display = "block"
-            document.getElementById("fullName").style = "box-shadow: rgb(181 49 49) 0px 0px 0px 5px;"
+            document.getElementById("fullName").style = "box-shadow: rgb(181 49 49) 0px 0px 0px 2px !important;"
             errorCount++;
         } else {
             document.getElementById("fullName").style = "box-shadow: none"
@@ -190,15 +198,15 @@ if (registerButton != null) {
 
         if (!checkPassword(password)) {
             registerErrorMsg.style.display = "block"
-            document.getElementById("password").style = "box-shadow: rgb(181 49 49) 0px 0px 0px 5px;"
+            document.getElementById("password").style = "box-shadow: rgb(181 49 49) 0px 0px 0px 2px !important;"
             errorCount++;
         } else {
             document.getElementById("password").style = "box-shadow: none"
         }
 
-        if (password != repeatPassword) {
+        if (password != repeatPassword || repeatPassword == "") {
             registerErrorMsg.style.display = "block"
-            document.getElementById("repeatPassword").style = "box-shadow: rgb(181 49 49) 0px 0px 0px 5px;"
+            document.getElementById("repeatPassword").style = "box-shadow: rgb(181 49 49) 0px 0px 0px 2px !important;"
             errorCount++;
         } else {
             document.getElementById("repeatPassword").style = "box-shadow: none"
@@ -210,7 +218,12 @@ if (registerButton != null) {
             Storage.storeTodos(userDataBase, isLoggedIn)
             window.location.href = "home.html"
         } else {
-            registerErrorMsg.style.display = "block"; 
+            registerErrorMsg.style.display = "block";
+            if (storedLeng == "english") {
+                registerErrorMsg.innerText = "Check marked input fields for errors"
+            } else if (storedLeng == "spanish") {
+                registerErrorMsg.innerText = "Revise los campos marcados por errores"
+            }
         }
     })
 
@@ -289,7 +302,7 @@ function hideLoader() {
     document.querySelector('#initialLoadDiv').classList.add('d-none')
 }
 
-const numberOfTasksToGenerate = 22
+const numberOfTasksToGenerate = 500
 
 function fetchToDos() {
     
@@ -300,7 +313,7 @@ function fetchToDos() {
                     
                 for (let index = 0; index < numberOfTasksToGenerate; index++) {
 
-                    todosArr.push(new todoElement(index + 1, true, "task "+ (index+1), 
+                    todosArr.push(new todoElement(index + 1, ((index < maxDisplayed) ? true : false), faker.commerce.productName(), 
                     faker.commerce.productDescription(), faker.datatype.boolean(), 
                     priorityArr[Math.floor(Math.random() * priorityArr.length)], new Date(faker.date.future()), 
                     "list"))
@@ -338,6 +351,10 @@ function fetchToDos() {
 function initialLoad() {
 
     Storage.getTodos()
+
+    if (isLoggedIn.length == 0 && (document.querySelector("#homeBody") != null || document.querySelector("#statsBody") != null)) {
+        window.location.href = "index.html"
+    }
 
     if (document.getElementById("homeBody") != null) {
         showLoader()
@@ -396,9 +413,9 @@ function renderTodosArr() {
     const taskCardContainer = document.getElementById("taskSection")
     const taskCardTemplates = document.getElementById("taskCardTemplate")
 
-    taskCardContainer.innerHTML = ""
+    if (todosArr.length > 0 && document.getElementById("homeBody") ) {
 
-    if (todosArr.length > 0) {
+        taskCardContainer.innerHTML = ""
 
         for (let todosIndex = 0; todosIndex < todosArr.length; todosIndex++) {
             if (todosArr[todosIndex].shouldDisplay) {
@@ -512,12 +529,12 @@ function applySearchFilter() {
 
         switch (currentTab) {
 
-            case "Todos":
+            case "To-Dos":
                 todosArr.forEach(todo =>{
                     todo.shouldDisplay = true
                 })
                 break;
-            case "My Day":
+            case "My Day" || "Mi día":
                 todosArr.forEach(todo =>{
                     todo.shouldDisplay = true
                 })
@@ -530,7 +547,7 @@ function applySearchFilter() {
 
         switch (currentTab) {
 
-            case "Todos":
+            case "To-Dos":
                 todosArr.forEach(todo =>{
                     todo.shouldDisplay = false
                 })
@@ -546,7 +563,7 @@ function applySearchFilter() {
                     todo.shouldDisplay = true
                 })
                 break;
-            case "My Day":
+            case "My Day" || "Mi día":
                 todosArr.forEach(todo =>{
                     todo.shouldDisplay = false
                 })
@@ -572,7 +589,6 @@ function applySearchFilter() {
 
     renderTodosArr()
 }
-
 
 // Show todo expanded card
 
@@ -736,56 +752,6 @@ function addNewTask() {
     }
 }
 
-function hideCompleted() {
-
-    Storage.storeTodos(userDataBase, isLoggedIn)
-    Storage.getTodos()
-
-    let currentTab
-    currentTab = document.querySelector(".activeSelBtn").innerText
-
-    todosArr.forEach(todo =>{
-        if (document.querySelector("#hideCompletedBtn").innerText == 'Hide Completed') {
-            
-            switch (currentTab) {
-
-                case "Todos":
-                    if (todo.completed) {
-                        todo.shouldDisplay = false
-                    } else {
-                        todo.shouldDisplay = true
-                    }
-                    break;
-                case "My Day":
-                    if (todo.completed) {
-                        todo.shouldDisplay = false
-                        renderTodosArr()
-                    }
-                    break;
-
-            }         
-            
-        } else {
-
-            switch (currentTab) {
-
-                case "Todos":
-                    todo.shouldDisplay = true
-                    break;
-                case "My Day":
-                    filterMyDay()
-                    break;
-
-            }            
-
-        }
-        
-    })
-
-    renderTodosArr()
-
-}
-
 function filterMyDay() {
 
     document.querySelector("#pagesNavigation").classList.add("d-none")
@@ -865,11 +831,11 @@ function toggleExpandedProfile() {
         
             userDataBase[pos].tasks = todosArr
         
-            sessionStorage.setItem('users', JSON.stringify(userDataBase))
+            localStorage.setItem('users', JSON.stringify(userDataBase))
         
             isLoggedIn = []
         
-            sessionStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn))
+            localStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn))
 
             window.location.href = "index.html"
         })
@@ -902,11 +868,11 @@ function toggleExpandedProfile() {
         
             userDataBase[pos].tasks = todosArr
         
-            sessionStorage.setItem('users', JSON.stringify(userDataBase))
+            localStorage.setItem('users', JSON.stringify(userDataBase))
         
             isLoggedIn = []
         
-            sessionStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn))
+            localStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn))
 
             window.location.href = "index.html"
         })
@@ -921,11 +887,11 @@ function toggleExpandedProfile() {
 
 function checkLogIn() {
 
-   // Storage.getTodos()
+   Storage.getTodos()
 
-   //if (isLoggedIn.length != 0) {
-   //     window.location.href = "home.html"
-   //}
+   if (isLoggedIn.length != 0) {
+        window.location.href = "home.html"
+   }
 
 }
 
@@ -1248,14 +1214,12 @@ function previousPageOfArray() {
         let firstDisplayIndex = 0
 
         for (let iteration = 1; iteration < todosArr.length; iteration++) {
-            console.log(todosArr[iteration])
             if (todosArr[iteration-1].shouldDisplay == false && todosArr[iteration].shouldDisplay == true) {
                 firstDisplayIndex = iteration
             }
         }
 
         let index = firstDisplayIndex
-        console.log(index)
 
         while (index < firstDisplayIndex + maxDisplayed) {
             if (index < todosArr.length) {

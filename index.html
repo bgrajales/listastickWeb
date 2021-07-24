@@ -7,19 +7,19 @@
     <title>Listastick</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="landingStyle.css">
+    <link rel="stylesheet" href="styles/landingStyle.css">
 
     <link rel="icon" href="icons/logoBlue.svg">
 
 </head>
-<body id="indexBody" onunload="Storage.storeTodos(userDataBase, isLoggedIn), storeleng()" onload="checkLogIn()">
+<body id="indexBody" onunload="Storage.storeTodos(userDataBase, isLoggedIn)" onload="checkLogIn()">
 
     <header class="container">
         <img src="images/headerLogo.svg" alt="">
         <div id="headerBtnsDiv">
             <button id="lenguageBtn" class="secondaryHeaderBtn">Lenguage</button>
             <button id="featuresBtn" class="secondaryHeaderBtn">Features</button>
-            <button id="feedbackBtn" class="secondaryHeaderBtn">Feedback</button>
+            <a href="feedback.html"><button id="feedbackBtn" class="secondaryHeaderBtn">Feedback</button></a>
             <a href="login.html"><button id="loginIndexBtn" class="btn btn-primary">Login</button></a>
         </div>
         <div id="mobileBtnDiv">

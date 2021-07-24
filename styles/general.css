@@ -162,10 +162,13 @@ li p {
 
 #login-error-msg {
     display: none;
+    margin: 1rem 0;
+    text-align: center;
 }
 
 #register-error-msg {
     display: none;
+    text-align: center;
 }
 
 #vectorLogin {
@@ -412,10 +415,17 @@ li p {
     color: var(--secondaryBtn-color);
     border-radius: 10px;
     border: none;
+    user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
 }
 
 .page-link:hover {
     cursor: pointer;
+    background-color: var(--theme-text-color);
+    color: var(--theme-background-color);
 }
 
 .addTaskInputStyle {

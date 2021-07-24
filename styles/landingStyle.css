@@ -30,6 +30,11 @@ footer {
     justify-content: space-between;
 }
 
+.swal2-confirm, .swal2-deny {
+    width: 90% !important;
+    background-color: #1095e0 !important;
+}
+
 .secondaryHeaderBtn {
     border: none;
     background-color: #fff;

@@ -50,7 +50,7 @@
 
           <div class="dropdown">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-              Todos
+              To-Dos
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
               <li><a class="dropdown-item" onclick="initialLoad()">Todos</a></li>
@@ -85,18 +85,18 @@
 
               <img id="closeAddTask" src="icons/crossIcon.svg" alt="">
 
-              <label for="taskTitleInput">Task title</label>
+              <label id="addTaskTitleLabel" for="taskTitleInput">Task title</label>
               <input class="addTaskInputStyle" type="text" name="taskTitleInput" id="taskTitleInput">
             
               <div class="smallInputDiv">
-                <label for="taskListInput">List</label>
+                <label id="categoryTaskLabel" for="taskListInput">Category</label>
                 <select class="form-select addTaskInputStyle" id="taskListInput" aria-label="Default select example">
                   
                 </select>
               </div>
 
               <div class="smallInputDiv">
-                <label for="taskPriorityInput">Priority</label>
+                <label id="priorityTaskLabel" for="taskPriorityInput">Priority</label>
                 <select class="form-select addTaskInputStyle" id="taskPriorityInput" aria-label="Default select example">
                   <option value="1" select>Low</option>
                   <option value="2">Medium</option>
@@ -105,11 +105,11 @@
               </div>
 
               <div class="smallInputDiv">
-                <label for="taskDeadlineInput">Deadline</label>
+                <label id="deadlineTaskLabel" for="taskDeadlineInput">Deadline</label>
                 <input class="addTaskInputStyle" type="date" name="taskDeadlineInput" id="taskDeadlineInput">
               </div>
 
-              <label for="taskDescInput">Description</label>
+              <label id="descriptionTaskLabel" for="taskDescInput">Description</label>
               <textarea class="addTaskInputStyle" name="taskDescInput" id="taskDescInput"></textarea>
 
               <div id="taskAddBtnSec">
@@ -137,7 +137,7 @@
         </div>
 
         <div class="configSubDiv">
-          <h4>App theme</h4>
+          <h4 id="appThemeLabel">App theme</h4>
           <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
             <input type="radio" class="btn-check" name="theme" id="lightCheck" autocomplete="off" checked>
             <label class="btn btn-outline-primary" for="lightCheck">
@@ -157,7 +157,7 @@
         </div>
   
         <div class="configSubDiv">
-          <h4>Lenguage</h4>
+          <h4 id="lenguageLabel">Lenguage</h4>
           <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
             <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
             <label class="btn btn-outline-primary" for="btnradio3">Spanish</label>
@@ -176,9 +176,9 @@
     <div id="expandedCategList" class="expandedTodoCardDiv d-none animate__animated">
       <img id="backListIcon" src="icons/backIcon.svg" alt="">
       <div class="expandedListBkg">
-        <h1>Categories</h1>
+        <h1 id="categoriesLabel">Categories</h1>
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Search" aria-label="Recipient's username" aria-describedby="button-addon2">
+          <input id="searchListInput" type="text" class="form-control" placeholder="Search" aria-label="Recipient's username" aria-describedby="button-addon2">
           <button id="searchList" class="btn btn-outline-secondary" type="button" id="button-addon2"><img style="width: 25px;" src="icons/searchIcon.svg" alt=""></button>
         </div>
         <div id="categListDiv">
@@ -189,7 +189,7 @@
       </div>
       <div class="input-group mb-3">
         <input id="addNewListInput" type="text" class="form-control" placeholder="New Category" aria-label="Recipient's username" aria-describedby="button-addon2">
-        <button id="addNewListBtn" class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="addNewListAction()">Add New</button>
+        <button id="addNewListBtn" class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="addNewListAction()">Add List</button>
       </div>
     </div>
 
@@ -258,6 +258,23 @@
         value='{ "popup": "my-popup" }' />
     </template>
 
+    <template id="aboutToDeleteTaskSpanish">
+      <swal-title>
+        Estas seguro que deseas eliminar esta tarea?
+      </swal-title>
+      <swal-icon type="warning" color="red"></swal-icon>
+      <swal-button type="confirm">
+        Si, eliminar
+      </swal-button>
+      <swal-button type="cancel">
+        Cancelar
+      </swal-button>
+      <swal-param name="allowEscapeKey" value="false" />
+      <swal-param
+        name="customClass"
+        value='{ "popup": "my-popup" }' />
+    </template>
+
     <template id="deleteListTemplate">
       <swal-title>
         Are you sure you want to delete this category?
@@ -275,17 +292,36 @@
         value='{ "popup": "my-popup" }' />
     </template>
 
+    <template id="deleteListTemplateSpanish">
+      <swal-title>
+        Estas seguro que deseas eliminar esta categoria?
+      </swal-title>
+      <swal-icon type="warning" color="red"></swal-icon>
+      <swal-button type="confirm">
+        Si, eliminar
+      </swal-button>
+      <swal-button type="cancel">
+        Cancelar
+      </swal-button>
+      <swal-param name="allowEscapeKey" value="false" />
+      <swal-param
+        name="customClass"
+        value='{ "popup": "my-popup" }' />
+    </template>
+
     <!-- Fakerjs -->
     <script src="https://cdn.jsdelivr.net/npm/faker@5.5.3/dist/faker.min.js" integrity="sha256-ItysnEXzZySzG3n8oL357uAk+51hKjTF4yHeZWwoQwU=" crossorigin="anonymous"></script>
  
+    <!-- Charts -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.4.1/dist/chart.min.js" integrity="sha256-GMN9UIJeUeOsn/Uq4xDheGItEeSpI5Hcfp/63GclDZk=" crossorigin="anonymous"></script>
 
     <!-- Alerts CDN -->
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <!-- Bootstrap CDN -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
-    <script src="https://cdn.lordicon.com/libs/frhvbuzj/lord-icon-2.0.2.js"></script>
 
+    <script src="scripts/lenguage.js"></script>
     <script src="scripts/script.js"></script>
     
   </body>
