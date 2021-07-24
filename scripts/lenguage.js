@@ -19,6 +19,52 @@ if (document.querySelector("#indexBody") != null) {
                         document.getElementById("loginIndexBtn").innerText = "Ingresar"
                         document.getElementById("lenguageBtn").innerText = "Lenguaje"
     
+                        document.getElementById("lenguageBtnHamb").innerText = "Lenguaje"
+                        document.getElementById("featuresBtnHamb").innerText = "Funcionalidades"
+                        document.getElementById("feedbackBtnHamb").innerText = "Contacto"
+                        document.getElementById("loginIndexBtnHamb").innerText = "Ingresar"
+                
+                        document.getElementById("indexText1").innerText = "La herramienta de organizacion que estabas necesitando"
+                        document.getElementById("indexText2").innerText = "Donde la necesites"
+                
+                        document.getElementById("indexText3").innerText = "Listastick es una aplicacion multiplataforma diseñada para aydarte a organizar tu vida a travez de varios dispositivos"
+                        
+                        document.getElementById("indexText4").innerText = "Empieza tu organizacion ahora!"
+                        document.getElementById("startNowBtn").innerText = "Comenzar"
+                
+                    }
+                
+                }
+    
+          } else {
+              leng = "english"
+          }
+    
+          localStorage.setItem('lenguage', JSON.stringify(leng))
+    
+        })
+    })
+
+    document.querySelector("#lenguageBtnHamb").addEventListener("click", function(){
+        Swal.fire({
+            title: 'Choose your lenguage',
+            showDenyButton: true,
+            confirmButtonText: `Español`,
+            denyButtonText: `English`,
+          }).then((result) => {
+            if (result.isConfirmed) {
+                leng = "spanish"
+    
+                if (leng == "spanish") {
+        
+                    if (document.querySelector("#indexBody") != null) {
+                        
+                        document.getElementById("featuresBtn").innerText = "Funcionalidades"
+                        document.getElementById("feedbackBtn").innerText = "Contacto"
+                        document.getElementById("loginIndexBtn").innerText = "Ingresar"
+                        document.getElementById("lenguageBtn").innerText = "Lenguaje"
+    
+                        document.getElementById("lenguageBtnHamb").innerText = "Lenguaje"
                         document.getElementById("featuresBtnHamb").innerText = "Funcionalidades"
                         document.getElementById("feedbackBtnHamb").innerText = "Contacto"
                         document.getElementById("loginIndexBtnHamb").innerText = "Ingresar"
@@ -141,6 +187,17 @@ if (storedLeng == "spanish") {
         document.getElementById("totalNumberLabel").innerText = "Tareas Totales"
         document.getElementById("totalNumberLabel").innerText = "Tareas Totales"
 
+
+    }
+
+    if (document.querySelector("#feedbackBody") != null) {
+        
+        document.querySelector("#headerTextFeedback").innerText = "Dejanos tu menasje!"
+
+        document.querySelector("#yourNameInput").setAttribute("placeholder", "Nombre")
+        document.querySelector("#yourEmailInput").setAttribute("placeholder", "Email")
+        document.querySelector("#sendMsgInput").setAttribute("value", "Enviar Mensaje")
+        document.querySelector("#yourMsgInput").setAttribute("placeholder", "Mensaje")
 
     }
 }

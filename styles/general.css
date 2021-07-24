@@ -113,6 +113,7 @@ li p {
     flex: 1;
     padding: 40px 50px;
     border-radius: 1rem;
+    position: relative;
 }
 
 #formSubDiv .btn {
@@ -132,9 +133,9 @@ li p {
 
 #statsSec1 {
     display: flex;
-    align-items: center;
     justify-content: space-around;
     margin: 50px 0;
+    gap: 20px;
 }
 
 #logoLogin {
@@ -398,6 +399,23 @@ li p {
     font-size: 1.6rem !important;
 }
 
+.backToIndex {
+    width: 44px;
+    height: 44px;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    transition: all 0.3s;
+}
+
+.backToIndex img {
+    width: 12px;
+}
+
+.backToIndex:hover {
+    transform: scale(1.2)
+}
+
 .pagination {
     display: flex;
     padding: 0 15px;
@@ -530,6 +548,17 @@ li p {
 }
 
 .charAndTitle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    background: var(--card-color);
+    padding: 25px 30px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.charAndTitle2 {
     display: flex;
     flex-direction: column;
     align-items: center;

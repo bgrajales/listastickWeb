@@ -302,7 +302,7 @@ function hideLoader() {
     document.querySelector('#initialLoadDiv').classList.add('d-none')
 }
 
-const numberOfTasksToGenerate = 500
+const numberOfTasksToGenerate = 13
 
 function fetchToDos() {
     
@@ -1033,7 +1033,23 @@ function statsPageSetup() {
     });
 
     document.getElementById("numberOfTasks").innerText = todosArr.length;
+    document.getElementById("numberOfTasksCompleted").innerText = completed;
 
+    let sorted
+
+    sorted = todosArr.sort(function(a,b){
+        return new Date(a.dueDate) - new Date(b.dueDate);
+    })
+
+    let notCompleted
+
+    sorted.forEach(element => {
+        if (!element.completed) {
+           return notCompleted = element
+        }
+    })
+    
+    console.log(todosArr, sorted, notCompleted)
     const upcomingTaskDiv = document.getElementById("upcomingTask")
     const upcomTaskTemplate = document.getElementById("taskCardTemplate")
 
@@ -1049,19 +1065,16 @@ function statsPageSetup() {
     const taskCloneDesc = upcomTaskClone.querySelector(".taskDesc")
     const taskCloneActions = upcomTaskClone.querySelector("#taskHoverDiv")
 
-    if (!todosArr[0].completed) {
-        taskCloneImportanceIndicator.classList.add(
-            getTodoImportance(todosArr[0].priority)
-        )
-    } else {
-        taskCloneImportanceIndicator.classList.add("completedDot")
-    }
-    taskCloneList.innerText = 'Task List: ' + todosArr[0].list
+    taskCloneImportanceIndicator.classList.add(
+        getTodoImportance(notCompleted.priority)
+    )
 
-    taskCloneDate.innerText = 'Due Date: ' + new Date(todosArr[0].dueDate).toDateString()
-    taskCloneTitle.innerText = todosArr[0].title
+    taskCloneList.innerText = 'Task List: ' + notCompleted.list
 
-    taskCloneDesc.innerText = todosArr[0].content
+    taskCloneDate.innerText = 'Due Date: ' + new Date(notCompleted.dueDate).toDateString()
+    taskCloneTitle.innerText = notCompleted.title
+
+    taskCloneDesc.innerText = notCompleted.content
 
     upcomingTaskDiv.appendChild(upcomTaskClone)
 
