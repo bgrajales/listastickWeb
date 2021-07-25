@@ -573,9 +573,6 @@ button:focus:not(:focus-visible) {
     outline: none;
 }
 
-
-element.style {
-}
 button:focus:not(:focus-visible) {
     outline: none;
 }
