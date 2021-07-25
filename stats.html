@@ -183,14 +183,12 @@
 
     <template id="taskCardTemplate">
       <div id="nextUpTaskCard" class="taskCard shadow-lg">
-        <div class="importanceIndicator"><img src="icons/logoBlue.svg" alt=""></div>
-        <h1 class="taskTitle"></h1>
-        <h1 class="taskList"></h1>
-        <h1 class="taskDate"></h1>
-        <p class="taskDesc"></p>
-        <div id="taskHoverDiv" class="d-none">
-          <img class="taskHoverBtn changeStatus" src="icons/logoIcon.svg" alt="">
-          <img class="taskHoverBtn viewTodo" src="icons/seeMoreIcon.svg" alt="">
+        <div class="importanceIndicator"><h2></h2><h3></h3></div>
+        <img class="trashCardIcon d-none" src="icons/trashIcon.svg" alt="">
+        <div style="flex: 6;">
+          <h1 class="taskTitle"></h1>
+          <p class="taskList"></p>
+          <p class="taskDesc"></p>
         </div>
       </div>
     </template>

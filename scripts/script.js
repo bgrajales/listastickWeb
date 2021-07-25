@@ -72,7 +72,7 @@ class Storage {
 }
 
 class todoElement {
-    constructor(index, shouldDisplay, title, content, completed, priority, dueDate, list) {
+    constructor(index, shouldDisplay, title, content, completed, priority, dueDate, list, subtask) {
 
         this.index = index
         this.shouldDisplay = shouldDisplay
@@ -82,6 +82,7 @@ class todoElement {
         this.priority = priority
         this.dueDate = dueDate
         this.list = list
+        this.subtask = subtask
 
     }
 }
@@ -180,34 +181,36 @@ if (registerButton != null) {
         const repeatPassword = document.getElementById("repeatPassword").value
         let errorCount = 0
 
+        let errorEmails, errorFullname, errorPasword, errorRepeatPassword
+
         if (!checkEmailValidity(email)) {
-            registerErrorMsg.style.display = "block"
             document.getElementById("email").style = "box-shadow: rgb(181 49 49) 0px 0px 0px 2px !important;"
-            errorCount++;
+            errorCount++
+            errorEmails = true
         } else {
             document.getElementById("email").style = "box-shadow: none"
         }
 
         if (!checkFullName(fullName)) {
-            registerErrorMsg.style.display = "block"
             document.getElementById("fullName").style = "box-shadow: rgb(181 49 49) 0px 0px 0px 2px !important;"
-            errorCount++;
+            errorCount++
+            errorFullname = true
         } else {
             document.getElementById("fullName").style = "box-shadow: none"
         }
 
         if (!checkPassword(password)) {
-            registerErrorMsg.style.display = "block"
             document.getElementById("password").style = "box-shadow: rgb(181 49 49) 0px 0px 0px 2px !important;"
             errorCount++;
+            errorPasword = true
         } else {
             document.getElementById("password").style = "box-shadow: none"
         }
 
         if (password != repeatPassword || repeatPassword == "") {
-            registerErrorMsg.style.display = "block"
             document.getElementById("repeatPassword").style = "box-shadow: rgb(181 49 49) 0px 0px 0px 2px !important;"
-            errorCount++;
+            errorCount++
+            errorRepeatPassword = true
         } else {
             document.getElementById("repeatPassword").style = "box-shadow: none"
         }
@@ -220,10 +223,50 @@ if (registerButton != null) {
         } else {
             registerErrorMsg.style.display = "block";
             if (storedLeng == "english") {
-                registerErrorMsg.innerText = "Check marked input fields for errors"
+                registerErrorMsg.innerHTML = "Check marked input fields for errors"
             } else if (storedLeng == "spanish") {
                 registerErrorMsg.innerText = "Revise los campos marcados por errores"
             }
+
+            let message = ""
+
+            if (errorEmails) {
+                if (storedLeng == "spanish") {
+                    message = message + "<li>Email Invalido</li>"
+                } else {
+                    message = message + "<li>Invalid Email</li>"
+                }
+            }
+
+            if (errorFullname) {
+                if (storedLeng == "spanish") {
+                    message = message + "<li>Nombre Completo Invalido</li>"
+                } else {
+                    message = message + "<li>Invalid Full Name</li>"
+                }
+            }
+
+            if (errorPasword) {
+                if (storedLeng == "spanish") {
+                    message = message + "<li>Contraseña demasiado corta</li>"
+                } else {
+                    message = message + "<li>Password too short</li>"
+                }
+            }
+
+            if (errorRepeatPassword) {
+                if (storedLeng == "spanish") {
+                    message = message + "<li>Contraseñas no coinciden</li>"
+                } else {
+                    message = message + "<li>Passwords don't match</li>"
+                }
+            }
+
+            Swal.fire({
+                toast: true,
+                title: "Please check the following:",
+                html: '<ul>'+message+'</ul>',
+            })
         }
     })
 
@@ -318,7 +361,7 @@ function fetchToDos() {
                     todosArr.unshift(new todoElement(index + 1, false, faker.commerce.productName(), 
                     faker.commerce.productDescription(), faker.datatype.boolean(), 
                     priorityArr[Math.floor(Math.random() * priorityArr.length)], faker.date.between('2021-07-24', '2021-12-31'), 
-                    "list"))
+                    "list", [{title: "task1", status: false}, {title: "task2", status: true}]))
                     
                 }
 
@@ -628,73 +671,106 @@ function applySearchFilter() {
 
 function showExpandedTodoCard(object, todosIndex) {
 
-    const bodyElement = document.querySelector("body")
+    const taskSec = document.querySelector(".expandedTodoCardDivNew")
+
+    taskSec.innerHTML = ""
+
     const expandedTaskTemplate = document.getElementById("expandedTaskTemplate")
 
     const taskExpandClone = expandedTaskTemplate.content.cloneNode(true)
 
+    const closeExpandedTaskTemplate = taskExpandClone.querySelector("#backIcon")
+    const taskDayNMonth = taskExpandClone.querySelector("h2")
+    const taskYear = taskExpandClone.querySelector("h3")
+    const taskPriorShow = taskExpandClone.querySelector(".importanceIndicatorExpanded")
+
+    const taskSubTaskDiv = taskExpandClone.querySelector("#subTaskEach")
     const taskTitleTemplate = taskExpandClone.querySelector('#taskTitleExpanded')
     const taskListTemplate = taskExpandClone.querySelector('#taskList')
+
     const taskPriorityTemplate = taskExpandClone.querySelector('#taskPriority')
-    const taskDeadlineTemplate = taskExpandClone.querySelector('#taskDeadline')
     const taskDescTemplate = taskExpandClone.querySelector('#taskDescriptionExpanded')
-    const taskExpandedClose = taskExpandClone.querySelector('#backIcon')
-    const taskExpandedSave = taskExpandClone.querySelector('#saveChangesIcon')
-    const taskMarkComplete = taskExpandClone.querySelector("#markCompletedBtn")
-    const deleteTaskBtn = taskExpandClone.querySelector("#deleteTaskBtn")
+
+    const markAsCompleted = taskExpandClone.querySelector("#markAsCompleted")
+    const deleteTaskExpanded = taskExpandClone.querySelector("#deleteTaskBtn")
 
     taskTitleTemplate.innerText = object.title
-    if (object.list != "") {
-        taskListTemplate.innerText = object.list[0].toUpperCase() + object.list.slice(1)
-    } else {
-        taskListTemplate.innerText = 'None'
-    }
-    dueDate = new Date(object.dueDate)
+    taskListTemplate.innerText = object.list
 
+    let totalDate = new Date(object.dueDate)
+
+    var month = totalDate.getUTCMonth() + 1;
+    var day = totalDate.getUTCDate();
+    var year = totalDate.getUTCFullYear();
+
+    taskDayNMonth.innerText = day + '/' + month
+    taskYear.innerText = year
+
+    if (object.priority == "Medium") {
+        taskPriorShow.classList.add("mid")
+    } else if (object.completed == true){
+        taskPriorShow.classList.add("completedDot")
+    } else {
+        taskPriorShow.classList.add(object.priority.toLowerCase())
+    }
+    taskPriorShow.classList.add(object.priority.toLowerCase())
     taskPriorityTemplate.innerText = object.priority[0].toUpperCase() + object.priority.slice(1)
-    taskDeadlineTemplate.innerText = dueDate.toDateString()
     taskDescTemplate.innerText = object.content
 
-    taskExpandedClose.addEventListener("click", () => {
-
-        document.querySelector("#backIcon").parentNode.remove()
-
+    object.subtask.forEach(element => {
+        if (element.status) {
+            taskSubTaskDiv.innerHTML += '<div class="form-check"><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked><label class="form-check-label" for="flexCheckDefault">' + element.title + '</label></div>'
+        } else {
+            taskSubTaskDiv.innerHTML += '<div class="form-check"><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"><label class="form-check-label" for="flexCheckDefault">' + element.title + '</label></div>'
+        }
     })
 
-    taskMarkComplete.addEventListener("click", () => {
-        todosArr[todosIndex].completed = !todosArr[todosIndex].completed
-        document.querySelector("#backIcon").parentNode.remove()
+    closeExpandedTaskTemplate.addEventListener("click", function(){
+        closeExpandedTaskTemplate.parentNode.parentNode.remove()
+    })
+
+    markAsCompleted.addEventListener("click", function(){
+        todosArr.forEach(element =>{
+            if (element.index == object.index) {
+                element.completed = !element.completed
+
+                taskPriorShow.className = "importanceIndicatorExpanded"
+
+                if (element.priority == "Medium") {
+                    taskPriorShow.classList.add("mid")
+                } else if (element.completed == true){
+                    taskPriorShow.classList.add("completedDot")
+                } else {
+                    taskPriorShow.classList.add(element.priority.toLowerCase())
+                }
+            }
+        })
+        
         renderTodosArr()
     })
 
-    deleteTaskBtn.addEventListener("click", () => {
+    deleteTaskExpanded.addEventListener("click", function(){
         Swal.fire({
             template: '#aboutToDeleteTask'
         }).then(result => {
             if (result.isConfirmed) {
+                for (let index = todosIndex; index < todosArr.length; index++) {
+                
+                    if (todosArr[index].shouldDisplay == false && todosArr[index-1].shouldDisplay == true) {
+                        todosArr[index].shouldDisplay = true
+                        break;
+                    }
+                    
+                }
+
                 todosArr.splice(todosIndex, 1)
-                document.querySelector("#backIcon").parentNode.remove()
+                closeExpandedTaskTemplate.click()
                 renderTodosArr()
             }
         })
     })
 
-    taskExpandedSave.addEventListener("click", function saveChanges() {
-        
-            let newTitle = document.querySelector("#taskTitleExpanded").innerHTML
-            let newList = document.querySelector("#taskList").innerHTML
-            let newPriority = document.querySelector("#taskPriority").innerHTML
-            let newDate = document.querySelector("#taskDeadline").innerHTML
-            let newDesc = document.querySelector("#taskDescriptionExpanded").innerHTML
-
-            object.title = newTitle
-
-            renderTodosArr()
-    })
-
-
-
-    bodyElement.prepend(taskExpandClone)
+    taskSec.prepend(taskExpandClone)
 
 }
 
@@ -777,7 +853,8 @@ function addNewTask() {
             false, 
             document.querySelector("#taskPriorityInput").selectedOptions[0].label, 
             deadlineInput, 
-            document.querySelector("#taskListInput").selectedOptions[0].label))
+            document.querySelector("#taskListInput").selectedOptions[0].label,
+            [{title: "Task1", status: false}, {title: "Task2", status: true}]))
 
         let addTaskContainer = document.querySelector("#addTaskContainer")
 
@@ -1138,17 +1215,26 @@ function statsPageSetup() {
     const taskCloneImportanceIndicator = upcomTaskClone.querySelector(".importanceIndicator")
     const taskCloneTitle = upcomTaskClone.querySelector(".taskTitle")
     const taskCloneList = upcomTaskClone.querySelector(".taskList")
-    const taskCloneDate = upcomTaskClone.querySelector(".taskDate")
     const taskCloneDesc = upcomTaskClone.querySelector(".taskDesc")
-    const taskCloneActions = upcomTaskClone.querySelector("#taskHoverDiv")
+    const taskDayNMonth = upcomTaskClone.querySelector("h2")
+    const taskYear = upcomTaskClone.querySelector("h3")
+
 
     taskCloneImportanceIndicator.classList.add(
         getTodoImportance(notCompleted.priority)
     )
 
+    let totalDate = new Date(notCompleted.dueDate)
+
+    var month = totalDate.getUTCMonth() + 1;
+    var day = totalDate.getUTCDate();
+    var year = totalDate.getUTCFullYear();
+
+    taskDayNMonth.innerText = day + '/' + month
+    taskYear.innerText = year
+
     taskCloneList.innerText = 'Task List: ' + notCompleted.list
 
-    taskCloneDate.innerText = 'Due Date: ' + new Date(notCompleted.dueDate).toDateString()
     taskCloneTitle.innerText = notCompleted.title
 
     taskCloneDesc.innerText = notCompleted.content

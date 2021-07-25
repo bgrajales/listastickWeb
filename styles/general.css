@@ -249,6 +249,7 @@ li p {
 }
 
 #taskSection {
+    position: relative;
     width: 100%;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -323,12 +324,19 @@ li p {
     justify-content: center;
 }
 
-#backIcon, #backListIcon {
+#backListIcon {
     width: 10px;
     transition: all 0.3s;
     position: absolute;
     top: 20px;
     right: 60px;
+}
+
+#backIcon {
+    width: 15px;
+    position: absolute;
+    top: 30px;
+    right: 35px;
 }
 
 #backIcon:hover, #backListIcon:hover {
@@ -347,12 +355,6 @@ li p {
 #saveChangesIcon:hover {
     transform: scale(1.2);
     cursor: pointer;
-}
-
-#nextUpTaskCard {
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
 }
 
 #logoutBtn, .configSubDiv {
@@ -397,6 +399,27 @@ li p {
 
 #userName, #userEmail {
     font-size: 1.6rem !important;
+}
+
+#expandedTaskBtn {
+    display: flex;
+    gap: 45px;
+}
+
+.expandedTodoCardDivNew {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.expandedTaskBkgNew {
+    position: relative;
+    height: 100%;
+    background-color: var(--card-color);
+    border-radius: 10px;
+    padding: 30px 35px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
 .backToIndex {
@@ -665,47 +688,47 @@ button:focus:not(:focus-visible) {
     flex: 1;
     justify-content: center;
     align-items: center;
-
+    color: #fff;
+    font-weight: bold;
+    margin: -15px 20px -15px -20px;
+    padding: 20px 15px;
+    border-radius: 10px 0 0 10px;
 }
 
-.importanceIndicator h1, .importanceIndicator h3 {
+.importanceIndicatorExpanded {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-weight: bold;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.importanceIndicatorExpanded h2, .importanceIndicatorExpanded h3 {
+    margin: 0;
+}
+
+.importanceIndicator h2, .importanceIndicator h3 {
     margin: 0;
 }
 
 .mid {
     background-color: #ffbe0a;
-    color: #fff;
-    font-weight: bold;
-    margin: -15px 20px -15px -20px;
-    padding: 20px 15px;
-    border-radius: 10px 0 0 10px;
 }
 
 .low {
     background-color: #26C485;
-    color: #fff;
-    font-weight: bold;
-    margin: -15px 20px -15px -20px;
-    padding: 20px 15px;
-    border-radius: 10px 0 0 10px;
 }
 
 .high {
     background-color: #dc3545;
-    color: #fff;
-    font-weight: bold;
-    margin: -15px 20px -15px -20px;
-    padding: 20px 15px;
-    border-radius: 10px 0 0 10px;
 }
 
 .completedDot {
     background-color: var(--primary-color);
-    color: #fff;
-    font-weight: bold;
-    margin: -15px 20px -15px -20px;
-    padding: 20px 15px;
-    border-radius: 10px 0 0 10px;
 }
 
 

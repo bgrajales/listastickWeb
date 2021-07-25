@@ -64,7 +64,10 @@
             </ul>
           </div>
           
-         
+          <div class="expandedTodoCardDivNew">
+            
+          </div>
+
           <div id="taskSection">
 
             
@@ -205,32 +208,33 @@
     <!-- Templates -->
 
     <template id="expandedTaskTemplate">
-        <div class="expandedTodoCardDiv">
-          <img id="backIcon" src="icons/backIcon.svg" alt="">
-          <div class="expandedTaskBkg">
-            <img id="saveChangesIcon" src="icons/saveChangesIcon.svg" alt="">
-            <div class="backAndTitle">
-              <h1 contentEditable="true" id="taskTitleExpanded"></h1>
-            </div>
-            <div class="backAndTitle">
-              <p class="expandedSubTitle">List:</p>
-              <p contentEditable="true" id="taskList" class="taskDivText"></p>
-            </div>
-            <div class="backAndTitle">
-              <p class="expandedSubTitle">Priority:</p>
-              <p contentEditable="true" id="taskPriority" class="taskDivText"></p>
-            </div>
-            <div class="backAndTitle">
-              <p class="expandedSubTitle">Deadline:</p>
-              <p contentEditable="true"  id="taskDeadline" class="taskDivText"></p>
-            </div>
-            <p contentEditable="true" id="taskDescriptionExpanded"></p>
-            <div id="expandedTaskDivBtns">
-              <button id="markCompletedBtn" class="btn btn-success">Mark as completed</button>
-              <button id="deleteTaskBtn" class="btn btn-danger">Delete task</button>
-            </div>
+      <div class="expandedTaskBkgNew shadow-lg">
+        <div class="backAndTitle" style="align-items: center;gap: 40px;">
+          <div class="importanceIndicatorExpanded" style="flex: 1"><h2></h2><h3></h3></div>
+          <h1 id="taskTitleExpanded" style="flex: 8;"></h1>
+          <img id="backIcon" src="icons/crossIcon.svg" alt="">
+        </div>
+        <div class="backAndTitle">
+          <p class="expandedSubTitle">Category:</p>
+          <p id="taskList" class="taskDivText"></p>
+        </div>
+        <div class="backAndTitle">
+          <p class="expandedSubTitle">Priority:</p>
+          <p id="taskPriority" class="taskDivText"></p>
+        </div>
+        <div id="subTasks">
+          <p class="expandedSubTitle">Sub Tasks:</p> <!-- Agregar a task expanded -->
+          <div id="subTaskEach">
+         
+
           </div>
         </div>
+        <p id="taskDescriptionExpanded"></p>
+        <div id="expandedTaskBtn">
+          <button id="markAsCompleted" class="btn btn-success">Mark as completed</button>
+          <button id="deleteTaskBtn" class="btn btn-danger">Delete Task</button>
+        </div>
+      </div>
     </template>
 
     <template id="taskCardTemplate">
