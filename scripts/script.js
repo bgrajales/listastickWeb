@@ -8,7 +8,7 @@ var maxDisplayed
 if (screen.width < 1240) {
     maxDisplayed = 8
 } else {
-    maxDisplayed = 9
+    maxDisplayed = 8
 }
 
 const priority = {
@@ -293,8 +293,10 @@ function checkPassword(password) {
 }
 
 function showLoader() {
+    document.getElementById("taskSection").innerHTML = ""
     document.querySelector('#initialLoadDiv').classList.remove('d-none')
     document.querySelector('#initialLoadDiv').classList.add('d-flex')
+
 }
 
 function hideLoader() {
@@ -313,13 +315,19 @@ function fetchToDos() {
                     
                 for (let index = 0; index < numberOfTasksToGenerate; index++) {
 
-                    todosArr.push(new todoElement(index + 1, ((index < maxDisplayed) ? true : false), faker.commerce.productName(), 
+                    todosArr.unshift(new todoElement(index + 1, false, faker.commerce.productName(), 
                     faker.commerce.productDescription(), faker.datatype.boolean(), 
-                    priorityArr[Math.floor(Math.random() * priorityArr.length)], new Date(faker.date.future()), 
+                    priorityArr[Math.floor(Math.random() * priorityArr.length)], faker.date.between('2021-07-24', '2021-12-31'), 
                     "list"))
                     
                 }
 
+                if (todosArr.length >= 6 ) {
+                    for (let display = 0; display < maxDisplayed; display++) {
+                        todosArr[display].shouldDisplay = true;
+                    }
+                }
+                
                 resolve()
             } else {
                 Storage.getTodos()
@@ -363,6 +371,10 @@ function initialLoad() {
             hideLoader()
 
             fetchToDos().then(() =>{
+                todosArr.sort(function(a,b){
+                    return b.index - a.index;
+                })
+                
                 renderTodosArr()
                 
                 if (isLoggedIn[0].theme == "dark") {
@@ -418,6 +430,7 @@ function renderTodosArr() {
         taskCardContainer.innerHTML = ""
 
         for (let todosIndex = 0; todosIndex < todosArr.length; todosIndex++) {
+
             if (todosArr[todosIndex].shouldDisplay) {
                     
                 const taskCardClone = taskCardTemplates.content.cloneNode(true)
@@ -430,7 +443,22 @@ function renderTodosArr() {
                 const taskCloneActions = taskCardClone.querySelector("#taskHoverDiv")
                 const taskCloneChangeStatus = taskCardClone.querySelector(".changeStatus")
                 const taskCloneViewTodo = taskCardClone.querySelector(".viewTodo")
+                const taskCloneDateData = taskCardClone.querySelector("h2")
+                const taskCloneYearData = taskCardClone.querySelector("h3")
 
+                let totalDate = new Date(todosArr[todosIndex].dueDate)
+
+                var month = totalDate.getUTCMonth() + 1; //months from 1-12
+                var day = totalDate.getUTCDate();
+                var year = totalDate.getUTCFullYear();
+
+                taskCloneDateData.innerText = day + '/' + month
+                taskCloneYearData.innerText = year
+
+                if (isLoggedIn[0].theme == "dark") {
+                    taskCloneTrashIcon.setAttribute("src", "icons/trashIconWhite.svg")
+                }
+                
                 taskCloneCardElement.addEventListener("mouseenter", () =>{
                     taskCloneTrashIcon.classList.remove("d-none")
                     taskCloneActions.classList.remove("d-none")
@@ -525,14 +553,20 @@ function applySearchFilter() {
     let currentTab
     currentTab = document.querySelector(".activeSelBtn").innerText
 
-    if (!keywords) {
+    if (keywords == "") {
 
         switch (currentTab) {
 
             case "To-Dos":
                 todosArr.forEach(todo =>{
-                    todo.shouldDisplay = true
+                    todo.shouldDisplay = false
                 })
+
+                for (let display = 0; display < maxDisplayed; display++) {
+                    todosArr[display].shouldDisplay = true;
+                }
+
+                renderTodosArr()
                 break;
             case "My Day" || "Mi día":
                 todosArr.forEach(todo =>{
@@ -728,16 +762,21 @@ function addNewTask() {
         if (todosArr.length == 0) {
             currentIndex = 1
         } else {
-            currentIndex = todosArr.length - 1
+            currentIndex = todosArr.length + 1
         }
         
-        todosArr.push(new todoElement(currentIndex, 
-            true, 
+        let deadlineInput = document.getElementById('taskDeadlineInput').value.replace(/-/g, '\/')
+
+        if (deadlineInput == "") {
+            deadlineInput = "No deadline"
+        }
+        todosArr.unshift(new todoElement(currentIndex, 
+            false, 
             document.getElementById('taskTitleInput').value, 
             document.getElementById('taskDescInput').value, 
             false, 
             document.querySelector("#taskPriorityInput").selectedOptions[0].label, 
-            document.getElementById('taskDeadlineInput').value.replace(/-/g, '\/'), 
+            deadlineInput, 
             document.querySelector("#taskListInput").selectedOptions[0].label))
 
         let addTaskContainer = document.querySelector("#addTaskContainer")
@@ -748,6 +787,12 @@ function addNewTask() {
         document.querySelector("#taskDeadlineInput").value = ""
         document.querySelector("#taskDescInput").value = ""
 
+        todosArr.forEach(element => {element.shouldDisplay = false;})
+            
+        for (let display = 0; display < maxDisplayed; display++) {
+            todosArr[display].shouldDisplay = true;
+        }
+            
         renderTodosArr()
     }
 }
@@ -807,6 +852,12 @@ function changeActiveSel(){
 
 function toggleExpandedProfile() {
 
+    if (storedLeng == "spanish") {
+        document.querySelector("#spanishCheck").click()
+    } else {
+        document.querySelector("#englishCheck").click()
+    }
+    
     if (screen.width < 600) {
         document.getElementById("profileExpandedCard").classList.remove("d-none")
         document.getElementById("profileExpandedCard").classList.remove("animate__slideOutDown")
@@ -843,6 +894,8 @@ function toggleExpandedProfile() {
         changePfp()
     
         themeSelection()
+
+        lenguageSelection()
     } else {
         document.getElementById("profileExpandedCard").classList.remove("d-none")
         document.getElementById("profileExpandedCard").classList.remove("animate__slideOutLeft")
@@ -881,6 +934,7 @@ function toggleExpandedProfile() {
     
         themeSelection()
     
+        lenguageSelection()
     }
 
 }
@@ -965,6 +1019,27 @@ function themeSelection() {
 
 }
 
+function lenguageSelection() {
+
+    const spanishBtn = document.querySelector("#spanishCheck")
+    const englishBtn = document.querySelector("#englishCheck")
+
+    spanishBtn.addEventListener("click", () => {
+        
+        localStorage.setItem('lenguage', JSON.stringify("spanish"))
+
+        location.reload()
+    })
+
+    englishBtn.addEventListener("click", () => {
+
+        localStorage.setItem('lenguage', JSON.stringify("english"))
+
+        location.reload()
+    })
+}
+
+
 if (document.querySelector("#hambLanding") != null) {
 
     document.querySelector("#hambLanding").addEventListener("click", function(){
@@ -1042,14 +1117,16 @@ function statsPageSetup() {
     })
 
     let notCompleted
+    let index = 0
 
     sorted.forEach(element => {
-        if (!element.completed) {
-           return notCompleted = element
+        if (!element.completed && index == 0) {
+            index = index + 1
+            notCompleted = element
+           return notCompleted
         }
     })
     
-    console.log(todosArr, sorted, notCompleted)
     const upcomingTaskDiv = document.getElementById("upcomingTask")
     const upcomTaskTemplate = document.getElementById("taskCardTemplate")
 
@@ -1078,6 +1155,9 @@ function statsPageSetup() {
 
     upcomingTaskDiv.appendChild(upcomTaskClone)
 
+    todosArr.sort(function(a,b){
+        return b.index - a.index;
+    })
 }
 
 function listExpanded() {
@@ -1252,4 +1332,14 @@ function previousPageOfArray() {
         renderTodosArr()
     }
     
+}
+
+function filterByDate(){
+
+    todosArr.sort(function(a,b){
+        return new Date(a.dueDate) - new Date(b.dueDate);
+    })
+
+    renderTodosArr()
+
 }
