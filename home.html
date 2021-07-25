@@ -41,6 +41,9 @@
       </lord-icon>
     </div>
 
+    <div class="expandedTodoCardDivNew d-none">
+      
+    </div>
 
     <div class="mainContainer">
         <div class="container">
@@ -62,10 +65,6 @@
               <li><a class="dropdown-item" onclick="initialLoad()">Todos</a></li>
               <li><a class="dropdown-item" onclick="filterMyDay()">My Day</a></li>
             </ul>
-          </div>
-          
-          <div class="expandedTodoCardDivNew">
-            
           </div>
 
           <div id="taskSection">
@@ -215,15 +214,15 @@
           <img id="backIcon" src="icons/crossIcon.svg" alt="">
         </div>
         <div class="backAndTitle">
-          <p class="expandedSubTitle">Category:</p>
+          <p class="expandedSubTitle categorylabel">Category:</p>
           <p id="taskList" class="taskDivText"></p>
         </div>
         <div class="backAndTitle">
-          <p class="expandedSubTitle">Priority:</p>
+          <p class="expandedSubTitle prioritylabel">Priority:</p>
           <p id="taskPriority" class="taskDivText"></p>
         </div>
         <div id="subTasks">
-          <p class="expandedSubTitle">Sub Tasks:</p> <!-- Agregar a task expanded -->
+          <p class="expandedSubTitle subtasklabel">Sub Tasks:</p> <!-- Agregar a task expanded -->
           <div id="subTaskEach">
          
 

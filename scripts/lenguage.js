@@ -130,6 +130,7 @@ if (storedLeng == "spanish") {
         document.getElementById("searchBtn").innerText = "Buscar"
         
         document.getElementById("myDayBtn").innerText = "Mi día"
+        document.getElementById("orderDate").innerText = "Ordenar por Fecha"
 
         document.getElementById("addTaskTitleLabel").innerText = "Titulo"
         document.getElementById("categoryTaskLabel").innerText = "Categoria"

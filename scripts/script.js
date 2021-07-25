@@ -675,6 +675,8 @@ function showExpandedTodoCard(object, todosIndex) {
 
     taskSec.innerHTML = ""
 
+    taskSec.classList.remove("d-none")
+
     const expandedTaskTemplate = document.getElementById("expandedTaskTemplate")
 
     const taskExpandClone = expandedTaskTemplate.content.cloneNode(true)
@@ -726,7 +728,7 @@ function showExpandedTodoCard(object, todosIndex) {
     })
 
     closeExpandedTaskTemplate.addEventListener("click", function(){
-        closeExpandedTaskTemplate.parentNode.parentNode.remove()
+        closeExpandedTaskTemplate.parentNode.parentNode.parentNode.classList.add("d-none")
     })
 
     markAsCompleted.addEventListener("click", function(){
@@ -769,6 +771,15 @@ function showExpandedTodoCard(object, todosIndex) {
             }
         })
     })
+
+    if (storedLeng == "spanish") {
+        taskExpandClone.querySelector(".categorylabel").innerText = "Categoria:"
+        taskExpandClone.querySelector(".prioritylabel").innerText = "Prioridad:"
+        taskExpandClone.querySelector(".subtasklabel").innerText = "Sub tareas:"
+
+        markAsCompleted.innerText = "Marcar completado"
+        deleteTaskExpanded.innerText = "Borrar Tarea"
+    }
 
     taskSec.prepend(taskExpandClone)
 
@@ -1207,7 +1218,11 @@ function statsPageSetup() {
     const upcomingTaskDiv = document.getElementById("upcomingTask")
     const upcomTaskTemplate = document.getElementById("taskCardTemplate")
 
-    upcomingTaskDiv.innerHTML = "<h1 class='chartsTitle'>Next Up Task</h1>"
+    if (storedLeng == "spanish") {
+        upcomingTaskDiv.innerHTML = "<h1 class='chartsTitle'>Proxima Tarea</h1>"
+    } else {
+        upcomingTaskDiv.innerHTML = "<h1 class='chartsTitle'>Next Up Task</h1>"
+    }
 
     const upcomTaskClone = upcomTaskTemplate.content.cloneNode(true)
 
