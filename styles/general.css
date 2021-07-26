@@ -113,6 +113,14 @@ li p {
     flex: 1;
 }
 
+#desktopNavBar p {
+    margin: 0;
+    color: var(--accent-light-color);
+    text-align: center;
+    display: none;
+}
+
+
 #hideCompletedBtn {
     margin: 0 0 0 10px;
     background-color: var(--secondaryBtn-color);
@@ -703,6 +711,12 @@ button:focus:not(:focus-visible) {
     width: 20px;
 }
 
+.mobileIconandText {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .trashCardIcon, .trashIcon {
     width: 20px;
     position: absolute;
@@ -955,6 +969,10 @@ button:focus:not(:focus-visible) {
         font-size: 1.3rem !important;
     }
 
+    #desktopNavBar p {
+        display: block;
+    }
+
     #taskEditBtn {
         position: absolute;
         left: 25px;
@@ -975,7 +993,7 @@ button:focus:not(:focus-visible) {
         bottom: 0;
         top: auto;
         flex-direction: row-reverse;
-        padding: 20px 0;
+        padding: 10px 0 30px 0;
     }
 
     #profileDivNavBar {
@@ -984,7 +1002,7 @@ button:focus:not(:focus-visible) {
 
     #navBarDesktopButtons {
         flex-direction: row-reverse;
-        flex: 3;
+        flex: 4;
         justify-content: space-around;
         gap: 0px;
     }
@@ -995,8 +1013,8 @@ button:focus:not(:focus-visible) {
     }
 
     #pfp {
-        width: 35px;
-        height: 35px;
+        width: 30px;
+        height: 30px;
     }
 
     #taskHoverDiv {
@@ -1024,11 +1042,19 @@ button:focus:not(:focus-visible) {
         font-size: 1.3rem;
     }
 
+    #navBarDesktopButtons {
+        align-items: flex-end;
+    }
+
     .expandedTodoCardDivNew {
         width: 100%;
         margin: 0;
         z-index: 2;
         padding: 45px 10px 75px 10px;
+    }
+
+    .navDeskIcon {
+        width: 28px;
     }
 
     .expandedTaskBkg {

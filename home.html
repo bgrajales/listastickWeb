@@ -23,14 +23,29 @@
 
     <nav id="desktopNavBar">
       <div id="navBarDesktopButtons">
-        <img id="addTaskMain" class="navDeskIcon" src="icons/circlePlusIcon.svg" alt="">
-        <img class="navDeskIcon" src="icons/homeIcon.svg" alt="">
-        <a href="stats.html"><img class="navDeskIcon" src="icons/statsIcon.svg" alt=""></a>
-        <img class="navDeskIcon" onclick="listExpanded()" src="icons/listIcon.svg" alt="">
+        <div class="mobileIconandText">
+          <img id="addTaskMain" class="navDeskIcon" src="icons/circlePlusIcon.svg" alt="">
+          <p>Add</p>
+        </div>
+        <div class="mobileIconandText">
+          <img class="navDeskIcon" src="icons/homeIcon.svg" alt="">
+          <p>Home</p>
+        </div>
+        <div class="mobileIconandText">
+          <a href="stats.html"><img class="navDeskIcon" src="icons/statsIcon.svg" alt=""></a>
+          <p>Stats</p>
+        </div>
+        <div class="mobileIconandText">
+          <img class="navDeskIcon" onclick="listExpanded()" src="icons/listIcon.svg" alt="">
+          <p>Lists</p>
+        </div>
       </div>
+
       <div id="profileDivNavBar" style="text-align: center;">
         <img onclick="toggleExpandedProfile()" id="pfp" src="images/pfp.png" alt="">
+        <p>Profile</p>
       </div>
+
     </nav>
 
     <div id="initialLoadDiv" class="d-none">
@@ -64,8 +79,9 @@
               To-Dos
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-              <li><a class="dropdown-item" onclick="initialLoad()">Todos</a></li>
+              <li><a class="dropdown-item" onclick="initialLoad()">To-Dos</a></li>
               <li><a class="dropdown-item" onclick="filterMyDay()">My Day</a></li>
+              <li><a class="dropdown-item" onclick="filterByDate()">Order by Date</a></li>
             </ul>
           </div>
 
