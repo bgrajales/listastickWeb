@@ -223,16 +223,24 @@
         </div>
         <div id="subTasks">
           <p class="expandedSubTitle subtasklabel">Sub Tasks:</p> <!-- Agregar a task expanded -->
+
+          <div class="input-group mb-3">
+            <input id="newSubTaskInput" type="text" class="form-control" placeholder="Add new subtask">
+            <button id="newSubTaskBtn" class="btn btn-primary" type="button" id="button-addon2">+</button>
+          </div>
+
           <div id="subTaskEach">
          
 
           </div>
         </div>
+        <p class="expandedSubTitle prioritylabel">Content:</p>
         <p id="taskDescriptionExpanded"></p>
-        <div id="expandedTaskBtn">
-          <button id="markAsCompleted" class="btn btn-success">Mark as completed</button>
-          <button id="deleteTaskBtn" class="btn btn-danger">Delete Task</button>
-        </div>
+        
+      </div>
+      <div id="expandedTaskBtn">
+        <button id="markAsCompleted" class="btn btn-success">Mark as completed</button>
+        <button id="deleteTaskBtn" class="btn btn-danger">Delete Task</button>
       </div>
     </template>
 
@@ -241,8 +249,8 @@
         <div class="importanceIndicator"><h2></h2><h3></h3></div>
         <img class="trashCardIcon d-none" src="icons/trashIcon.svg" alt="">
         <div style="flex: 6;">
-          <h1 class="taskTitle">Handmade Metal Fish</h1>
-          <p class="taskDesc">Andy shoes are designed to keeping in mind durability as well as trends, the most stylish range of shoes & sandals</p>
+          <h1 class="taskTitle"></h1>
+          <p class="taskDesc"></p>
         </div>
         <div id="taskHoverDiv" class="d-none">
           <img class="taskHoverBtn changeStatus" src="icons/logoIcon.svg" alt="">

@@ -347,7 +347,7 @@ function hideLoader() {
     document.querySelector('#initialLoadDiv').classList.add('d-none')
 }
 
-const numberOfTasksToGenerate = 13
+const numberOfTasksToGenerate = 0
 
 function fetchToDos() {
     
@@ -468,7 +468,7 @@ function renderTodosArr() {
     const taskCardContainer = document.getElementById("taskSection")
     const taskCardTemplates = document.getElementById("taskCardTemplate")
 
-    if (todosArr.length > 0 && document.getElementById("homeBody") ) {
+    if (todosArr.length > 0 && document.getElementById("homeBody") != null) {
 
         taskCardContainer.innerHTML = ""
 
@@ -563,6 +563,8 @@ function renderTodosArr() {
                 taskCardContainer.appendChild(taskCardClone)
             }
         }
+    } else if (document.getElementById("homeBody") != null && todosArr.length == 0) {
+        taskCardContainer.innerHTML = "<h1 style='text-align: center;'>No task added yet</h1>"
     }
 
 }
@@ -686,6 +688,9 @@ function showExpandedTodoCard(object, todosIndex) {
     const taskYear = taskExpandClone.querySelector("h3")
     const taskPriorShow = taskExpandClone.querySelector(".importanceIndicatorExpanded")
 
+    const addSubTaskInput = taskExpandClone.querySelector("#newSubTaskInput")
+    const addSubTaskBtn = taskExpandClone.querySelector("#newSubTaskBtn")
+
     const taskSubTaskDiv = taskExpandClone.querySelector("#subTaskEach")
     const taskTitleTemplate = taskExpandClone.querySelector('#taskTitleExpanded')
     const taskListTemplate = taskExpandClone.querySelector('#taskList')
@@ -715,15 +720,19 @@ function showExpandedTodoCard(object, todosIndex) {
     } else {
         taskPriorShow.classList.add(object.priority.toLowerCase())
     }
+
     taskPriorShow.classList.add(object.priority.toLowerCase())
     taskPriorityTemplate.innerText = object.priority[0].toUpperCase() + object.priority.slice(1)
     taskDescTemplate.innerText = object.content
 
     object.subtask.forEach(element => {
         if (element.status) {
-            taskSubTaskDiv.innerHTML += '<div class="form-check"><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked><label class="form-check-label" for="flexCheckDefault">' + element.title + '</label></div>'
+            taskSubTaskDiv.innerHTML += '<div class="subTaskandTrash"><div class="form-check" onclick="checkSubTask(this)" style="flex: 1;"><input class="form-check-input" type="checkbox" value="" id="'+ todosIndex + '-' + element.title.trim() +'" checked><label class="form-check-label" for="'+ todosIndex + '-' + element.title.trim() +'">' + 
+            element.title + '</label></div><img class="trashSubTask" src="icons/trashIcon.svg" onclick="deleteSubTask(this)"></div>'
+
         } else {
-            taskSubTaskDiv.innerHTML += '<div class="form-check"><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"><label class="form-check-label" for="flexCheckDefault">' + element.title + '</label></div>'
+            taskSubTaskDiv.innerHTML += '<div class="subTaskandTrash"><div class="form-check" onclick="checkSubTask(this)" style="flex: 1;"><input class="form-check-input" type="checkbox" value="" id="'+ todosIndex + '-' + element.title.trim() +'"><label class="form-check-label" for="'+ todosIndex + '-' + element.title.trim() +'">' + 
+            element.title + '</label></div><img class="trashSubTask" src="icons/trashIcon.svg" onclick="deleteSubTask(this)"></div>'
         }
     })
 
@@ -772,6 +781,14 @@ function showExpandedTodoCard(object, todosIndex) {
         })
     })
 
+    addSubTaskBtn.addEventListener("click", function(){
+        if (addSubTaskInput.value != "") {
+            todosArr[todosIndex].subtask.push({title: addSubTaskInput.value, status: false})
+            closeExpandedTaskTemplate.click()
+            showExpandedTodoCard(todosArr[todosIndex], todosIndex)
+        }
+    })
+
     if (storedLeng == "spanish") {
         taskExpandClone.querySelector(".categorylabel").innerText = "Categoria:"
         taskExpandClone.querySelector(".prioritylabel").innerText = "Prioridad:"
@@ -783,6 +800,49 @@ function showExpandedTodoCard(object, todosIndex) {
 
     taskSec.prepend(taskExpandClone)
 
+}
+
+function checkSubTask(e) {
+    
+    const parentTaskIndexCompound = e.querySelector("input").id
+    const subTaskTitle = e.querySelector("label").innerText
+
+    let parentTaskIndex = parentTaskIndexCompound.split("-")[0]
+
+    todosArr[parentTaskIndex].subtask.forEach(element => {
+        if (element.title == subTaskTitle) {
+            element.status = !element.status
+        }
+    })
+
+    document.querySelector("#backIcon").click()
+    showExpandedTodoCard(todosArr[parentTaskIndex], parentTaskIndex)
+
+}
+
+function deleteSubTask(e) { 
+    const taskIdandSubtask = e.parentNode.querySelector("input").id.split("-")
+
+    Swal.fire({
+        title: 'Delete ' + taskIdandSubtask[1] + '?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#2E4052',
+        confirmButtonText: 'Yes, delete'
+    }).then((result) => {
+        if (result.isConfirmed) {
+          todosArr[taskIdandSubtask[0]].subtask.forEach(function(item, index, object) {
+              if (item.title == taskIdandSubtask[1]) {
+                  object.splice(index, 1)
+              }
+          })
+          document.querySelector("#backIcon").click()
+          showExpandedTodoCard(todosArr[taskIdandSubtask[0]], taskIdandSubtask[0])
+        }
+    })
+
+    console.log(taskIdandSubtask)
 }
 
 if (document.querySelector("#addTaskMain")) {
