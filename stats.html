@@ -6,6 +6,7 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="styles/general.css">
 
     <title>Listastick</title>
@@ -28,7 +29,7 @@
           <p>Add</p>
         </div>
         <div class="mobileIconandText">
-          <img class="navDeskIcon" src="icons/homeIcon.svg" alt="">
+          <a href="home.html"><img class="navDeskIcon" src="icons/homeIcon.svg" alt=""></a>
           <p>Home</p>
         </div>
         <div class="mobileIconandText">
@@ -88,8 +89,8 @@
     </div>
 
     <div id="profileExpandedCard" class="expandedTodoCardDiv d-none animate__animated">
-      <img id="backIcon" class="backIconPfp" src="icons/backIcon.svg" alt="">
       <div class="expandedProfile">
+        <i class="fas fa-times backIconPfp"></i>
         <div class="profilePfpAndData">
           <div class="profilePicDiv">
             <img class="profilePicExpanded" src="images/pfp.png" id="photo">
@@ -140,21 +141,23 @@
     <div id="addTaskContainer" class="expandedTodoCardDiv d-none animate__animated">
       <div class="expandedAddTask">
 
-        <img id="closeAddTask" src="icons/crossIcon.svg" alt="">
+        <i id="closeAddTask" class="fas fa-times"></i>
 
-        <label id="addTaskTitleLabel" for="taskTitleInput">Task title</label>
-        <input type="text" name="taskTitleInput" id="taskTitleInput">
-      
+        <div class="smallInputDiv">
+          <label id="addTaskTitleLabel" for="taskTitleInput">Task title</label>
+          <input class="addTaskInputStyle" type="text" name="taskTitleInput" id="taskTitleInput">
+        </div>
+
         <div class="smallInputDiv">
           <label id="categoryTaskLabel" for="taskListInput">Category</label>
-          <select class="form-select" id="taskListInput" aria-label="Default select example">
+          <select class="form-select addTaskInputStyle" id="taskListInput" aria-label="Default select example">
             
           </select>
         </div>
 
         <div class="smallInputDiv">
           <label id="priorityTaskLabel" for="taskPriorityInput">Priority</label>
-          <select class="form-select" id="taskPriorityInput" aria-label="Default select example">
+          <select class="form-select addTaskInputStyle" id="taskPriorityInput" aria-label="Default select example">
             <option value="1" select>Low</option>
             <option value="2">Medium</option>
             <option value="3">High</option>
@@ -163,11 +166,11 @@
 
         <div class="smallInputDiv">
           <label id="deadlineTaskLabel" for="taskDeadlineInput">Deadline</label>
-          <input type="date" name="taskDeadlineInput" id="taskDeadlineInput">
+          <input class="addTaskInputStyle" type="date" name="taskDeadlineInput" id="taskDeadlineInput">
         </div>
 
         <label id="descriptionTaskLabel" for="taskDescInput">Description</label>
-        <textarea name="taskDescInput" id="taskDescInput"></textarea>
+        <textarea class="addTaskInputStyle" name="taskDescInput" id="taskDescInput"></textarea>
 
         <div id="taskAddBtnSec">
           <button id="saveTaskBtn" class="btn btn-success" onclick="addNewTask()">Add Task</button>
@@ -177,8 +180,8 @@
     </div>
     
     <div id="expandedCategList" class="expandedTodoCardDiv d-none animate__animated">
-      <img id="backListIcon" src="icons/backIcon.svg" alt="">
       <div class="expandedListBkg">
+        <i id="backListIcon" class="fas fa-times"></i>
         <h1 id="categoriesLabel">Categories</h1>
         <div class="input-group mb-3">
           <input id="searchListInput" type="text" class="form-control" placeholder="Search" aria-label="Recipient's username" aria-describedby="button-addon2">
@@ -192,10 +195,10 @@
       </div>
       <div class="input-group mb-3">
         <input id="addNewListInput" type="text" class="form-control" placeholder="New Category" aria-label="Recipient's username" aria-describedby="button-addon2">
-        <button id="addNewListBtn" class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="addNewListAction()">Add New</button>
+        <button id="addNewListBtn" class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="addNewListAction()">Add List</button>
       </div>
     </div>
-
+    
     <template id="taskCardTemplate">
       <div id="nextUpTaskCard" class="taskCard shadow-lg">
         <div class="importanceIndicator"><h2></h2><h3></h3></div>
@@ -222,6 +225,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
     
     <script src="scripts/lenguage.js"></script>
+    <script src="scripts/homePage.js"></script>
     <script src="scripts/script.js"></script>
 
   </body>

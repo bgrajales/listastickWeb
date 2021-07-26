@@ -42,12 +42,12 @@
       </div>
 
       <div id="profileDivNavBar" style="text-align: center;">
-        <img onclick="toggleExpandedProfile()" id="pfp" src="images/pfp.png" alt="">
+        <img onclick="toggleExpandedProfile()" id="pfp" src="images/pfp.png">
         <p>Profile</p>
       </div>
     </nav>
 
-    <div id="initialLoadDiv" class="d-none">
+    <div id="initialLoadDiv">
       <lord-icon
         src="https://cdn.lordicon.com/dpinvufc.json"
         trigger="loop"
@@ -109,7 +109,7 @@
           <div id="addTaskContainer" class="expandedTodoCardDiv d-none animate__animated">
             <div class="expandedAddTask">
 
-              <img id="closeAddTask" src="icons/crossIcon.svg" alt="">
+              <i id="closeAddTask" class="fas fa-times"></i>
 
               <div class="smallInputDiv">
                 <label id="addTaskTitleLabel" for="taskTitleInput">Task title</label>
@@ -152,8 +152,8 @@
     </div>
 
     <div id="profileExpandedCard" class="expandedTodoCardDiv d-none animate__animated">
-      <img id="backIcon" class="backIconPfp" src="icons/backIcon.svg" alt="">
       <div class="expandedProfile">
+        <i class="fas fa-times backIconPfp"></i>
         <div class="profilePfpAndData">
           <div class="profilePicDiv">
             <img class="profilePicExpanded" src="images/pfp.png" id="photo">
@@ -202,8 +202,8 @@
     </div>
     
     <div id="expandedCategList" class="expandedTodoCardDiv d-none animate__animated">
-      <img id="backListIcon" src="icons/backIcon.svg" alt="">
       <div class="expandedListBkg">
+        <i id="backListIcon" class="fas fa-times"></i>
         <h1 id="categoriesLabel">Categories</h1>
         <div class="input-group mb-3">
           <input id="searchListInput" type="text" class="form-control" placeholder="Search" aria-label="Recipient's username" aria-describedby="button-addon2">
@@ -228,9 +228,9 @@
         <div class="backAndTitle" style="align-items: center;gap: 40px;">
           <div class="importanceIndicatorExpanded" style="flex: 1"><h2></h2><h3></h3></div>
           <h1 id="taskTitleExpanded" style="flex: 8;"></h1>
-          <img id="taskEditBtn" src="icons/editIcon.svg" style="width: 20px;">
-          <img id="taskSaveChangesBtn" src="icons/saveChangesIcon.svg" class="d-none" style="width: 20px">
-          <img id="backIcon" src="icons/crossIcon.svg" alt="">
+          <i  id="taskEditBtn" class="fas fa-pen"></i>
+          <i id="taskSaveChangesBtn" class="fas fa-save d-none"></i>
+          <i id="backIcon" class="fas fa-times"></i>
         </div>
         <div class="backAndTitle">
           <p class="expandedSubTitle categorylabel">Category:</p>
@@ -266,7 +266,7 @@
     <template id="taskCardTemplate">
       <div class="taskCard shadow">
         <div class="importanceIndicator"><h2></h2><h3></h3></div>
-        <img class="trashCardIcon d-none" src="icons/trashIcon.svg" alt="">
+        <i class="fas fa-trash trashCardIcon d-none"></i>
         <div style="flex: 6;">
           <h1 class="taskTitle"></h1>
           <p class="taskDesc"></p>
@@ -279,7 +279,7 @@
     </template>
 
     <template id="listElementTemplate">
-      <li><p></p><img class="trashIcon" src="icons/trashIcon.svg" alt=""></li>
+      <li><p></p><i class="fas fa-trash trashIcon"></i>
     </template>
 
     <template id="aboutToDeleteTask">
@@ -367,6 +367,7 @@
 
     
     <script src="scripts/lenguage.js"></script>
+    <script src="scripts/homePage.js"></script>
     <script src="scripts/script.js"></script>
     
   </body>

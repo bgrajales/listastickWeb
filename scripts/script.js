@@ -1,15 +1,25 @@
+// Declaration of used arrays
+
 var todosArr = []
 var isLoggedIn = []
 var userDataBase = []
 var categoriesArr = ["General"]
 
+// Declaration of maxDisplayed variable used to determine the max number of task displayed per page
+
 var maxDisplayed = 8
+
+// Declaration of task priorities}
 
 const priority = {
     LOW: 'Low',
     MID: 'Medium',
     HIGH: 'High'
 }
+
+var priorityArr = [priority.LOW, priority.MID, priority.HIGH]
+
+// Functions to store and retrieve data from localStorage to simulate a data base
 
 class Storage {
 
@@ -65,6 +75,8 @@ class Storage {
 
 }
 
+// Declaration of standard todo class
+
 class todoElement {
     constructor(index, shouldDisplay, title, content, completed, priority, dueDate, list, subtask) {
 
@@ -81,6 +93,8 @@ class todoElement {
     }
 }
 
+// Declaration of standard user class
+
 class user {
     constructor(email, fullName, password, pfp, theme, tasks, listgroup) {
         this.email = email
@@ -93,241 +107,7 @@ class user {
     }
 }
 
-var priorityArr = [priority.LOW, priority.MID, priority.HIGH]
-
-// Login function
-
-const loginButton = document.getElementById("login-form-submit");
-const loginErrorMsg = document.getElementById("login-error-msg");
-
-if (loginButton != null) {
-  
-    loginButton.addEventListener("click", (action) => {
-
-        action.preventDefault();
-
-        const mail = document.getElementById("mail").value
-        const password = document.getElementById("password").value
-        
-        const user = userDataBase.filter(user => user.email === mail) 
-
-        if ((user.length != 0) && password === user[0].password) {
-            isLoggedIn = user
-            Storage.storeTodos(userDataBase, isLoggedIn)
-            window.location.href = "home.html"
-        } else if (user.length != 0) {
-            loginErrorMsg.style.display = "block";
-            if (storedLeng == "spanish") {
-                loginErrorMsg.innerHTML = "Error: Contraseña incorrecta" 
-            } else if (storedLeng == "english") {
-                loginErrorMsg.innerHTML = "Error: Wrong password"
-            }
-        } else {
-            loginErrorMsg.style.display = "block";
-            if (storedLeng == "spanish") {
-                loginErrorMsg.innerHTML = "Error: Usuario no existe" 
-            } else if (storedLeng == "english") {
-                loginErrorMsg.innerHTML = "Error: User does not exist" 
-            }
-        }
-
-    })
-
-    var input1 = document.getElementById("password");
-
-    input1.addEventListener("keyup", function(event) {
-
-        if (event.keyCode === 13) {
-
-            event.preventDefault();
-
-            document.getElementById("login-form-submit").click();
-    }
-    })
-
-    var input2 = document.getElementById("login-form-submit");
-
-    input1.addEventListener("keyup", function(event) {
-
-        if (event.keyCode === 13) {
-
-            event.preventDefault();
-
-            document.getElementById("login-form-submit").click();
-        }
-    })
-
-}
-
-// Register Function
-
-const registerButton = document.getElementById("register-form-submit");
-const registerErrorMsg = document.getElementById("register-error-msg");
-
-if (registerButton != null) {
-
-    registerButton.addEventListener("click", (action) => {
-        action.preventDefault();
-
-        const email = document.getElementById("email").value
-        const fullName = document.getElementById("fullName").value
-        const password = document.getElementById("password").value
-        const repeatPassword = document.getElementById("repeatPassword").value
-        let errorCount = 0
-
-        let errorEmails, errorFullname, errorPasword, errorRepeatPassword
-
-        if (!checkEmailValidity(email)) {
-            document.getElementById("email").style = "box-shadow: rgb(181 49 49) 0px 0px 0px 2px !important;"
-            errorCount++
-            errorEmails = true
-        } else {
-            document.getElementById("email").style = "box-shadow: none"
-        }
-
-        if (!checkFullName(fullName)) {
-            document.getElementById("fullName").style = "box-shadow: rgb(181 49 49) 0px 0px 0px 2px !important;"
-            errorCount++
-            errorFullname = true
-        } else {
-            document.getElementById("fullName").style = "box-shadow: none"
-        }
-
-        if (!checkPassword(password)) {
-            document.getElementById("password").style = "box-shadow: rgb(181 49 49) 0px 0px 0px 2px !important;"
-            errorCount++;
-            errorPasword = true
-        } else {
-            document.getElementById("password").style = "box-shadow: none"
-        }
-
-        if (password != repeatPassword || repeatPassword == "") {
-            document.getElementById("repeatPassword").style = "box-shadow: rgb(181 49 49) 0px 0px 0px 2px !important;"
-            errorCount++
-            errorRepeatPassword = true
-        } else {
-            document.getElementById("repeatPassword").style = "box-shadow: none"
-        }
-        
-        if (errorCount === 0) {
-            userDataBase.push(new user(email, fullName, password, "images/pfp.png", "default", [], []));
-            isLoggedIn= userDataBase.filter(user => user.email === email)
-            Storage.storeTodos(userDataBase, isLoggedIn)
-            window.location.href = "home.html"
-        } else {
-            registerErrorMsg.style.display = "block";
-            if (storedLeng == "english") {
-                registerErrorMsg.innerHTML = "Check marked input fields for errors"
-            } else if (storedLeng == "spanish") {
-                registerErrorMsg.innerText = "Revise los campos marcados por errores"
-            }
-
-            let message = ""
-
-            if (errorEmails) {
-                if (storedLeng == "spanish") {
-                    message = message + "<li>Email Invalido</li>"
-                } else {
-                    message = message + "<li>Invalid Email</li>"
-                }
-            }
-
-            if (errorFullname) {
-                if (storedLeng == "spanish") {
-                    message = message + "<li>Nombre Completo Invalido</li>"
-                } else {
-                    message = message + "<li>Invalid Full Name</li>"
-                }
-            }
-
-            if (errorPasword) {
-                if (storedLeng == "spanish") {
-                    message = message + "<li>Contraseña demasiado corta</li>"
-                } else {
-                    message = message + "<li>Password too short</li>"
-                }
-            }
-
-            if (errorRepeatPassword) {
-                if (storedLeng == "spanish") {
-                    message = message + "<li>Contraseñas no coinciden</li>"
-                } else {
-                    message = message + "<li>Passwords don't match</li>"
-                }
-            }
-
-            Swal.fire({
-                toast: true,
-                title: "Please check the following:",
-                html: '<ul>'+message+'</ul>',
-            })
-        }
-    })
-
-    var input1 = document.getElementById("repeatPassword");
-
-    input1.addEventListener("keyup", function(event) {
-
-        if (event.keyCode === 13) {
-
-            event.preventDefault();
-
-            document.getElementById("register-form-submit").click();
-    }
-    })
-
-    var input2 = document.getElementById("register-form-submit");
-
-    input1.addEventListener("keyup", function(event) {
-
-        if (event.keyCode === 13) {
-
-            event.preventDefault();
-
-            document.getElementById("register-form-submit").click();
-    }
-    })
-
-}
-
-// Checking if the email of Register Input is correct
-
-function checkEmailValidity(email) {
-
-    if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) {
-
-        const exist = userDataBase.filter(user => user.email == email)
-
-        if (exist.length == 0) {
-            return (true);
-        } else { 
-            return (false)
-        }
-
-    } else {
-        return (false)
-    }
-}
-
-// Checking if the name of Register Input is correct
-
-function checkFullName(fullName) {
-    if (/^[a-zA-Z]+( [a-zA-Z]+)+$/.test(fullName)) {
-        return true
-    } else {
-        return false
-    }
-}
-
-// Checking if password is longer than 8 characters
-
-function checkPassword(password) {
-    if(password.length < 8) {   
-        return false;  
-     }  else {
-        return true;
-     }
-}
+// Simulated loader for homepage on initialLoad()
 
 function showLoader() {
     document.getElementById("taskSection").innerHTML = ""
@@ -341,7 +121,11 @@ function hideLoader() {
     document.querySelector('#initialLoadDiv').classList.add('d-none')
 }
 
+// Number of "Fake" task to generate for website testing using faker.js
+
 const numberOfTasksToGenerate = 0
+
+// fetchToDos mimics data base request to get todos array
 
 function fetchToDos() {
     
@@ -351,6 +135,8 @@ function fetchToDos() {
             if (todosArr.length == 0) {
                     
                 for (let index = 0; index < numberOfTasksToGenerate; index++) {
+
+                    // Fake task generator for numberOfTasksToGenerate using faker.js
 
                     todosArr.unshift(new todoElement(index + 1, false, faker.commerce.productName(), 
                     faker.commerce.productDescription(), faker.datatype.boolean(), 
@@ -366,7 +152,9 @@ function fetchToDos() {
                 }
                 
                 resolve()
+
             } else {
+
                 Storage.getTodos()
 
                 if (todosArr != []) {
@@ -393,6 +181,8 @@ function fetchToDos() {
 
 }
 
+// initialLoad for start of pages
+
 function initialLoad() {
 
     Storage.getTodos()
@@ -413,10 +203,6 @@ function initialLoad() {
                 })
                 
                 renderTodosArr()
-                
-                if (isLoggedIn[0].theme == "dark") {
-                    document.querySelectorAll(".trashCardIcon").forEach(element => element.src = "icons/trashIconWhite.svg")
-                }
 
                 if (todosArr.length > maxDisplayed) {
 
@@ -443,130 +229,26 @@ function initialLoad() {
 
     if (isLoggedIn[0].theme == "dark") {
         document.querySelector("#darkCheck").click()
-
-        document.documentElement.setAttribute("data-theme", "dark")
-        
+        document.documentElement.setAttribute("data-theme", "dark")        
     }
 
     if (document.getElementById("homeBody") != null) {
-        document.getElementById("dropdownMenuButton1").innerText = "Todos"
+        document.getElementById("dropdownMenuButton1").innerText = "To-Dos"
     }
 
 }
 
-function renderTodosArr() {
+// Function to check if user is logged in, if it is, send to home
 
-    Storage.storeTodos(userDataBase, isLoggedIn)
+function checkLogIn() {
+
     Storage.getTodos()
-
-    const taskCardContainer = document.getElementById("taskSection")
-    const taskCardTemplates = document.getElementById("taskCardTemplate")
-
-    if (todosArr.length > 0 && document.getElementById("homeBody") != null) {
-
-        taskCardContainer.innerHTML = ""
-
-        for (let todosIndex = 0; todosIndex < todosArr.length; todosIndex++) {
-
-            if (todosArr[todosIndex].shouldDisplay) {
-                    
-                const taskCardClone = taskCardTemplates.content.cloneNode(true)
-
-                const taskCloneCardElement = taskCardClone.querySelector(".taskCard")
-                const taskCloneImportanceIndicator = taskCardClone.querySelector(".importanceIndicator")
-                const taskCloneTrashIcon = taskCardClone.querySelector(".trashCardIcon")
-                const taskCloneTitle = taskCardClone.querySelector(".taskTitle")
-                const taskCloneDesc = taskCardClone.querySelector(".taskDesc")
-                const taskCloneActions = taskCardClone.querySelector("#taskHoverDiv")
-                const taskCloneChangeStatus = taskCardClone.querySelector(".changeStatus")
-                const taskCloneViewTodo = taskCardClone.querySelector(".viewTodo")
-                const taskCloneDateData = taskCardClone.querySelector("h2")
-                const taskCloneYearData = taskCardClone.querySelector("h3")
-
-                if (todosArr[todosIndex].dueDate == "No deadline") {
-                    taskCloneDateData.innerText = "No"
-                    taskCloneYearData.innerText = "Date"
-                } else {
-                    let totalDate = new Date(todosArr[todosIndex].dueDate)
-            
-                    var month = totalDate.getUTCMonth() + 1;
-                    var day = totalDate.getUTCDate();
-                    var year = totalDate.getUTCFullYear();
-                
-                    taskCloneDateData.innerText = day + '/' + month
-                    taskCloneYearData.innerText = year
-                }
-
-                if (isLoggedIn[0].theme == "dark") {
-                    taskCloneTrashIcon.setAttribute("src", "icons/trashIconWhite.svg")
-                }
-                
-                taskCloneCardElement.addEventListener("mouseenter", () =>{
-                    taskCloneTrashIcon.classList.remove("d-none")
-                    taskCloneActions.classList.remove("d-none")
-                })
-
-                taskCloneCardElement.addEventListener("mouseleave", () =>{
-                    taskCloneTrashIcon.classList.add("d-none")
-                    taskCloneActions.classList.add("d-none")
-                })
-
-                taskCloneChangeStatus.addEventListener("click", () =>{
-                    todosArr[todosIndex].completed = !todosArr[todosIndex].completed
-                    renderTodosArr()
-                })
-
-                taskCloneViewTodo.addEventListener("click", () =>{
-                    showExpandedTodoCard(todosArr[todosIndex], todosIndex)
-                })
-
-                taskCloneTrashIcon.addEventListener("click", () =>{
-                    Swal.fire({
-                        template: '#aboutToDeleteTask'
-                    }).then(result => {
-                        if (result.isConfirmed) {
-                            for (let index = todosIndex; index < todosArr.length; index++) {
-                            
-                                if (todosArr[index].shouldDisplay == false && todosArr[index-1].shouldDisplay == true) {
-                                    todosArr[index].shouldDisplay = true
-                                    break;
-                                }
-                                
-                            }
-
-                            todosArr.splice(todosIndex, 1)
-                            
-                            renderTodosArr()
-                        }
-                    })
-                    
-                })
-
-                if (!todosArr[todosIndex].completed) {
-                    taskCloneImportanceIndicator.classList.add(
-                        getTodoImportance(todosArr[todosIndex].priority)
-                    )
-                } else {
-                    taskCloneImportanceIndicator.classList.add("completedDot")
-                }
-                
-
-                if (todosArr[todosIndex].completed) {
-                    taskCloneTitle.classList.add("text-decoration-line-through")
-                }
-
-                taskCloneTitle.innerText = todosArr[todosIndex].title
-
-                taskCloneDesc.innerText = todosArr[todosIndex].content
-
-                taskCardContainer.appendChild(taskCardClone)
-            }
-        }
-    } else if (document.getElementById("homeBody") != null && todosArr.length == 0) {
-        taskCardContainer.innerHTML = "<h1 style='text-align: center;'>No task added yet</h1>"
+ 
+    if (isLoggedIn.length != 0) {
+         window.location.href = "home.html"
     }
-
-}
+ 
+ }
 
 //Get todo priority
 
@@ -579,93 +261,6 @@ function getTodoImportance(todoPriority) {
         default:
             return 'low'
     }
-}
-
-// Search Filter
-
-function applySearchFilter() {
-
-    let today = new Date()
-    today.setHours(0,0,0,0)
-
-    const searchInputElement = document.getElementById("searchInput")
-    let keywords = searchInputElement.value
-
-    keywords = keywords.trim()
-    keywords = keywords.toLowerCase()
-
-    let currentTab
-    currentTab = document.querySelector(".activeSelBtn").innerText
-
-    if (keywords == "") {
-
-        switch (currentTab) {
-
-            case "To-Dos":
-                todosArr.forEach(todo =>{
-                    todo.shouldDisplay = false
-                })
-
-                for (let display = 0; display < maxDisplayed; display++) {
-                    todosArr[display].shouldDisplay = true;
-                }
-
-                renderTodosArr()
-                break;
-            case "My Day" || "Mi día":
-                todosArr.forEach(todo =>{
-                    todo.shouldDisplay = true
-                })
-                filterMyDay()
-                break;
-
-        }         
-    
-    } else {
-
-        switch (currentTab) {
-
-            case "To-Dos":
-                todosArr.forEach(todo =>{
-                    todo.shouldDisplay = false
-                })
-        
-                todosArr.filter(todo =>{
-        
-                    const titleMatch = todo.title.toLowerCase().includes(keywords)
-                    const descriptionMatch = todo.content.toLowerCase().includes(keywords)
-        
-                    return titleMatch || descriptionMatch
-        
-                }).forEach(todo =>{
-                    todo.shouldDisplay = true
-                })
-                break;
-            case "My Day" || "Mi día":
-                todosArr.forEach(todo =>{
-                    todo.shouldDisplay = false
-                })
-
-                todosArr.filter(todo =>{
-        
-                    const todoDate = new Date(todo.dueDate)
-                    const titleMatch = todo.title.toLowerCase().includes(keywords)
-                    const descriptionMatch = todo.content.toLowerCase().includes(keywords)
-        
-                    return (titleMatch || descriptionMatch) && (today.getYear() == todoDate.getYear() && today.getMonth() == todoDate.getMonth() && today.getDay() == todoDate.getDay())
-        
-                }).forEach(todo =>{
-                    todo.shouldDisplay = true
-                })
-
-                break;
-
-        }         
-       
-
-    }
-
-    renderTodosArr()
 }
 
 // Show todo expanded card
@@ -732,11 +327,11 @@ function showExpandedTodoCard(object, todosIndex) {
     object.subtask.forEach(element => {
         if (element.status) {
             taskSubTaskDiv.innerHTML += '<div class="subTaskandTrash"><div class="form-check" onclick="checkSubTask(this)" style="flex: 1;"><input class="form-check-input" type="checkbox" value="" id="'+ todosIndex + '-' + element.title.trim() +'" checked><label class="form-check-label" for="'+ todosIndex + '-' + element.title.trim() +'">' + 
-            element.title + '</label></div><img class="trashSubTask" src="icons/trashIcon.svg" onclick="deleteSubTask(this)"></div>'
+            element.title + '</label></div><i class="fas fa-trash trashSubTask"onclick="deleteSubTask(this)"></i></div>'
 
         } else {
             taskSubTaskDiv.innerHTML += '<div class="subTaskandTrash"><div class="form-check" onclick="checkSubTask(this)" style="flex: 1;"><input class="form-check-input" type="checkbox" value="" id="'+ todosIndex + '-' + element.title.trim() +'"><label class="form-check-label" for="'+ todosIndex + '-' + element.title.trim() +'">' + 
-            element.title + '</label></div><img class="trashSubTask" src="icons/trashIcon.svg" onclick="deleteSubTask(this)"></div>'
+            element.title + '</label></div><i class="fas fa-trash trashSubTask"onclick="deleteSubTask(this)"></i></div>'
         }
     })
 
@@ -810,6 +405,8 @@ function showExpandedTodoCard(object, todosIndex) {
 
 }
 
+// Edit expanded task function
+
 function editExpandedTask(todosIndex) {
 
     const expandedCard = document.querySelector(".expandedTaskBkgNew ")
@@ -856,6 +453,8 @@ function editExpandedTask(todosIndex) {
       
 }
 
+// Save edit of expanded task
+
 function saveTaskEdit(todosIndex, datePicker, titleChange, descChange, listChange, priorityChange, closeIcon) {
 
     console.log(todosIndex, datePicker, titleChange, descChange, listChange, priorityChange)
@@ -877,6 +476,8 @@ function saveTaskEdit(todosIndex, datePicker, titleChange, descChange, listChang
 
 }
 
+// Function for checkin sub tasks
+
 function checkSubTask(e) {
     
     const parentTaskIndexCompound = e.querySelector("input").id
@@ -894,6 +495,8 @@ function checkSubTask(e) {
     showExpandedTodoCard(todosArr[parentTaskIndex], parentTaskIndex)
 
 }
+
+// Function to delete sub tasks
 
 function deleteSubTask(e) { 
     const taskIdandSubtask = e.parentNode.querySelector("input").id.split("-")
@@ -919,6 +522,8 @@ function deleteSubTask(e) {
 
     console.log(taskIdandSubtask)
 }
+
+// Function to display Add Task inputs when plus icon clicked
 
 if (document.querySelector("#addTaskMain")) {
 
@@ -975,6 +580,8 @@ if (document.querySelector("#addTaskMain")) {
 
 }
 
+// Add new task based on Add Task inputs value
+
 function addNewTask() {
 
     if ( document.getElementById('taskTitleInput').value !== "" ) {
@@ -1025,58 +632,7 @@ function addNewTask() {
     }
 }
 
-function filterMyDay() {
-
-    document.querySelector("#pagesNavigation").classList.add("d-none")
-
-    Storage.storeTodos(userDataBase, isLoggedIn)
-    Storage.getTodos()
-
-    let today = new Date()
-    let numberOfTask = 0
-    let taskDate
-
-    today.setHours(0,0,0,0)
-
-    todosArr.forEach(todo =>{
-
-        taskDate = new Date(todo.dueDate)
-
-        taskDate.setHours(0,0,0,0)
-
-        if (today.getYear() == taskDate.getYear() && today.getMonth() == taskDate.getMonth() && today.getDay() == taskDate.getDay()) {
-
-            todo.shouldDisplay = true
-            numberOfTask += 1
-
-        } else {
-
-            todo.shouldDisplay = false
-
-        }
-
-
-    })
-
-    document.querySelector(".activeSelBtn").classList.remove("activeSelBtn")
-    document.querySelector("#myDayBtn").classList.add("activeSelBtn")
-
-    renderTodosArr()
-
-    if (numberOfTask == 0) {
-
-        document.getElementById("taskSection").innerHTML = "<h1 id='noTaskText'>No task for today :)</h1>"
-        
-    }
-
-    document.getElementById("dropdownMenuButton1").innerText = "My Day"
-
-}
-
-function changeActiveSel(){
-    document.querySelector(".activeSelBtn").classList.remove("activeSelBtn")
-    document.querySelector("#generalTodosBtn").classList.add("activeSelBtn")
-}
+// Expanded profile function when pfp clicked
 
 function toggleExpandedProfile() {
 
@@ -1135,13 +691,11 @@ function toggleExpandedProfile() {
         document.getElementById("userName").innerText = isLoggedIn[0].fullName
         document.getElementById("userEmail").innerText = isLoggedIn[0].email
     
-    
         backIcon.addEventListener("click", () =>{
             document.getElementById("profileExpandedCard").classList.remove("animate__slideInLeft")
             document.getElementById("profileExpandedCard").classList.add("animate__slideOutLeft")
 
             setTimeout(function(){ document.getElementById("profileExpandedCard").classList.add("d-none"); }, 300);
-
         })
     
         logOut.addEventListener("click", function(){
@@ -1164,18 +718,9 @@ function toggleExpandedProfile() {
     
         lenguageSelection()
     }
-
 }
 
-function checkLogIn() {
-
-   Storage.getTodos()
-
-   if (isLoggedIn.length != 0) {
-        window.location.href = "home.html"
-   }
-
-}
+// Change Profile Picture Function
 
 function changePfp() {
 
@@ -1216,6 +761,8 @@ function changePfp() {
     })
 }
 
+// Change theme, light and dark
+
 function themeSelection() {
 
     const lightBtn = document.querySelector("#lightCheck")
@@ -1223,7 +770,6 @@ function themeSelection() {
 
     lightBtn.addEventListener("click", (event) => {
         document.documentElement.setAttribute("data-theme", "default")
-        document.querySelectorAll(".trashCardIcon").forEach(element => {element.src = "icons/trashIcon.svg"})
 
         userDataBase.forEach(user => {
             if (user.email == isLoggedIn[0].email) {
@@ -1235,7 +781,6 @@ function themeSelection() {
 
     darkBtn.addEventListener("click", (event) => {
         document.documentElement.setAttribute("data-theme", "dark")
-        document.querySelectorAll(".trashCardIcon").forEach(element => {element.src = "icons/trashIconWhite.svg"})
 
         userDataBase.forEach(user => {
             if (user.email == isLoggedIn[0].email) {
@@ -1246,6 +791,8 @@ function themeSelection() {
     })
 
 }
+
+// Lenguage Selection
 
 function lenguageSelection() {
 
@@ -1267,6 +814,7 @@ function lenguageSelection() {
     })
 }
 
+// Landing page hamburger menu show
 
 if (document.querySelector("#hambLanding") != null) {
 
@@ -1283,123 +831,130 @@ if (document.querySelector("#hambLanding") != null) {
 
 }
 
+// Set up of graphs and data for stats page
+
 function statsPageSetup() {
     
-    var ctx1 = document.getElementById('taskCompletedChart').getContext('2d');
+    if (todosArr.length > 0) {
+        
+        var ctx1 = document.getElementById('taskCompletedChart').getContext('2d');
 
-    let completed = todosArr.filter(task => task.completed == true).length
-    let pending = todosArr.length - completed
+        let completed = todosArr.filter(task => task.completed == true).length
+        let pending = todosArr.length - completed
 
-    var myChart1 = new Chart(ctx1, {
-    type: 'doughnut',
-    data: {
-        labels: ['Pending Tasks', 'Completed'],
-        datasets: [{
-            label: '# Tasks',
-            data: [pending, completed],
-            backgroundColor: [
-                'rgba(0, 0, 0, 1)',
-                'rgba(54, 162, 235, 1)',
-            ],
-        }]
-        },
-        options: {
-          responsive: false,
-          borderColor: 'rgba(54, 162, 235, 0)',
-        },
-    });
+        var myChart1 = new Chart(ctx1, {
+        type: 'doughnut',
+        data: {
+            labels: ['Pending Tasks', 'Completed'],
+            datasets: [{
+                label: '# Tasks',
+                data: [pending, completed],
+                backgroundColor: [
+                    'rgba(0, 0, 0, 1)',
+                    'rgba(54, 162, 235, 1)',
+                ],
+            }]
+            },
+            options: {
+            responsive: false,
+            borderColor: 'rgba(54, 162, 235, 0)',
+            },
+        });
 
-    var ctx2 = document.getElementById('taskPriorityChart').getContext('2d');
-    
-    let high = todosArr.filter(task => task.priority == "High").length
-    let mid = todosArr.filter(task => task.priority == "Medium").length
-    let low = todosArr.length - high - mid
+        var ctx2 = document.getElementById('taskPriorityChart').getContext('2d');
+        
+        let high = todosArr.filter(task => task.priority == "High").length
+        let mid = todosArr.filter(task => task.priority == "Medium").length
+        let low = todosArr.length - high - mid
 
-    var myChart2 = new Chart(ctx2, {
-    type: 'doughnut',
-    data: {
-        labels: ['High', 'Medium', 'Low'],
-        datasets: [{
-            label: '# Tasks',
-            data: [high, mid, low],
-            backgroundColor: [
-                'rgba(176, 0, 0, 1)',
-                'rgba(255, 200, 0, 1)',
-                'rgba(52, 207, 90, 1)',
-            ],
-        }]
-        },
-        options: {
-          responsive: false,
-          borderColor: 'rgba(54, 162, 235, 0)',
-        },
-    });
+        var myChart2 = new Chart(ctx2, {
+        type: 'doughnut',
+        data: {
+            labels: ['High', 'Medium', 'Low'],
+            datasets: [{
+                label: '# Tasks',
+                data: [high, mid, low],
+                backgroundColor: [
+                    'rgba(176, 0, 0, 1)',
+                    'rgba(255, 200, 0, 1)',
+                    'rgba(52, 207, 90, 1)',
+                ],
+            }]
+            },
+            options: {
+            responsive: false,
+            borderColor: 'rgba(54, 162, 235, 0)',
+            },
+        });
 
-    document.getElementById("numberOfTasks").innerText = todosArr.length;
-    document.getElementById("numberOfTasksCompleted").innerText = completed;
+        document.getElementById("numberOfTasks").innerText = todosArr.length;
+        document.getElementById("numberOfTasksCompleted").innerText = completed;
 
-    let sorted
+        let sorted
 
-    sorted = todosArr.sort(function(a,b){
-        return new Date(a.dueDate) - new Date(b.dueDate);
-    })
+        sorted = todosArr.sort(function(a,b){
+            return new Date(a.dueDate) - new Date(b.dueDate);
+        })
 
-    let notCompleted
-    let index = 0
+        let notCompleted
+        let index = 0
 
-    sorted.forEach(element => {
-        if (!element.completed && index == 0) {
-            index = index + 1
-            notCompleted = element
-           return notCompleted
+        sorted.forEach(element => {
+            if (!element.completed && index == 0) {
+                index = index + 1
+                notCompleted = element
+            return notCompleted
+            }
+        })
+        
+        const upcomingTaskDiv = document.getElementById("upcomingTask")
+        const upcomTaskTemplate = document.getElementById("taskCardTemplate")
+
+        if (storedLeng == "spanish") {
+            upcomingTaskDiv.innerHTML = "<h1 class='chartsTitle'>Proxima Tarea</h1>"
+        } else {
+            upcomingTaskDiv.innerHTML = "<h1 class='chartsTitle'>Next Up Task</h1>"
         }
-    })
-    
-    const upcomingTaskDiv = document.getElementById("upcomingTask")
-    const upcomTaskTemplate = document.getElementById("taskCardTemplate")
 
-    if (storedLeng == "spanish") {
-        upcomingTaskDiv.innerHTML = "<h1 class='chartsTitle'>Proxima Tarea</h1>"
-    } else {
-        upcomingTaskDiv.innerHTML = "<h1 class='chartsTitle'>Next Up Task</h1>"
+        const upcomTaskClone = upcomTaskTemplate.content.cloneNode(true)
+
+        const taskCloneCardElement = upcomTaskClone.querySelector(".taskCard")
+        const taskCloneImportanceIndicator = upcomTaskClone.querySelector(".importanceIndicator")
+        const taskCloneTitle = upcomTaskClone.querySelector(".taskTitle")
+        const taskCloneList = upcomTaskClone.querySelector(".taskList")
+        const taskCloneDesc = upcomTaskClone.querySelector(".taskDesc")
+        const taskDayNMonth = upcomTaskClone.querySelector("h2")
+        const taskYear = upcomTaskClone.querySelector("h3")
+
+
+        taskCloneImportanceIndicator.classList.add(
+            getTodoImportance(notCompleted.priority)
+        )
+
+        let totalDate = new Date(notCompleted.dueDate)
+
+        var month = totalDate.getUTCMonth() + 1;
+        var day = totalDate.getUTCDate();
+        var year = totalDate.getUTCFullYear();
+
+        taskDayNMonth.innerText = day + '/' + month
+        taskYear.innerText = year
+
+        taskCloneList.innerText = 'Task List: ' + notCompleted.list
+
+        taskCloneTitle.innerText = notCompleted.title
+
+        taskCloneDesc.innerText = notCompleted.content
+
+        upcomingTaskDiv.appendChild(upcomTaskClone)
+
+        todosArr.sort(function(a,b){
+            return b.index - a.index;
+        })
     }
-
-    const upcomTaskClone = upcomTaskTemplate.content.cloneNode(true)
-
-    const taskCloneCardElement = upcomTaskClone.querySelector(".taskCard")
-    const taskCloneImportanceIndicator = upcomTaskClone.querySelector(".importanceIndicator")
-    const taskCloneTitle = upcomTaskClone.querySelector(".taskTitle")
-    const taskCloneList = upcomTaskClone.querySelector(".taskList")
-    const taskCloneDesc = upcomTaskClone.querySelector(".taskDesc")
-    const taskDayNMonth = upcomTaskClone.querySelector("h2")
-    const taskYear = upcomTaskClone.querySelector("h3")
-
-
-    taskCloneImportanceIndicator.classList.add(
-        getTodoImportance(notCompleted.priority)
-    )
-
-    let totalDate = new Date(notCompleted.dueDate)
-
-    var month = totalDate.getUTCMonth() + 1;
-    var day = totalDate.getUTCDate();
-    var year = totalDate.getUTCFullYear();
-
-    taskDayNMonth.innerText = day + '/' + month
-    taskYear.innerText = year
-
-    taskCloneList.innerText = 'Task List: ' + notCompleted.list
-
-    taskCloneTitle.innerText = notCompleted.title
-
-    taskCloneDesc.innerText = notCompleted.content
-
-    upcomingTaskDiv.appendChild(upcomTaskClone)
-
-    todosArr.sort(function(a,b){
-        return b.index - a.index;
-    })
 }
+
+// Expansion of lists div
 
 function listExpanded() {
 
@@ -1476,10 +1031,6 @@ function listExpanded() {
 
             categoriesList.append(lisElClone)
 
-            if (isLoggedIn[0].theme === "dark") {
-                document.querySelectorAll(".trashIcon").forEach(element => element.src = "icons/trashIconWhite.svg")
-            }
-
         }
     }
 
@@ -1496,6 +1047,8 @@ function listExpanded() {
     })
 }
 
+// Add new list function
+
 function addNewListAction() {
 
     const newList = document.getElementById("addNewListInput").value
@@ -1507,201 +1060,6 @@ function addNewListAction() {
         document.getElementById("addNewListInput").value = ""
 
         listExpanded()
-    }
-
-}
-
-function nextPageOfArray() {
-
-    if (document.querySelector("#eyeClosed").classList.contains("d-none")) {
-        if (!todosArr[todosArr.length-1].shouldDisplay) {
-            let lastDisplayIndex = 0
-    
-            for (let iteration = 1; iteration < todosArr.length-1; iteration++) {
-                if (todosArr[iteration].shouldDisplay == true && todosArr[iteration+1].shouldDisplay == false) {
-                    lastDisplayIndex = iteration
-                }
-            }
-    
-            for (let q = 0; q <= lastDisplayIndex; q++){
-                todosArr[q].shouldDisplay = false
-            }
-    
-            let firstToDisplay = lastDisplayIndex + 1
-            let LastToDisplay = firstToDisplay + maxDisplayed
-    
-            while (firstToDisplay < LastToDisplay) {
-                if (firstToDisplay < todosArr.length) {
-                    todosArr[firstToDisplay].shouldDisplay = true
-                }
-    
-                firstToDisplay++
-            }
-    
-            renderTodosArr()
-        }
-    } else {
-        let lastNotCompleted = 0
-
-        todosArr.forEach( function(element, index) {
-            if (!element.completed) {
-                lastNotCompleted = index
-            }
-        })
-
-        if (!todosArr[lastNotCompleted].shouldDisplay) {
-            let lastDisplayIndex = 0
-
-            for (let iteration = 1; iteration < todosArr.length-1; iteration++) {
-                if (todosArr[iteration].shouldDisplay == true && todosArr[iteration].completed == false) {
-                    lastDisplayIndex = iteration
-                }
-            }
-
-            for (let q = 0; q <= lastDisplayIndex; q++){
-                todosArr[q].shouldDisplay = false
-            }
-
-            let firstToDisplay = lastDisplayIndex + 1
-            let LastToDisplay = firstToDisplay + maxDisplayed
-    
-            while (firstToDisplay < LastToDisplay && firstToDisplay < todosArr.length) {
-                if (!todosArr[firstToDisplay].completed) {
-                    todosArr[firstToDisplay].shouldDisplay = true
-                }
-    
-                firstToDisplay++
-            }
-    
-            renderTodosArr()
-        }
-
-    }
-    
-    
-}
-
-function previousPageOfArray() {
-
-    if (document.querySelector("#eyeClosed").classList.contains("d-none")) {
-        if (!todosArr[0].shouldDisplay) {
-            let firstDisplayIndex = 0
-
-            for (let iteration = 1; iteration < todosArr.length; iteration++) {
-                if (todosArr[iteration-1].shouldDisplay == false && todosArr[iteration].shouldDisplay == true) {
-                    firstDisplayIndex = iteration
-                }
-            }
-
-            let index = firstDisplayIndex
-
-            while (index < firstDisplayIndex + maxDisplayed) {
-                if (index < todosArr.length) {
-                    todosArr[index].shouldDisplay = false
-                }
-
-                index++
-            }
-
-            let firstToDisplay = firstDisplayIndex - maxDisplayed
-            
-            while (firstToDisplay < firstDisplayIndex) {
-                todosArr[firstToDisplay].shouldDisplay = true
-                firstToDisplay++
-            }
-
-            renderTodosArr()
-        }
-    } else {
-
-        let firstNotCompleted = todosArr.findIndex(element => !element.completed)
-
-
-        console.log(firstNotCompleted)
-       
-        if (!todosArr[firstNotCompleted].shouldDisplay) {
-            let firstDisplayIndex = 0
-            let first = true
-
-            for (let iteration = 1; iteration < todosArr.length; iteration++) {
-                if (todosArr[iteration].completed == false && todosArr[iteration].shouldDisplay == true && first) {
-                    firstDisplayIndex = iteration
-                    first = false
-                }
-            }
-
-            let index = firstDisplayIndex
-
-            while (index < firstDisplayIndex + maxDisplayed) {
-                if (index < todosArr.length) {
-                    todosArr[index].shouldDisplay = false
-                }
-
-                index++
-            }
-
-            let iteration = 0
-            let displayed = 0
-
-            while (iteration < firstDisplayIndex && displayed < maxDisplayed) {
-                if (!todosArr[iteration].completed) {
-                    todosArr[iteration].shouldDisplay = true
-                    displayed++
-                }
-                iteration++
-            }
-
-            renderTodosArr()
-        }
-
-
-
-    }
-}
-
-function filterByDate(){
-
-    todosArr.sort(function(a,b){
-        return new Date(a.dueDate) - new Date(b.dueDate);
-    })
-
-    renderTodosArr()
-
-}
-
-function hideCompletedTasks(e) {
-
-    const current = ((e.querySelector(".d-none").id == "eyeOpen") ? "completedHided" : "completedShowing"  )
-
-    todosArr.forEach(element => {element.shouldDisplay = false})
-
-    if (current == "completedShowing") {
-        e.querySelector("#eyeOpen").classList.add("d-none")
-        e.querySelector("#eyeClosed").classList.remove("d-none")
-
-        let display = 0
-        let index = 0
-
-        while (display < maxDisplayed && index < todosArr.length) {
-            
-            if (!todosArr[index].completed) {
-                todosArr[index].shouldDisplay = true
-                index++
-                display++
-            } else {
-                index++
-            }
-        }
-
-        renderTodosArr()
-
-    } else {
-        e.querySelector("#eyeOpen").classList.remove("d-none")
-        e.querySelector("#eyeClosed").classList.add("d-none")
-
-        fetchToDos().then(() =>{
-            renderTodosArr()
-        })
     }
 
 }
