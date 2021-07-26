@@ -489,14 +489,19 @@ function renderTodosArr() {
                 const taskCloneDateData = taskCardClone.querySelector("h2")
                 const taskCloneYearData = taskCardClone.querySelector("h3")
 
-                let totalDate = new Date(todosArr[todosIndex].dueDate)
-
-                var month = totalDate.getUTCMonth() + 1; //months from 1-12
-                var day = totalDate.getUTCDate();
-                var year = totalDate.getUTCFullYear();
-
-                taskCloneDateData.innerText = day + '/' + month
-                taskCloneYearData.innerText = year
+                if (todosArr[todosIndex].dueDate == "No deadline") {
+                    taskCloneDateData.innerText = "No"
+                    taskCloneYearData.innerText = "Date"
+                } else {
+                    let totalDate = new Date(todosArr[todosIndex].dueDate)
+            
+                    var month = totalDate.getUTCMonth() + 1;
+                    var day = totalDate.getUTCDate();
+                    var year = totalDate.getUTCFullYear();
+                
+                    taskCloneDateData.innerText = day + '/' + month
+                    taskCloneYearData.innerText = year
+                }
 
                 if (isLoggedIn[0].theme == "dark") {
                     taskCloneTrashIcon.setAttribute("src", "icons/trashIconWhite.svg")
@@ -704,15 +709,20 @@ function showExpandedTodoCard(object, todosIndex) {
     taskTitleTemplate.innerText = object.title
     taskListTemplate.innerText = object.list
 
-    let totalDate = new Date(object.dueDate)
+    if (object.dueDate == "No deadline") {
+        taskDayNMonth.innerText = "No"
+        taskYear.innerText = "Date"
+    } else {
+        let totalDate = new Date(object.dueDate)
 
-    var month = totalDate.getUTCMonth() + 1;
-    var day = totalDate.getUTCDate();
-    var year = totalDate.getUTCFullYear();
-
-    taskDayNMonth.innerText = day + '/' + month
-    taskYear.innerText = year
-
+        var month = totalDate.getUTCMonth() + 1;
+        var day = totalDate.getUTCDate();
+        var year = totalDate.getUTCFullYear();
+    
+        taskDayNMonth.innerText = day + '/' + month
+        taskYear.innerText = year
+    }
+  
     if (object.priority == "Medium") {
         taskPriorShow.classList.add("mid")
     } else if (object.completed == true){
@@ -798,7 +808,52 @@ function showExpandedTodoCard(object, todosIndex) {
         deleteTaskExpanded.innerText = "Borrar Tarea"
     }
 
+    taskExpandClone.querySelector("#taskEditBtn").addEventListener("click", function() {
+        editExpandedTask(todosIndex)
+    })
+
     taskSec.prepend(taskExpandClone)
+
+}
+
+function editExpandedTask(todosIndex) {
+    console.log(todosIndex)
+    const expandedCard = document.querySelector(".expandedTaskBkgNew ")
+
+    const datePicker = expandedCard.querySelector(".importanceIndicatorExpanded")
+    const titleChange = expandedCard.querySelector("#taskTitleExpanded")
+    const listChange = expandedCard.querySelector("#taskList")
+    const priorityChange = expandedCard.querySelector("#taskPriority")
+    const descChange = expandedCard.querySelector("#taskDescriptionExpanded")
+    
+    const editIcon = expandedCard.querySelector("#taskEditBtn")
+    const saveicon = expandedCard.querySelector("#taskSaveChangesBtn")
+
+    datePicker.innerHTML = '<input type="date" id="editDateExpanded">'
+    titleChange.innerHTML = '<input type="text" id="newTaskTitle" value="'+todosArr[todosIndex].title+'"style="display: block;">'
+    descChange.innerHTML = '<textarea style="width: 100%;">'+todosArr[todosIndex].content+'</textarea>'
+
+    editIcon.classList.add('d-none')
+    saveicon.classList.remove('d-none')
+
+    let elem = ""
+    
+    for (let listIndex = 0; listIndex < categoriesArr.length; listIndex++) {
+        elem += '<option value="' + listIndex + '">' + categoriesArr[listIndex] + '</option>'
+    }
+
+    listChange.innerHTML = '<label id="categoryTaskLabel" for="taskListInput">Category</label>' +
+    '<select class="form-select addTaskInputStyle" id="taskListInput" aria-label="Default select example">' +
+    elem +
+    '</select>'
+
+    priorityChange.innerHTML = '<label id="priorityTaskLabel" for="taskPriorityInput">Priority</label>' +
+    '<select class="form-select addTaskInputStyle" id="taskPriorityInput" aria-label="Default select example">' +
+      '<option value="1" select>Low</option>' +
+      '<option value="2">Medium</option>' +
+      '<option value="3">High</option>'
+
+    console.log(elem)
 
 }
 
@@ -917,6 +972,7 @@ function addNewTask() {
         if (deadlineInput == "") {
             deadlineInput = "No deadline"
         }
+
         todosArr.unshift(new todoElement(currentIndex, 
             false, 
             document.getElementById('taskTitleInput').value, 
@@ -925,7 +981,7 @@ function addNewTask() {
             document.querySelector("#taskPriorityInput").selectedOptions[0].label, 
             deadlineInput, 
             document.querySelector("#taskListInput").selectedOptions[0].label,
-            [{title: "Task1", status: false}, {title: "Task2", status: true}]))
+            []))
 
         let addTaskContainer = document.querySelector("#addTaskContainer")
 
@@ -937,10 +993,14 @@ function addNewTask() {
 
         todosArr.forEach(element => {element.shouldDisplay = false;})
             
-        for (let display = 0; display < maxDisplayed; display++) {
-            todosArr[display].shouldDisplay = true;
+        if (todosArr.length >= maxDisplayed) {
+            for (let display = 0; display < maxDisplayed; display++) {
+                todosArr[display].shouldDisplay = true;
+            }
+        } else {
+            todosArr.forEach(element => {element.shouldDisplay = true})
         }
-            
+       
         renderTodosArr()
     }
 }
