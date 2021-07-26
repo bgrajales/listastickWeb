@@ -113,6 +113,14 @@ li p {
     flex: 1;
 }
 
+#hideCompletedBtn {
+    margin: 0 0 0 10px;
+    background-color: var(--secondaryBtn-color);
+    color: var(--theme-background-color);
+    border: none;
+    border-radius: 10px;
+}
+
 #formSubDiv {
     flex: 1;
     padding: 40px 50px;

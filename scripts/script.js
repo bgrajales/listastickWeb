@@ -341,7 +341,7 @@ function hideLoader() {
     document.querySelector('#initialLoadDiv').classList.add('d-none')
 }
 
-const numberOfTasksToGenerate = 0
+const numberOfTasksToGenerate = 13
 
 function fetchToDos() {
     
@@ -1513,66 +1513,150 @@ function addNewListAction() {
 
 function nextPageOfArray() {
 
-    if (!todosArr[todosArr.length-1].shouldDisplay) {
-        let lastDisplayIndex = 0
-
-        for (let iteration = 1; iteration < todosArr.length-1; iteration++) {
-            if (todosArr[iteration].shouldDisplay == true && todosArr[iteration+1].shouldDisplay == false) {
-                lastDisplayIndex = iteration
+    if (document.querySelector("#eyeClosed").classList.contains("d-none")) {
+        if (!todosArr[todosArr.length-1].shouldDisplay) {
+            let lastDisplayIndex = 0
+    
+            for (let iteration = 1; iteration < todosArr.length-1; iteration++) {
+                if (todosArr[iteration].shouldDisplay == true && todosArr[iteration+1].shouldDisplay == false) {
+                    lastDisplayIndex = iteration
+                }
             }
+    
+            for (let q = 0; q <= lastDisplayIndex; q++){
+                todosArr[q].shouldDisplay = false
+            }
+    
+            let firstToDisplay = lastDisplayIndex + 1
+            let LastToDisplay = firstToDisplay + maxDisplayed
+    
+            while (firstToDisplay < LastToDisplay) {
+                if (firstToDisplay < todosArr.length) {
+                    todosArr[firstToDisplay].shouldDisplay = true
+                }
+    
+                firstToDisplay++
+            }
+    
+            renderTodosArr()
         }
+    } else {
+        let lastNotCompleted = 0
 
-        for (let q = 0; q <= lastDisplayIndex; q++){
-            todosArr[q].shouldDisplay = false
-        }
+        todosArr.forEach( function(element, index) {
+            if (!element.completed) {
+                lastNotCompleted = index
+            }
+        })
 
-        let firstToDisplay = lastDisplayIndex + 1
-        let LastToDisplay = firstToDisplay + maxDisplayed
+        if (!todosArr[lastNotCompleted].shouldDisplay) {
+            let lastDisplayIndex = 0
 
-        while (firstToDisplay < LastToDisplay) {
-            if (firstToDisplay < todosArr.length) {
-                todosArr[firstToDisplay].shouldDisplay = true
+            for (let iteration = 1; iteration < todosArr.length-1; iteration++) {
+                if (todosArr[iteration].shouldDisplay == true && todosArr[iteration].completed == false) {
+                    lastDisplayIndex = iteration
+                }
             }
 
-            firstToDisplay++
+            for (let q = 0; q <= lastDisplayIndex; q++){
+                todosArr[q].shouldDisplay = false
+            }
+
+            let firstToDisplay = lastDisplayIndex + 1
+            let LastToDisplay = firstToDisplay + maxDisplayed
+    
+            while (firstToDisplay < LastToDisplay && firstToDisplay < todosArr.length) {
+                if (!todosArr[firstToDisplay].completed) {
+                    todosArr[firstToDisplay].shouldDisplay = true
+                }
+    
+                firstToDisplay++
+            }
+    
+            renderTodosArr()
         }
 
-        renderTodosArr()
     }
+    
     
 }
 
 function previousPageOfArray() {
 
-    if (!todosArr[0].shouldDisplay) {
-        let firstDisplayIndex = 0
+    if (document.querySelector("#eyeClosed").classList.contains("d-none")) {
+        if (!todosArr[0].shouldDisplay) {
+            let firstDisplayIndex = 0
 
-        for (let iteration = 1; iteration < todosArr.length; iteration++) {
-            if (todosArr[iteration-1].shouldDisplay == false && todosArr[iteration].shouldDisplay == true) {
-                firstDisplayIndex = iteration
-            }
-        }
-
-        let index = firstDisplayIndex
-
-        while (index < firstDisplayIndex + maxDisplayed) {
-            if (index < todosArr.length) {
-                todosArr[index].shouldDisplay = false
+            for (let iteration = 1; iteration < todosArr.length; iteration++) {
+                if (todosArr[iteration-1].shouldDisplay == false && todosArr[iteration].shouldDisplay == true) {
+                    firstDisplayIndex = iteration
+                }
             }
 
-            index++
+            let index = firstDisplayIndex
+
+            while (index < firstDisplayIndex + maxDisplayed) {
+                if (index < todosArr.length) {
+                    todosArr[index].shouldDisplay = false
+                }
+
+                index++
+            }
+
+            let firstToDisplay = firstDisplayIndex - maxDisplayed
+            
+            while (firstToDisplay < firstDisplayIndex) {
+                todosArr[firstToDisplay].shouldDisplay = true
+                firstToDisplay++
+            }
+
+            renderTodosArr()
+        }
+    } else {
+
+        let firstNotCompleted = todosArr.findIndex(element => !element.completed)
+
+
+        console.log(firstNotCompleted)
+       
+        if (!todosArr[firstNotCompleted].shouldDisplay) {
+            let firstDisplayIndex = 0
+            let first = true
+
+            for (let iteration = 1; iteration < todosArr.length; iteration++) {
+                if (todosArr[iteration].completed == false && todosArr[iteration].shouldDisplay == true && first) {
+                    firstDisplayIndex = iteration
+                    first = false
+                }
+            }
+
+            let index = firstDisplayIndex
+
+            while (index < firstDisplayIndex + maxDisplayed) {
+                if (index < todosArr.length) {
+                    todosArr[index].shouldDisplay = false
+                }
+
+                index++
+            }
+
+            let iteration = 0
+            let displayed = 0
+
+            while (iteration < firstDisplayIndex && displayed < maxDisplayed) {
+                if (!todosArr[iteration].completed) {
+                    todosArr[iteration].shouldDisplay = true
+                    displayed++
+                }
+                iteration++
+            }
+
+            renderTodosArr()
         }
 
-        let firstToDisplay = firstDisplayIndex - maxDisplayed
-        
-        while (firstToDisplay < firstDisplayIndex) {
-            todosArr[firstToDisplay].shouldDisplay = true
-            firstToDisplay++
-        }
 
-        renderTodosArr()
+
     }
-    
 }
 
 function filterByDate(){
@@ -1582,5 +1666,42 @@ function filterByDate(){
     })
 
     renderTodosArr()
+
+}
+
+function hideCompletedTasks(e) {
+
+    const current = ((e.querySelector(".d-none").id == "eyeOpen") ? "completedHided" : "completedShowing"  )
+
+    todosArr.forEach(element => {element.shouldDisplay = false})
+
+    if (current == "completedShowing") {
+        e.querySelector("#eyeOpen").classList.add("d-none")
+        e.querySelector("#eyeClosed").classList.remove("d-none")
+
+        let display = 0
+        let index = 0
+
+        while (display < maxDisplayed && index < todosArr.length) {
+            
+            if (!todosArr[index].completed) {
+                todosArr[index].shouldDisplay = true
+                index++
+                display++
+            } else {
+                index++
+            }
+        }
+
+        renderTodosArr()
+
+    } else {
+        e.querySelector("#eyeOpen").classList.remove("d-none")
+        e.querySelector("#eyeClosed").classList.add("d-none")
+
+        fetchToDos().then(() =>{
+            renderTodosArr()
+        })
+    }
 
 }
