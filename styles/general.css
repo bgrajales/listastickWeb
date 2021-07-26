@@ -410,6 +410,16 @@ li p {
     gap: 45px;
 }
 
+#taskSaveChangesBtn {
+    position: absolute;
+    width: 20px;
+    right: 25px;
+}
+
+.flex-column {
+    flex-direction: column !important;
+}
+
 .expandedTodoCardDivNew {
     width: 100%;
     margin-bottom: 20px;
@@ -935,6 +945,11 @@ button:focus:not(:focus-visible) {
 
     li p {
         font-size: 1.3rem !important;
+    }
+
+    #taskEditBtn {
+        position: absolute;
+        left: 25px;
     }
 
     #dropdownMenuButton1 {

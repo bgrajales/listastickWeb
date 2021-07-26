@@ -3,13 +3,7 @@ var isLoggedIn = []
 var userDataBase = []
 var categoriesArr = ["General"]
 
-var maxDisplayed
-
-if (screen.width < 1240) {
-    maxDisplayed = 8
-} else {
-    maxDisplayed = 8
-}
+var maxDisplayed = 8
 
 const priority = {
     LOW: 'Low',
@@ -817,7 +811,7 @@ function showExpandedTodoCard(object, todosIndex) {
 }
 
 function editExpandedTask(todosIndex) {
-    console.log(todosIndex)
+
     const expandedCard = document.querySelector(".expandedTaskBkgNew ")
 
     const datePicker = expandedCard.querySelector(".importanceIndicatorExpanded")
@@ -828,14 +822,17 @@ function editExpandedTask(todosIndex) {
     
     const editIcon = expandedCard.querySelector("#taskEditBtn")
     const saveicon = expandedCard.querySelector("#taskSaveChangesBtn")
+    const closeIcon = expandedCard.querySelector("#backIcon")
 
-    datePicker.innerHTML = '<input type="date" id="editDateExpanded">'
+    expandedCard.querySelectorAll(".backAndTitle").forEach(element => { element.classList.add("flex-column")})
+
+    datePicker.innerHTML = '<input type="date" id="editDateExpanded" value="'+ todosArr[todosIndex].dueDate +'">'
     titleChange.innerHTML = '<input type="text" id="newTaskTitle" value="'+todosArr[todosIndex].title+'"style="display: block;">'
-    descChange.innerHTML = '<textarea style="width: 100%;">'+todosArr[todosIndex].content+'</textarea>'
+    descChange.innerHTML = '<textarea id="newTaskDesc" style="width: 100%;">'+todosArr[todosIndex].content+'</textarea>'
 
     editIcon.classList.add('d-none')
     saveicon.classList.remove('d-none')
-
+    closeIcon.classList.add('d-none')
     let elem = ""
     
     for (let listIndex = 0; listIndex < categoriesArr.length; listIndex++) {
@@ -843,17 +840,40 @@ function editExpandedTask(todosIndex) {
     }
 
     listChange.innerHTML = '<label id="categoryTaskLabel" for="taskListInput">Category</label>' +
-    '<select class="form-select addTaskInputStyle" id="taskListInput" aria-label="Default select example">' +
+    '<select class="form-select addTaskInputStyle" id="editTaskListInput" aria-label="Default select example">' +
     elem +
     '</select>'
 
     priorityChange.innerHTML = '<label id="priorityTaskLabel" for="taskPriorityInput">Priority</label>' +
-    '<select class="form-select addTaskInputStyle" id="taskPriorityInput" aria-label="Default select example">' +
+    '<select class="form-select addTaskInputStyle" id="editTaskPriorityInput" aria-label="Default select example">' +
       '<option value="1" select>Low</option>' +
       '<option value="2">Medium</option>' +
       '<option value="3">High</option>'
 
-    console.log(elem)
+      saveicon.addEventListener("click", function(){
+          saveTaskEdit(todosIndex, datePicker, titleChange, descChange, listChange, priorityChange, closeIcon)
+      })
+      
+}
+
+function saveTaskEdit(todosIndex, datePicker, titleChange, descChange, listChange, priorityChange, closeIcon) {
+
+    console.log(todosIndex, datePicker, titleChange, descChange, listChange, priorityChange)
+
+    todosArr[todosIndex].dueDate = datePicker.querySelector("#editDateExpanded").value
+    
+
+    todosArr[todosIndex].title = titleChange.querySelector("#newTaskTitle").value
+    todosArr[todosIndex].content = descChange.querySelector("#newTaskDesc").value
+
+    todosArr[todosIndex].list = listChange.querySelector("#editTaskListInput").selectedOptions[0].label
+    todosArr[todosIndex].priority = priorityChange.querySelector("#editTaskPriorityInput").selectedOptions[0].label
+
+    renderTodosArr()
+
+    closeIcon.click()
+     
+    showExpandedTodoCard(todosArr[todosIndex], todosIndex)
 
 }
 
