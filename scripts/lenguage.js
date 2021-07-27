@@ -150,9 +150,17 @@ if (storedLeng == "spanish") {
         document.getElementById("searchListInput").setAttribute("placeholder", "Buscar")
         document.getElementById("addNewListInput").setAttribute("placeholder", "Nueva Categoria")
 
-        document.getElementById("searchBtn").innerText = "Buscar"
-        document.getElementById("searchBtn").innerText = "Buscar"
-        document.getElementById("searchBtn").innerText = "Buscar"
+        document.getElementById("myDayBtn").innerText = "Mi Día"
+        document.getElementById("orderDate").innerText = "Ordenar por fecha"
+
+    }
+
+    if (document.querySelector("#statsBody") != null || document.querySelector("#homeBody") != null) {
+
+        document.getElementById("addTag").innerText = "Añadir"
+        document.getElementById("homeTag").innerText = "Inicio"
+        document.getElementById("listTag").innerText = "Listas"
+        document.getElementById("profileTag").innerText = "Perfil"
 
     }
 
