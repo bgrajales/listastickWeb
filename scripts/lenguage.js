@@ -150,8 +150,8 @@ if (storedLeng == "spanish") {
         document.getElementById("searchListInput").setAttribute("placeholder", "Buscar")
         document.getElementById("addNewListInput").setAttribute("placeholder", "Nueva Categoria")
 
-        document.getElementById("myDayBtn").innerText = "Mi Día"
-        document.getElementById("orderDate").innerText = "Ordenar por fecha"
+        document.getElementById("myDayDrp").innerText = "Mi Día"
+        document.getElementById("orderDateDrp").innerText = "Ordenar por fecha"
 
     }
 
