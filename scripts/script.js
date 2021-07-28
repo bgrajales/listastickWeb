@@ -1114,6 +1114,7 @@ function listExpanded() {
 
             const liEl = lisElClone.querySelector("p")
             const liDel = lisElClone.querySelector(".trashIcon")
+            const liFil = lisElClone.querySelector(".filterIcon")
 
             liEl.innerText = categoriesArr[listIndex] + liEl.innerText
 
@@ -1136,6 +1137,12 @@ function listExpanded() {
                 })
 
             })
+
+            liFil.addEventListener("click", function(){
+                filterListCateg()
+            })
+
+
 
             categoriesList.append(lisElClone)
 
@@ -1170,4 +1177,15 @@ function addNewListAction() {
         listExpanded()
     }
 
+}
+
+function filterListCateg() {
+    Swal.fire({
+        icon: 'success',
+        title: (storedLeng == "spanish") ? "Tareas filtradas por categoria" : "Task filtered by Category",
+        showConfirmButton: false,
+        timer: 1500
+    })
+
+    
 }

@@ -42,7 +42,7 @@
       </div>
 
       <div id="profileDivNavBar" style="text-align: center;">
-        <img onclick="toggleExpandedProfile()" id="pfp" src="images/pfp.png">
+        <img id="pfp" src="images/pfp.png" onclick="toggleExpandedProfile()">
         <p id="profileTag">Profile</p>
       </div>
     </nav>
@@ -278,7 +278,7 @@
     </template>
 
     <template id="listElementTemplate">
-      <li><p></p><i class="fas fa-trash trashIcon"></i>
+      <li><p></p><i class="fas fa-filter filterIcon"></i><i class="fas fa-trash trashIcon"></i>
     </template>
 
     <template id="aboutToDeleteTask">

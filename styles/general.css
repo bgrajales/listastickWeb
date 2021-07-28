@@ -89,6 +89,10 @@ li p {
     display: inline;
 }
 
+i {
+    font-size: 1rem;
+}
+
 #desktopNavBar p {
     margin: 0;
     color: var(--accent-light-color);
@@ -366,6 +370,11 @@ li p {
 
 .swal2-title {
     color: var(--theme-text-color) !important;
+}
+
+.fa-filter {
+    position: absolute;
+    right: 85px;
 }
 
 .flex-column {
