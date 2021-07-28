@@ -123,7 +123,7 @@ function hideLoader() {
 
 // Number of "Fake" task to generate for website testing using faker.js
 
-const numberOfTasksToGenerate = 0
+const numberOfTasksToGenerate = 6
 
 // fetchToDos mimics data base request to get todos array
 
@@ -288,7 +288,7 @@ function showExpandedTodoCard(object, todosIndex) {
     const taskSubTaskDiv = taskExpandClone.querySelector("#subTaskEach")
     const taskTitleTemplate = taskExpandClone.querySelector('#taskTitleExpanded')
     const taskListTemplate = taskExpandClone.querySelector('#taskList')
-
+    const subTaskInput = taskExpandClone.querySelector("#newSubTaskInput")
     const taskPriorityTemplate = taskExpandClone.querySelector('#taskPriority')
     const taskDescTemplate = taskExpandClone.querySelector('#taskDescriptionExpanded')
 
@@ -312,16 +312,38 @@ function showExpandedTodoCard(object, todosIndex) {
         taskYear.innerText = year
     }
   
-    if (object.priority == "Medium") {
-        taskPriorShow.classList.add("mid")
-    } else if (object.completed == true){
+    if (object.completed == true) {
         taskPriorShow.classList.add("completedDot")
+    } else if (object.priority == "Medium"){
+        taskPriorShow.classList.add("mid")
     } else {
         taskPriorShow.classList.add(object.priority.toLowerCase())
     }
 
     taskPriorShow.classList.add(object.priority.toLowerCase())
-    taskPriorityTemplate.innerText = object.priority[0].toUpperCase() + object.priority.slice(1)
+
+    let prior = object.priority[0].toUpperCase() + object.priority.slice(1)
+
+    switch (prior) {
+        case "Medium":
+            if (storedLeng == "spanish") {
+                prior = "Media"
+            }
+            break;
+        case "High":
+            if (storedLeng == "spanish") {
+                prior = "Alta"
+            }
+            break;
+        case "Low":
+            if (storedLeng == "spanish") {
+                prior = "Baja"
+            }
+            break;
+    }
+
+    taskPriorityTemplate.innerText = prior
+
     taskDescTemplate.innerText = object.content
 
     object.subtask.forEach(element => {
@@ -392,7 +414,10 @@ function showExpandedTodoCard(object, todosIndex) {
         taskExpandClone.querySelector(".categorylabel").innerText = "Categoria:"
         taskExpandClone.querySelector(".prioritylabel").innerText = "Prioridad:"
         taskExpandClone.querySelector(".subtasklabel").innerText = "Sub tareas:"
+        taskExpandClone.querySelector(".contentlabel").innerText = "Contenido:"
 
+        subTaskInput.setAttribute("placeholder", "Añadir Sub Tarea")
+        
         markAsCompleted.innerText = "Marcar completado"
         deleteTaskExpanded.innerText = "Borrar Tarea"
     }
@@ -408,6 +433,8 @@ function showExpandedTodoCard(object, todosIndex) {
 // Edit expanded task function
 
 function editExpandedTask(todosIndex) {
+
+    document.querySelectorAll(".expandedTaskBkgNew p").forEach(element => element.style = "margin: 0;")
 
     const expandedCard = document.querySelector(".expandedTaskBkgNew ")
 
@@ -436,16 +463,14 @@ function editExpandedTask(todosIndex) {
         elem += '<option value="' + listIndex + '">' + categoriesArr[listIndex] + '</option>'
     }
 
-    listChange.innerHTML = '<label id="categoryTaskLabel" for="taskListInput">Category</label>' +
-    '<select class="form-select addTaskInputStyle" id="editTaskListInput" aria-label="Default select example">' +
+    listChange.innerHTML = '<select class="form-select addTaskInputStyle" id="editTaskListInput" aria-label="Default select example">' +
     elem +
     '</select>'
 
-    priorityChange.innerHTML = '<label id="priorityTaskLabel" for="taskPriorityInput">Priority</label>' +
-    '<select class="form-select addTaskInputStyle" id="editTaskPriorityInput" aria-label="Default select example">' +
-      '<option value="1" select>Low</option>' +
-      '<option value="2">Medium</option>' +
-      '<option value="3">High</option>'
+    priorityChange.innerHTML = '<select class="form-select addTaskInputStyle" id="editTaskPriorityInput" aria-label="Default select example">' +
+      `<option value="1" select>${(storedLeng == "spanish") ? "Baja" : "Low"}</option>` +
+      `<option value="2">${(storedLeng == "spanish") ? "Media" : "Medium"}</option>` +
+      `<option value="3">${(storedLeng == "spanish") ? "Alta" : "High"}</option>`
 
       saveicon.addEventListener("click", function(){
           saveTaskEdit(todosIndex, datePicker, titleChange, descChange, listChange, priorityChange, closeIcon)
@@ -466,7 +491,22 @@ function saveTaskEdit(todosIndex, datePicker, titleChange, descChange, listChang
     todosArr[todosIndex].content = descChange.querySelector("#newTaskDesc").value
 
     todosArr[todosIndex].list = listChange.querySelector("#editTaskListInput").selectedOptions[0].label
-    todosArr[todosIndex].priority = priorityChange.querySelector("#editTaskPriorityInput").selectedOptions[0].label
+
+    let prior = priorityChange.querySelector("#editTaskPriorityInput").selectedOptions[0].label
+
+    switch (prior) {
+        case "Baja":
+            prior = "Low"
+            break;
+        case "Media":
+            prior = "Medium"
+            break;
+        case "Alta":
+            prior = "High"
+            break;
+    }
+
+    todosArr[todosIndex].priority = prior
 
     renderTodosArr()
 
@@ -576,6 +616,12 @@ if (document.querySelector("#addTaskMain")) {
             userLists.innerHTML = userLists.innerHTML + elem;
         }
 
+        if (storedLeng == "spanish") {
+            document.querySelector("#optionLow").innerText = "Baja"
+            document.querySelector("#optionMid").innerText = "Media"
+            document.querySelector("#optionHigh").innerText = "Alta"
+        }
+
     })
 
 }
@@ -600,12 +646,26 @@ function addNewTask() {
             deadlineInput = "No deadline"
         }
 
+        let prior = document.querySelector("#taskPriorityInput").selectedOptions[0].label
+
+        switch (prior) {
+            case "Baja":
+                prior = "Low"
+                break;
+            case "Media":
+                prior = "Medium"
+                break;
+            case "Alta":
+                prior = "High"
+                break;
+        }
+
         todosArr.unshift(new todoElement(currentIndex, 
             false, 
             document.getElementById('taskTitleInput').value, 
             document.getElementById('taskDescInput').value, 
             false, 
-            document.querySelector("#taskPriorityInput").selectedOptions[0].label, 
+            prior, 
             deadlineInput, 
             document.querySelector("#taskListInput").selectedOptions[0].label,
             []))
@@ -837,6 +897,26 @@ function statsPageSetup() {
     
     if (todosArr.length > 0) {
         
+        if (storedLeng == "spanish") {
+            var label2 = "# Tareas"
+
+            var pendingTask = "Pendientes"
+            var completedTask = "Completadas"
+
+            var highTask = "Alta"
+            var medTask = "Media"
+            var lowTask = "Baja"
+        } else {
+            var label2 = "# Tasks"
+
+            var pendingTask = "Pending"
+            var completedTask = "Completed"
+
+            var highTask = "High"
+            var medTask = "Medium"
+            var lowTask = "Low"
+        }
+
         var ctx1 = document.getElementById('taskCompletedChart').getContext('2d');
 
         let completed = todosArr.filter(task => task.completed == true).length
@@ -845,9 +925,9 @@ function statsPageSetup() {
         var myChart1 = new Chart(ctx1, {
         type: 'doughnut',
         data: {
-            labels: ['Pending Tasks', 'Completed'],
+            labels: [pendingTask, completedTask],
             datasets: [{
-                label: '# Tasks',
+                label: label2,
                 data: [pending, completed],
                 backgroundColor: [
                     'rgba(0, 0, 0, 1)',
@@ -870,9 +950,9 @@ function statsPageSetup() {
         var myChart2 = new Chart(ctx2, {
         type: 'doughnut',
         data: {
-            labels: ['High', 'Medium', 'Low'],
+            labels: [highTask, medTask, lowTask],
             datasets: [{
-                label: '# Tasks',
+                label: label2,
                 data: [high, mid, low],
                 backgroundColor: [
                     'rgba(176, 0, 0, 1)',
@@ -886,6 +966,30 @@ function statsPageSetup() {
             borderColor: 'rgba(54, 162, 235, 0)',
             },
         });
+
+        var ctx3 = document.getElementById("taskListChart").getContext("2d")
+
+        let colors = []
+
+        for(let i=0; i < categoriesArr.length ;i++){
+            colors.push('#'+Math.floor(Math.random()*16777215).toString(16));
+      }
+
+        var myChart3 = new Chart(ctx3, {
+            type: 'bar',
+            data: {
+                labels: categoriesArr,
+                datasets: [{
+                    label: label2,
+                    data: [high, mid, low],
+                    backgroundColor: colors,
+                }]
+                },
+                options: {
+                responsive: false,
+                borderColor: 'rgba(54, 162, 235, 0)',
+                },
+            });
 
         document.getElementById("numberOfTasks").innerText = todosArr.length;
         document.getElementById("numberOfTasksCompleted").innerText = completed;
@@ -951,6 +1055,10 @@ function statsPageSetup() {
         todosArr.sort(function(a,b){
             return b.index - a.index;
         })
+    } else {
+        document.querySelector("#generalStatsDiv").style = "display: grid;justify-items: center;height: 90vh;align-content: center;gap: 30px;grid-template-columns: repeat(1, 1fr);"
+
+        document.getElementById("generalStatsDiv").innerHTML = "<img src='icons/logoBlue.svg' style='width: 45px'><h1 style='text-align: center;'>All done!</h1><h1>No task to analize</h1>"
     }
 }
 

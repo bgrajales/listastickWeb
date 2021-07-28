@@ -41,8 +41,9 @@ body {
 
 #welcometextDiv {
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: auto auto auto;
     align-content: center;
+    align-items: center;
 }
 
 #welcometext {

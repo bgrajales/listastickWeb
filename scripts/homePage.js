@@ -105,7 +105,8 @@ function renderTodosArr() {
             }
         }
     } else if (document.getElementById("homeBody") != null && todosArr.length == 0) {
-        taskCardContainer.innerHTML = "<h1 style='text-align: center;'>No task added yet</h1>"
+        document.querySelector("#taskSection").style = "justify-items: center;height: 50vh;align-content: center;grid-template-columns: repeat(1, 1fr);"
+        taskCardContainer.innerHTML = "<img src='icons/logoBlue.svg' style='width: 45px'><h1 style='text-align: center;'>All done!</h1><h1 style='text-align: center;'>No task added yet</h1>"
     }
 
 }

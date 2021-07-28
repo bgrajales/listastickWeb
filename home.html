@@ -67,6 +67,7 @@
             <button id="searchBtn" class="btn" onclick="applySearchFilter()">Search</button>
             <button class="btn btn-primary" id="hideCompletedBtn" onclick="hideCompletedTasks(this)"><i class="fas fa-eye" id="eyeOpen"></i><i class="fas fa-eye-slash d-none" id="eyeClosed"></i></button>
           </div>
+
           <div id="categories">
             <button id="generalTodosBtn" class="selectionBtn activeSelBtn" onclick="initialLoad(), changeActiveSel()">To-Dos</button>
             <button id="myDayBtn" class="selectionBtn" onclick="filterMyDay()">My Day</button>
@@ -126,9 +127,9 @@
               <div class="smallInputDiv">
                 <label id="priorityTaskLabel" for="taskPriorityInput">Priority</label>
                 <select class="form-select addTaskInputStyle" id="taskPriorityInput" aria-label="Default select example">
-                  <option value="1" select>Low</option>
-                  <option value="2">Medium</option>
-                  <option value="3">High</option>
+                  <option id="optionLow" value="1" select>Low</option>
+                  <option id="optionMid" value="2">Medium</option>
+                  <option id="optionHigh" value="3">High</option>
                 </select>
               </div>
 
@@ -206,18 +207,14 @@
         <i id="backListIcon" class="fas fa-times"></i>
         <h1 id="categoriesLabel">Categories</h1>
         <div class="input-group mb-3">
-          <input id="searchListInput" type="text" class="form-control" placeholder="Search" aria-label="Recipient's username" aria-describedby="button-addon2">
-          <button id="searchList" class="btn btn-outline-secondary" type="button" id="button-addon2"><img style="width: 25px;" src="icons/searchIcon.svg" alt=""></button>
-        </div>
+          <input id="addNewListInput" type="text" class="form-control" placeholder="New Category" aria-label="Recipient's username" aria-describedby="button-addon2">
+          <button id="addNewListBtn" class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="addNewListAction()">Add List</button>
+        </div>        
         <div id="categListDiv">
           <ul id="categUL">
 
           </ul>
         </div>
-      </div>
-      <div class="input-group mb-3">
-        <input id="addNewListInput" type="text" class="form-control" placeholder="New Category" aria-label="Recipient's username" aria-describedby="button-addon2">
-        <button id="addNewListBtn" class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="addNewListAction()">Add List</button>
       </div>
     </div>
 
@@ -225,7 +222,7 @@
 
     <template id="expandedTaskTemplate">
       <div class="expandedTaskBkgNew shadow-lg">
-        <div class="backAndTitle" style="align-items: center;gap: 40px;">
+        <div id="dateAndTitle" class="backAndTitle">
           <div class="importanceIndicatorExpanded" style="flex: 1"><h2></h2><h3></h3></div>
           <h1 id="taskTitleExpanded" style="flex: 8;"></h1>
           <i  id="taskEditBtn" class="fas fa-pen"></i>
@@ -253,14 +250,16 @@
 
           </div>
         </div>
-        <p class="expandedSubTitle prioritylabel">Content:</p>
+        <p class="expandedSubTitle contentlabel">Content:</p>
         <p id="taskDescriptionExpanded"></p>
         
+        <div id="expandedTaskBtn">
+          <button id="markAsCompleted" class="btn btn-success">Mark as completed</button>
+          <button id="deleteTaskBtn" class="btn btn-danger">Delete Task</button>
+        </div>
+
       </div>
-      <div id="expandedTaskBtn">
-        <button id="markAsCompleted" class="btn btn-success">Mark as completed</button>
-        <button id="deleteTaskBtn" class="btn btn-danger">Delete Task</button>
-      </div>
+      
     </template>
 
     <template id="taskCardTemplate">

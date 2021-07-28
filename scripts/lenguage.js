@@ -59,13 +59,11 @@ if (document.querySelector("#indexBody") != null) {
         
                     if (document.querySelector("#indexBody") != null) {
                         
-                        document.getElementById("featuresBtn").innerText = "Funcionalidades"
                         document.getElementById("feedbackBtn").innerText = "Contacto"
                         document.getElementById("loginIndexBtn").innerText = "Ingresar"
                         document.getElementById("lenguageBtn").innerText = "Lenguaje"
     
                         document.getElementById("lenguageBtnHamb").innerText = "Lenguaje"
-                        document.getElementById("featuresBtnHamb").innerText = "Funcionalidades"
                         document.getElementById("feedbackBtnHamb").innerText = "Contacto"
                         document.getElementById("loginIndexBtnHamb").innerText = "Ingresar"
                 
@@ -97,7 +95,6 @@ storedLeng = userDataBase = JSON.parse(localStorage.getItem('lenguage'))
 if (storedLeng == "spanish") {
     if (document.querySelector("#bodyLoginRegister") != null && document.querySelector("#login-form-submit") != null) {
                     
-        document.getElementById("welcometextMobile").innerText = "Bienvenido a Listastick!"
         document.getElementById("welcometext").innerText = "Bienvenido a Listastick!"
     
         document.getElementById("passwordLabel").innerText = "Contraseña"
@@ -147,7 +144,6 @@ if (storedLeng == "spanish") {
 
         document.getElementById("categoriesLabel").innerText = "Categorias"
         document.getElementById("addNewListBtn").innerText = "Añadir"
-        document.getElementById("searchListInput").setAttribute("placeholder", "Buscar")
         document.getElementById("addNewListInput").setAttribute("placeholder", "Nueva Categoria")
 
         document.getElementById("myDayDrp").innerText = "Mi Día"
@@ -186,7 +182,6 @@ if (storedLeng == "spanish") {
 
         document.getElementById("categoriesLabel").innerText = "Categorias"
         document.getElementById("addNewListBtn").innerText = "Añadir"
-        document.getElementById("searchListInput").setAttribute("placeholder", "Buscar")
         document.getElementById("addNewListInput").setAttribute("placeholder", "Nueva Categoria")
         
         document.getElementById("totalNumberLabel").innerText = "Tareas Totales"

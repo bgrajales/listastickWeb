@@ -40,6 +40,11 @@ textarea {
     cursor: pointer;
 }
 
+#sendMsgInput {
+    border-radius: 20px;
+    width: 100%;
+}
+
 .contact-form {
     position: relative;
     background: #fafafa;
@@ -95,7 +100,7 @@ textarea {
 @media (max-width: 960px) {
 
     #leftRow {
-        gap: 10px;
+        gap: 20px;
     }
 
     .contact-form {
@@ -104,7 +109,7 @@ textarea {
 
     .row {
         flex-direction: column-reverse;
-        gap: 10px;
+        gap: 20px;
         align-items: center;
         height: 100%;
     }

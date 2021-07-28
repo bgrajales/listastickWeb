@@ -22,31 +22,30 @@
   </head>
   <body id="statsBody" onunload="Storage.storeTodos(userDataBase, isLoggedIn)" onload="initialLoad()">
 
-     <nav id="desktopNavBar">
+    <nav id="desktopNavBar">
       <div id="navBarDesktopButtons">
         <div class="mobileIconandText">
           <img id="addTaskMain" class="navDeskIcon" src="icons/circlePlusIcon.svg" alt="">
-          <p>Add</p>
+          <p id="addTag">Add</p>
         </div>
         <div class="mobileIconandText">
           <a href="home.html"><img class="navDeskIcon" src="icons/homeIcon.svg" alt=""></a>
-          <p>Home</p>
+          <p id="homeTag">Home</p>
         </div>
         <div class="mobileIconandText">
-          <a href="stats.html"><img class="navDeskIcon" src="icons/statsIcon.svg" alt=""></a>
-          <p>Stats</p>
+          <img class="navDeskIcon" src="icons/statsIcon.svg" alt="">
+          <p id="statsTag">Stats</p>
         </div>
         <div class="mobileIconandText">
           <img class="navDeskIcon" onclick="listExpanded()" src="icons/listIcon.svg" alt="">
-          <p>Lists</p>
+          <p id="listTag">Lists</p>
         </div>
       </div>
 
       <div id="profileDivNavBar" style="text-align: center;">
-        <img onclick="toggleExpandedProfile()" id="pfp" src="images/pfp.png" alt="">
-        <p>Profile</p>
+        <img onclick="toggleExpandedProfile()" id="pfp" src="images/pfp.png">
+        <p id="profileTag">Profile</p>
       </div>
-
     </nav>
 
     <div class="mainContainer">
@@ -76,9 +75,15 @@
             <h1 id="taskPriorityLabel" class="chartsTitle">Tasks Priority</h1>
             <canvas id="taskPriorityChart" width="" height=""></canvas>
           </div>
+
         </section>
 
-        <section id="statsSec1">
+        <section id="statsSec1" style="flex-direction: column !important;">
+
+          <div class="charAndTitle2">
+            <h1 id="taskPriorityLabel" class="chartsTitle">Tasks Lists</h1>
+            <canvas id="taskListChart" width="" height=""></canvas>
+          </div>
 
           <div id="upcomingTask" class="charAndTitle2">
           </div>
@@ -184,18 +189,14 @@
         <i id="backListIcon" class="fas fa-times"></i>
         <h1 id="categoriesLabel">Categories</h1>
         <div class="input-group mb-3">
-          <input id="searchListInput" type="text" class="form-control" placeholder="Search" aria-label="Recipient's username" aria-describedby="button-addon2">
-          <button id="searchList" class="btn btn-outline-secondary" type="button" id="button-addon2"><img style="width: 25px;" src="icons/searchIcon.svg" alt=""></button>
-        </div>
+          <input id="addNewListInput" type="text" class="form-control" placeholder="New Category" aria-label="Recipient's username" aria-describedby="button-addon2">
+          <button id="addNewListBtn" class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="addNewListAction()">Add List</button>
+        </div>        
         <div id="categListDiv">
           <ul id="categUL">
 
           </ul>
         </div>
-      </div>
-      <div class="input-group mb-3">
-        <input id="addNewListInput" type="text" class="form-control" placeholder="New Category" aria-label="Recipient's username" aria-describedby="button-addon2">
-        <button id="addNewListBtn" class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="addNewListAction()">Add List</button>
       </div>
     </div>
     
