@@ -70,12 +70,14 @@ const registerErrorMsg = document.getElementById("register-error-msg");
 if (registerButton != null) {
 
     registerButton.addEventListener("click", (action) => {
+
         action.preventDefault();
 
         const email = document.getElementById("email").value
         const fullName = document.getElementById("fullName").value
         const password = document.getElementById("password").value
         const repeatPassword = document.getElementById("repeatPassword").value
+
         let errorCount = 0
 
         let errorEmails, errorFullname, errorPasword, errorRepeatPassword
@@ -84,35 +86,27 @@ if (registerButton != null) {
             document.getElementById("email").style = "box-shadow: rgb(181 49 49) 0px 0px 0px 2px !important;"
             errorCount++
             errorEmails = true
-        } else {
-            document.getElementById("email").style = "box-shadow: none"
         }
 
         if (!checkFullName(fullName)) {
             document.getElementById("fullName").style = "box-shadow: rgb(181 49 49) 0px 0px 0px 2px !important;"
             errorCount++
             errorFullname = true
-        } else {
-            document.getElementById("fullName").style = "box-shadow: none"
         }
 
         if (!checkPassword(password)) {
             document.getElementById("password").style = "box-shadow: rgb(181 49 49) 0px 0px 0px 2px !important;"
             errorCount++;
             errorPasword = true
-        } else {
-            document.getElementById("password").style = "box-shadow: none"
         }
 
         if (password != repeatPassword || repeatPassword == "") {
             document.getElementById("repeatPassword").style = "box-shadow: rgb(181 49 49) 0px 0px 0px 2px !important;"
             errorCount++
             errorRepeatPassword = true
-        } else {
-            document.getElementById("repeatPassword").style = "box-shadow: none"
         }
         
-        if (errorCount === 0) {
+        if (errorCount == 0) {
             userDataBase.push(new user(email, fullName, password, "images/pfp.png", "default", [], []));
             isLoggedIn= userDataBase.filter(user => user.email === email)
             Storage.storeTodos(userDataBase, isLoggedIn)

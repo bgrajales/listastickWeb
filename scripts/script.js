@@ -217,6 +217,10 @@ function initialLoad() {
 
     Storage.getTodos()
 
+    categFilter = ""
+
+    localStorage.setItem('categFilter', JSON.stringify(categFilter))
+
     if (isLoggedIn.length == 0 && (document.querySelector("#homeBody") != null || document.querySelector("#statsBody") != null)) {
         window.location.href = "index.html"
     }
