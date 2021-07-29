@@ -4,6 +4,8 @@ function calendarExpanded() {
     const closeCal = document.querySelector("#closeExpandedCalendar")
     const calendar = document.getElementById("calendarTable")
 
+    calendar.innerHTML = ""
+    
     expandedCal.classList.remove("d-none")
 
     let today = new Date()
