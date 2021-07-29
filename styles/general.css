@@ -105,7 +105,7 @@ i {
 }
 
 
-#hideCompletedBtn {
+#hideCompletedBtn, #removeFiltersBtn, #removeFiltersBtn2 {
     margin: 0 0 0 10px;
     background-color: var(--secondaryBtn-color);
     color: var(--theme-background-color);
@@ -366,6 +366,17 @@ i {
 #dateAndTitle {
     align-items: center;
     gap: 30px;
+}
+
+#removeFiltListDiv {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#removeFiltListDiv h5 {
+    margin: 0;
 }
 
 .swal2-popup {
@@ -937,6 +948,10 @@ button:focus:not(:focus-visible) {
         font-size: 1.3rem !important;
     }
 
+    #removeFiltersBtn {
+        display: none;
+    }
+
     #dateAndTitle {
         align-items: center;
         gap: 10px;
@@ -1018,6 +1033,18 @@ button:focus:not(:focus-visible) {
 
     #navBarDesktopButtons {
         align-items: flex-end;
+    }
+
+    .dropdown-menu {
+        background-color: var(--card-color) !important;
+    }
+
+    .dropdown-item {
+        color: var(--theme-text-color) !important;
+    }
+
+    .dropdown-item:hover {
+        color: var(--sameText-color) !important;
     }
 
     .expandedListBkg {

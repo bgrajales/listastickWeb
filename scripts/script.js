@@ -126,7 +126,7 @@ function hideLoader() {
 
 // Number of "Fake" task to generate for website testing using faker.js
 
-const numberOfTasksToGenerate = 0
+const numberOfTasksToGenerate = 13
 
 // fetchToDos mimics data base request to get todos array
 

@@ -99,7 +99,7 @@ function renderTodosArr() {
 
                 taskCloneTitle.innerText = todosArr[todosIndex].title
 
-                taskCloneDesc.innerText = todosArr[todosIndex].content
+                taskCloneDesc.innerText = todosArr[todosIndex].content.substr(0,250)
 
                 taskCardContainer.appendChild(taskCardClone)
             }

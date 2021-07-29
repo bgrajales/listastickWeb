@@ -66,7 +66,7 @@
             <input id="searchInput" type="text" onkeyup="applySearchFilter()">
             <button id="searchBtn" class="btn" onclick="applySearchFilter()">Search</button>
             <button class="btn btn-primary" id="hideCompletedBtn" onclick="hideCompletedTasks(this)"><i class="fas fa-eye" id="eyeOpen"></i><i class="fas fa-eye-slash d-none" id="eyeClosed"></i></button>
-            <button class="btn btn-primary" id="hideCompletedBtn" onclick="deleteFilters()"><i class="fas fa-sync-alt"></i></button>
+            <button class="btn btn-primary" id="removeFiltersBtn" onclick="deleteFilters()"><i class="fas fa-sync-alt"></i></button>
           </div>
 
           <div id="categories">
@@ -83,6 +83,7 @@
               <li><a class="dropdown-item" onclick="initialLoad()">To-Dos</a></li>
               <li><a id="myDayDrp" class="dropdown-item" onclick="filterMyDay()">My Day</a></li>
               <li><a id="orderDateDrp" class="dropdown-item" onclick="filterByDate()">Order by Date</a></li>
+              <li><a id="removeFilters" class="dropdown-item" onclick="deleteFilters()">Remove Categories Filters</a></li>
             </ul>
           </div>
 
@@ -215,6 +216,10 @@
           <ul id="categUL">
 
           </ul>
+        </div>
+        <div id="removeFiltListDiv">
+          <h5>Remove Categories Filters</h5>
+          <button class="btn btn-primary" id="removeFiltersBtn2" onclick="deleteFilters()"><i class="fas fa-sync-alt"></i></button>
         </div>
       </div>
     </div>

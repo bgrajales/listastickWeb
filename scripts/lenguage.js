@@ -14,13 +14,11 @@ if (document.querySelector("#indexBody") != null) {
         
                     if (document.querySelector("#indexBody") != null) {
                         
-                        document.getElementById("featuresBtn").innerText = "Funcionalidades"
                         document.getElementById("feedbackBtn").innerText = "Contacto"
                         document.getElementById("loginIndexBtn").innerText = "Ingresar"
                         document.getElementById("lenguageBtn").innerText = "Lenguaje"
     
                         document.getElementById("lenguageBtnHamb").innerText = "Lenguaje"
-                        document.getElementById("featuresBtnHamb").innerText = "Funcionalidades"
                         document.getElementById("feedbackBtnHamb").innerText = "Contacto"
                         document.getElementById("loginIndexBtnHamb").innerText = "Ingresar"
                 
@@ -38,6 +36,7 @@ if (document.querySelector("#indexBody") != null) {
     
           } else {
               leng = "english"
+              location.reload()
           }
     
           localStorage.setItem('lenguage', JSON.stringify(leng))
