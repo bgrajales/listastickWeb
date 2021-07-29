@@ -442,6 +442,37 @@ i {
     margin: 0;
 }
 
+.navDeskIcon:hover ~ .iconTagFloat {
+    display: block !important;
+}
+
+.iconTagFloat {
+    display: none;
+    position: fixed;
+    left: 80px;
+    background-color: var(--navBar-color);
+    color: var(--theme-background-color);
+    border-radius: 0 10px 10px 0;
+    padding: 5px 10px 5px 5px;
+}
+
+.iconTagFloat::before {
+    content: "";
+    position: absolute;
+    background-color: var(--theme-background-color);
+    bottom: -25px;
+    left: 0;
+    height: 25px;
+    width: 10px;
+    border-top-left-radius: 25px;
+    box-shadow: 0px -10px 0 0 var(--navBar-color);
+
+}
+
+.iconTagFloat h5 {
+    margin: 0;
+}
+
 .swal2-popup {
     background-color: var(--card-color) !important;
 }
@@ -1145,6 +1176,10 @@ button:focus:not(:focus-visible) {
     #nextPage .page-link {
         background-color: var(--navBar-color);
         border-radius: 10px 0 0 0;
+    }
+
+    .navDeskIcon:hover ~ .iconTagFloat {
+        display: none !important;
     }
 
     .expandedSubTitle, .taskDivText {
