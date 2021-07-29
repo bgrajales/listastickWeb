@@ -5,7 +5,7 @@ function calendarExpanded() {
     const calendar = document.getElementById("calendarTable")
 
     calendar.innerHTML = ""
-    
+
     expandedCal.classList.remove("d-none")
 
     let today = new Date()
@@ -27,6 +27,7 @@ function calendarExpanded() {
     document.getElementById("monthAndYear").innerText = ((storedLeng == "spanish") ? `${monthNamesSpanish[month]} ${year}` : `${monthNames[month]} ${year}`)
 
     let firstDay = (new Date(year, month)).getDay()
+    
     var thisMonthTasks = todosArr.filter(todo => (new Date(todo.dueDate).getMonth() == month))
 
     thisMonthTasks = thisMonthTasks.filter(todo => (new Date(todo.dueDate).getFullYear() == year))
