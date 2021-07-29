@@ -172,9 +172,9 @@
         <div class="smallInputDiv">
           <label id="priorityTaskLabel" for="taskPriorityInput">Priority</label>
           <select class="form-select addTaskInputStyle" id="taskPriorityInput" aria-label="Default select example">
-            <option value="1" select>Low</option>
-            <option value="2">Medium</option>
-            <option value="3">High</option>
+            <option id="optionLow" value="1" select>Low</option>
+            <option id="optionMid" value="2">Medium</option>
+            <option id="optionHigh" value="3">High</option>
           </select>
         </div>
 
@@ -193,6 +193,14 @@
       </div>
     </div>
     
+    <div id="expandedCalendarDiv" class="expandedTodoCardDiv d-none">
+      <i id="closeExpandedCalendar" class="fas fa-times"></i>
+      <h1 id="monthAndYear"></h1>
+      <div id="prevCalendarDiv">
+        <table id="calendarTable"></table>
+      </div>
+    </div>
+
     <div id="expandedCategList" class="expandedTodoCardDiv d-none animate__animated">
       <div class="expandedListBkg">
         <i id="backListIcon" class="fas fa-times"></i>
@@ -222,8 +230,8 @@
     </template>
 
     <template id="listElementTemplate">
-      <li><p></p><img class="trashIcon" src="icons/trashIcon.svg" alt=""></li>
-    </template>
+      <li><p></p><i class="fas fa-trash trashIcon"></i>
+      </template>
 
     <!-- Fakerjs -->
     <script src="https://cdn.jsdelivr.net/npm/faker@5.5.3/dist/faker.min.js" integrity="sha256-ItysnEXzZySzG3n8oL357uAk+51hKjTF4yHeZWwoQwU=" crossorigin="anonymous"></script>
@@ -236,6 +244,7 @@
     
     <script src="scripts/lenguage.js"></script>
     <script src="scripts/homePage.js"></script>
+    <script src="scripts/calendar.js"></script>
     <script src="scripts/script.js"></script>
 
   </body>

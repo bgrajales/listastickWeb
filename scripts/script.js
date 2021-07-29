@@ -1168,11 +1168,11 @@ function listExpanded() {
 
             })
 
-            liFil.addEventListener("click", function(){
-                filterListCateg(listIndex)
-            })
-
-
+            if (document.querySelector("#homeBody") != null) {
+                liFil.addEventListener("click", function(){
+                    filterListCateg(listIndex)
+                })
+            }  
 
             categoriesList.append(lisElClone)
 
