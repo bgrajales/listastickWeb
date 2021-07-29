@@ -117,9 +117,10 @@ i {
     width: 100%;
     background-color: var(--card-color);
     border-radius: 10px;
+    table-layout: fixed;
 }
 
-#calendarDays {
+.calendarDays {
     font-weight: bold;
 }
 

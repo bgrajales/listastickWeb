@@ -18,6 +18,10 @@ function calendarExpanded() {
     "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
     ];
 
+    const daysNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+
+    const daysNamesSpanish = ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"]
+
     document.getElementById("monthAndYear").innerText = ((storedLeng == "spanish") ? `${monthNamesSpanish[month]} ${year}` : `${monthNames[month]} ${year}`)
 
     let firstDay = (new Date(year, month)).getDay()
@@ -42,21 +46,25 @@ function calendarExpanded() {
 
     let numbersInMont = getDaysInMont(year, month)
 
+    let auxRow = document.createElement("tr")
     let cell
     let cellText
     let date = 1
 
-    for (let h = 0; h < 6; h++) {
+    for (let l = 0; l < 7; l++) {
+        cell = document.createElement("td")
+        cellText = document.createTextNode((storedLeng == "spanish") ? daysNamesSpanish[l] : daysNames[l])
+        cell.appendChild(cellText)
 
-        if (storedLeng == "spanish") {
-            cell = "<tr id='calendarDays'><td>Do</td><td>Lu</td><td>Ma</td><td>Mi</td><td>Ju</td><td>Vi</td><td>Sa</td></tr>"
-            row.appendChild(cell)
-        } else {
-            cell = "<tr id='calendarDays'><td>Su</td><td>Mo</td><td>Tu</td><td>We</td><td>Th</td><td>Fr</td><td>Sa</td></tr>"
-        }
+        auxRow.appendChild(cell)
 
-        calendar.innerHTML = cell
+
     }
+    
+    auxRow.classList.add("calendarDays")
+
+    calendar.appendChild(auxRow)
+
 
     for (let i = 0; i < 6; i++) {
 
