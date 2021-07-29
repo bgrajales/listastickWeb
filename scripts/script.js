@@ -4,6 +4,7 @@ var todosArr = []
 var isLoggedIn = []
 var userDataBase = []
 var categoriesArr = ["General"]
+var categFilter
 
 // Declaration of maxDisplayed variable used to determine the max number of task displayed per page
 
@@ -47,6 +48,8 @@ class Storage {
         userDataBase = JSON.parse(localStorage.getItem('users'))
 
         isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
+
+        categFilter = JSON.parse(localStorage.getItem('categFilter'))
 
         if (isLoggedIn == null) {
             isLoggedIn = []
@@ -123,7 +126,7 @@ function hideLoader() {
 
 // Number of "Fake" task to generate for website testing using faker.js
 
-const numberOfTasksToGenerate = 6
+const numberOfTasksToGenerate = 0
 
 // fetchToDos mimics data base request to get todos array
 
@@ -145,7 +148,7 @@ function fetchToDos() {
                     
                 }
 
-                if (todosArr.length >= 6 ) {
+                if (todosArr.length >= 8 ) {
                     for (let display = 0; display < maxDisplayed; display++) {
                         todosArr[display].shouldDisplay = true;
                     }
@@ -158,19 +161,46 @@ function fetchToDos() {
                 Storage.getTodos()
 
                 if (todosArr != []) {
-                    if (todosArr.length <= maxDisplayed) {
-                        todosArr.forEach(todo => {
-                            todo.shouldDisplay = true;
-                        })
+
+                    todosArr.forEach(todo => {todo.shouldDisplay = false})
+
+                    if (categFilter == "") {
+                        if (todosArr.length <= maxDisplayed) {
+                            todosArr.forEach(todo => {
+                                todo.shouldDisplay = true;
+                            })
+                        } else {
+                            for (let q = 0; q < maxDisplayed; q++){
+                                todosArr[q].shouldDisplay = true
+                            }
+    
+                            for (let p = maxDisplayed; p < todosArr.length; p++) {
+                                todosArr[p].shouldDisplay = false
+                            }
+                        }
                     } else {
-                        for (let q = 0; q < maxDisplayed; q++){
-                            todosArr[q].shouldDisplay = true
+
+                        let numbOfTask = todosArr.filter(todo => todo.list == categFilter).length
+
+                        if (numbOfTask <= maxDisplayed) {
+                            todosArr.forEach(todo => (todo.list == categFilter) ? todo.shouldDisplay = true : todo.shouldDisplay = false)
+                        } else {
+                            let displayed  = 0
+                            let index = 0
+
+                            while (displayed < maxDisplayed) {
+                                if (todosArr[index].list == categFilter) {
+                                    todosArr[index].shouldDisplay = true
+                                    displayed++
+                                }
+                                index++
+                            }
                         }
 
-                        for (let p = maxDisplayed; p < todosArr.length; p++) {
-                            todosArr[p].shouldDisplay = false
-                        }
+                        console.log(numbOfTask)
+
                     }
+                    
                     
                 }
                 resolve()
@@ -1139,7 +1169,7 @@ function listExpanded() {
             })
 
             liFil.addEventListener("click", function(){
-                filterListCateg()
+                filterListCateg(listIndex)
             })
 
 
@@ -1179,7 +1209,15 @@ function addNewListAction() {
 
 }
 
-function filterListCateg() {
+function filterListCateg(listIndex) {
+
+
+    categFilter = categoriesArr[listIndex]
+
+    localStorage.setItem('categFilter', JSON.stringify(categFilter))
+
+    fetchToDos().then(() =>{renderTodosArr()})
+    console.log(categFilter)
     Swal.fire({
         icon: 'success',
         title: (storedLeng == "spanish") ? "Tareas filtradas por categoria" : "Task filtered by Category",
