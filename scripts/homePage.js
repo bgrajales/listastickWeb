@@ -529,3 +529,12 @@ function hideCompletedTasks(e) {
     }
 
 }
+
+function deleteFilters() {
+    categFilter = ""
+
+    localStorage.setItem('categFilter', JSON.stringify(categFilter))
+
+    initialLoad()
+    
+}

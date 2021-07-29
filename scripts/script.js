@@ -217,10 +217,6 @@ function initialLoad() {
 
     Storage.getTodos()
 
-    categFilter = ""
-
-    localStorage.setItem('categFilter', JSON.stringify(categFilter))
-
     if (isLoggedIn.length == 0 && (document.querySelector("#homeBody") != null || document.querySelector("#statsBody") != null)) {
         window.location.href = "index.html"
     }
@@ -1221,6 +1217,9 @@ function filterListCateg(listIndex) {
     localStorage.setItem('categFilter', JSON.stringify(categFilter))
 
     fetchToDos().then(() =>{renderTodosArr()})
+
+    document.getElementById("backListIcon").click()
+
     console.log(categFilter)
     Swal.fire({
         icon: 'success',
