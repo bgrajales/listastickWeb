@@ -126,7 +126,7 @@ function hideLoader() {
 
 // Number of "Fake" task to generate for website testing using faker.js
 
-const numberOfTasksToGenerate = 13
+const numberOfTasksToGenerate = 0
 
 // fetchToDos mimics data base request to get todos array
 
@@ -139,12 +139,13 @@ function fetchToDos() {
                     
                 for (let index = 0; index < numberOfTasksToGenerate; index++) {
 
+                    faker.random.arrayElements = categoriesArr
                     // Fake task generator for numberOfTasksToGenerate using faker.js
 
                     todosArr.unshift(new todoElement(index + 1, false, faker.commerce.productName(), 
                     faker.commerce.productDescription(), faker.datatype.boolean(), 
                     priorityArr[Math.floor(Math.random() * priorityArr.length)], faker.date.between('2021-07-24', '2021-12-31'), 
-                    "list", [{title: "task1", status: false}, {title: "task2", status: true}]))
+                    categoriesArr[Math.floor(Math.random()*categoriesArr.length)], [{title: "task1", status: false}, {title: "task2", status: true}]))
                     
                 }
 
@@ -1004,10 +1005,19 @@ function statsPageSetup() {
         var ctx3 = document.getElementById("taskListChart").getContext("2d")
 
         let colors = []
+        let categData = []
 
         for(let i=0; i < categoriesArr.length ;i++){
             colors.push('#'+Math.floor(Math.random()*16777215).toString(16));
-      }
+        }
+
+        categoriesArr.forEach(categ => {
+            
+            let categLength = todosArr.filter(element => element.list == categ).length
+
+            categData.push(categLength)
+
+        })
 
         var myChart3 = new Chart(ctx3, {
             type: 'bar',
@@ -1015,7 +1025,7 @@ function statsPageSetup() {
                 labels: categoriesArr,
                 datasets: [{
                     label: label2,
-                    data: [high, mid, low],
+                    data: categData,
                     backgroundColor: colors,
                 }]
                 },
@@ -1103,6 +1113,7 @@ function listExpanded() {
     const lisElTemplate = document.getElementById("listElementTemplate")
 
     document.getElementById("categListDiv").innerHTML = '<ul id="categUL"></ul>'  
+    document.getElementById("removeFiltText").innerText = ((storedLeng == "spanish") ? "Remover filtros" : "Remove filters")
 
     const categoriesList = document.querySelector("#categUL")
     

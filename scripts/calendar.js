@@ -27,7 +27,7 @@ function calendarExpanded() {
     const daysNamesSpanish = ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"]
 
     document.getElementById("monthAndYear").innerText = ((storedLeng == "spanish") ? `${monthNamesSpanish[month]} ${year}` : `${monthNames[month]} ${year}`)
-
+    document.getElementById("nextTaskCalendar").innerText = ((storedLeng == "spanish") ? "Proxima Tarea" : "Next up Task")
     let firstDay = (new Date(year, month)).getDay()
     
     var thisMonthTasks = todosArr.filter(todo => (new Date(todo.dueDate).getMonth() == month))
@@ -159,6 +159,10 @@ function calendarExpanded() {
 
     closeCal.addEventListener("click", function(){
         expandedCal.classList.add("d-none") 
+    })
+
+    todosArr.sort(function(a,b){
+        return new Date(b.index) - new Date(a.index);
     })
 
 }
