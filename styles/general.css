@@ -128,9 +128,6 @@ i {
     text-align: center;
 }
 
-#calendarTable tr {
-}
-
 .calendarModalTitle {
     text-align: center;
     color: var(--accent-light-color);
@@ -146,6 +143,13 @@ i {
 #closeExpandedCalendar:hover {
     cursor: pointer;
     transform: scale(1.2)
+}
+
+.noTaskToDisplay {
+    justify-items: center;
+    height: 50vh;
+    align-content: center;
+    grid-template-columns: repeat(1, 1fr);
 }
 
 .hasTask {

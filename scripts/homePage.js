@@ -5,6 +5,8 @@ function renderTodosArr() {
     Storage.storeTodos(userDataBase, isLoggedIn)
     Storage.getTodos()
 
+    document.querySelector("#taskSection").classList.remove("noTaskToDisplay")
+
     const taskCardContainer = document.getElementById("taskSection")
     const taskCardTemplates = document.getElementById("taskCardTemplate")
 
@@ -109,7 +111,7 @@ function renderTodosArr() {
             }
         }
     } else if (document.getElementById("homeBody") != null && todosArr.length == 0) {
-        document.querySelector("#taskSection").style = "justify-items: center;height: 50vh;align-content: center;grid-template-columns: repeat(1, 1fr);"
+        document.querySelector("#taskSection").classList.add("noTaskToDisplay")
         taskCardContainer.innerHTML = "<img src='icons/logoBlue.svg' style='width: 45px'><h1 style='text-align: center;'>All done!</h1><h1 style='text-align: center;'>No task added yet</h1>"
     }
 
@@ -243,9 +245,8 @@ function filterMyDay() {
     renderTodosArr()
 
     if (numberOfTask == 0) {
-
-        document.getElementById("taskSection").innerHTML = "<h1 id='noTaskText'>No task for today :)</h1>"
-        
+        document.querySelector("#taskSection").classList.add("noTaskToDisplay")
+        document.querySelector("#taskSection").innerHTML = "<img src='icons/logoBlue.svg' style='width: 45px'><h1 style='text-align: center;'>All done!</h1><h1 style='text-align: center;'>No task for today</h1>"
     }
 
     document.getElementById("dropdownMenuButton1").innerText = "My Day"
