@@ -109,6 +109,10 @@ function calendarExpanded() {
         calendar.appendChild(row)
     }
 
+    thisMonthTasks = todosArr.sort(function(a,b){
+        return new Date(a.dueDate) - new Date(b.dueDate);
+    })
+    
     if (thisMonthTasks.length > 0) {
      
         thisMonthTasks.sort(function (a, b) {

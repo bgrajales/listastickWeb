@@ -61,11 +61,11 @@ body, .expandedListBkg {
     overflow-y: scroll; 
 }
 
-body::-webkit-scrollbar, .expandedListBkg::-webkit-scrollbar {
+body::-webkit-scrollbar, .expandedListBkg::-webkit-scrollbar, #expandedCalendarDiv::-webkit-scrollbar {
     display: none; /* for Chrome, Safari, and Opera */
 }
 
-.expandedTaskBkgNew::-webkit-scrollbar, .expandedListBkg::-webkit-scrollbar {
+.expandedTaskBkgNew::-webkit-scrollbar, .expandedListBkg::-webkit-scrollbar, #expandedCalendarDiv::-webkit-scrollbar {
     display: none; /* for Chrome, Safari, and Opera */
 }
 
@@ -277,6 +277,10 @@ i {
     margin-top: 50px;
     display: flex;
     justify-content: center;
+}
+
+#expandedCalendarDiv {
+    overflow: scroll;
 }
 
 #taskAndMapDiv {
