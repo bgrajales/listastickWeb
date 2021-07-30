@@ -3,8 +3,10 @@ function calendarExpanded() {
     const expandedCal = document.querySelector("#expandedCalendarDiv")
     const closeCal = document.querySelector("#closeExpandedCalendar")
     const calendar = document.getElementById("calendarTable")
+    const nextTask = document.querySelector("#calendarNextTask")
 
     calendar.innerHTML = ""
+    nextTask.innerHTML = ""
 
     expandedCal.classList.remove("d-none")
 
@@ -106,6 +108,46 @@ function calendarExpanded() {
 
         calendar.appendChild(row)
     }
+
+    thisMonthTasks.sort(function (a, b) {
+        return new Date(a.dueDate) - new Date(b.dueDate)
+    })
+
+    if (document.getElementById("nextTaskCardTemplate") != null) {
+        var upcomTaskTemplate = document.getElementById("nextTaskCardTemplate")
+    } else {
+        var upcomTaskTemplate = document.getElementById("taskCardTemplate")
+    }
+
+    const upcomTaskClone = upcomTaskTemplate.content.cloneNode(true)
+
+    const taskCloneImportanceIndicator = upcomTaskClone.querySelector(".importanceIndicator")
+    const taskCloneTitle = upcomTaskClone.querySelector(".taskTitle")
+    const taskCloneList = upcomTaskClone.querySelector(".taskList")
+    const taskCloneDesc = upcomTaskClone.querySelector(".taskDesc")
+    const taskDayNMonth = upcomTaskClone.querySelector("h2")
+    const taskYear = upcomTaskClone.querySelector("h3")
+    
+    taskCloneImportanceIndicator.classList.add(
+        getTodoImportance(thisMonthTasks[0].priority)
+    )
+
+    let totalDate = new Date(thisMonthTasks[0].dueDate)
+
+    var nextUpmonth = totalDate.getUTCMonth() + 1;
+    var nextUpday = totalDate.getUTCDate();
+    var nextUpyear = totalDate.getUTCFullYear();
+
+    taskDayNMonth.innerText = nextUpday + '/' + nextUpmonth
+    taskYear.innerText = nextUpyear
+
+    taskCloneList.innerText = 'Task List: ' + thisMonthTasks[0].list
+
+    taskCloneTitle.innerText = thisMonthTasks[0].title
+
+    taskCloneDesc.innerText = thisMonthTasks[0].content
+
+    nextTask.appendChild(upcomTaskClone)
 
     closeCal.addEventListener("click", function(){
         expandedCal.classList.add("d-none") 

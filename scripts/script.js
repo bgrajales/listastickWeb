@@ -413,7 +413,11 @@ function showExpandedTodoCard(object, todosIndex) {
 
     deleteTaskExpanded.addEventListener("click", function(){
         Swal.fire({
-            template: '#aboutToDeleteTask'
+            title: ((storedLeng == "spanish") ? "Estas seguro que deseas eliminar esta tarea?" : "Are you sure you want to delete this task?"),
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: ((storedLeng == "spanish") ? "Si, eliminar" : "Yes, delete"),
+            cancelButtonText: ((storedLeng == "spanish") ? "Cancelar" : "Cancel")
         }).then(result => {
             if (result.isConfirmed) {
                 for (let index = todosIndex; index < todosArr.length; index++) {
@@ -1150,7 +1154,11 @@ function listExpanded() {
 
             liDel.addEventListener("click", () => {
                 Swal.fire({
-                    template: "#deleteListTemplate"
+                    title: ((storedLeng == "spanish") ? "Estas seguro que deseas eliminar esta categoria?" : "Are you sure you want to delete this category?"),
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: ((storedLeng == "spanish") ? "Si, eliminar" : "Yes, delete"),
+                    cancelButtonText: ((storedLeng == "spanish") ? "Cancelar" : "Cancel")
                 }).then((result) => {
                     if (result.isConfirmed) {
                         todosArr.forEach(element =>{

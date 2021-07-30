@@ -177,9 +177,13 @@
 
     <div id="expandedCalendarDiv" class="expandedTodoCardDiv d-none">
       <i id="closeExpandedCalendar" class="fas fa-times"></i>
-      <h1 id="monthAndYear"></h1>
+      <h1 id="monthAndYear" class="calendarModalTitle"></h1>
       <div id="prevCalendarDiv">
         <table id="calendarTable"></table>
+      </div>
+      <h1 class="calendarModalTitle">Next Task</h1>
+      <div id="calendarNextTask">
+        
       </div>
     </div>
 
@@ -312,76 +316,20 @@
       </div>
     </template>
 
+    <template id="nextTaskCardTemplate">
+      <div id="nextUpTaskCard" class="taskCard shadow-lg">
+        <div class="importanceIndicator"><h2></h2><h3></h3></div>
+        <img class="trashCardIcon d-none" src="icons/trashIcon.svg" alt="">
+        <div style="flex: 6;">
+          <h1 class="taskTitle"></h1>
+          <p class="taskList"></p>
+          <p class="taskDesc"></p>
+        </div>
+      </div>
+    </template>
+
     <template id="listElementTemplate">
       <li><p></p><i class="fas fa-filter filterIcon"></i><i class="fas fa-trash trashIcon"></i>
-    </template>
-
-    <template id="aboutToDeleteTask">
-      <swal-title>
-        Are you sure you want to delete this task?
-      </swal-title>
-      <swal-icon type="warning" color="red"></swal-icon>
-      <swal-button type="confirm">
-        Yes, delete
-      </swal-button>
-      <swal-button type="cancel">
-        Cancel
-      </swal-button>
-      <swal-param name="allowEscapeKey" value="false" />
-      <swal-param
-        name="customClass"
-        value='{ "popup": "my-popup" }' />
-    </template>
-
-    <template id="aboutToDeleteTaskSpanish">
-      <swal-title>
-        Estas seguro que deseas eliminar esta tarea?
-      </swal-title>
-      <swal-icon type="warning" color="red"></swal-icon>
-      <swal-button type="confirm">
-        Si, eliminar
-      </swal-button>
-      <swal-button type="cancel">
-        Cancelar
-      </swal-button>
-      <swal-param name="allowEscapeKey" value="false" />
-      <swal-param
-        name="customClass"
-        value='{ "popup": "my-popup" }' />
-    </template>
-
-    <template id="deleteListTemplate">
-      <swal-title>
-        Are you sure you want to delete this category?
-      </swal-title>
-      <swal-icon type="warning" color="red"></swal-icon>
-      <swal-button type="confirm">
-        Yes, delete
-      </swal-button>
-      <swal-button type="cancel">
-        Cancel
-      </swal-button>
-      <swal-param name="allowEscapeKey" value="false" />
-      <swal-param
-        name="customClass"
-        value='{ "popup": "my-popup" }' />
-    </template>
-
-    <template id="deleteListTemplateSpanish">
-      <swal-title>
-        Estas seguro que deseas eliminar esta categoria?
-      </swal-title>
-      <swal-icon type="warning" color="red"></swal-icon>
-      <swal-button type="confirm">
-        Si, eliminar
-      </swal-button>
-      <swal-button type="cancel">
-        Cancelar
-      </swal-button>
-      <swal-param name="allowEscapeKey" value="false" />
-      <swal-param
-        name="customClass"
-        value='{ "popup": "my-popup" }' />
     </template>
 
     <!-- Fakerjs -->

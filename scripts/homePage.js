@@ -64,7 +64,11 @@ function renderTodosArr() {
 
                 taskCloneTrashIcon.addEventListener("click", () =>{
                     Swal.fire({
-                        template: '#aboutToDeleteTask'
+                        title: ((storedLeng == "spanish") ? "Estas seguro que deseas eliminar esta tarea?" : "Are you sure you want to delete this task?"),
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonText: ((storedLeng == "spanish") ? "Si, eliminar" : "Yes, delete"),
+                        cancelButtonText: ((storedLeng == "spanish") ? "Cancelar" : "Cancel")
                     }).then(result => {
                         if (result.isConfirmed) {
                             for (let index = todosIndex; index < todosArr.length; index++) {

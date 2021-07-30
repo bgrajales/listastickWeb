@@ -131,7 +131,7 @@ i {
 #calendarTable tr {
 }
 
-#monthAndYear {
+.calendarModalTitle {
     text-align: center;
     color: var(--accent-light-color);
 }
@@ -451,7 +451,7 @@ i {
     position: fixed;
     left: 80px;
     background-color: var(--navBar-color);
-    color: var(--theme-background-color);
+    color: #fff;
     border-radius: 0 10px 10px 0;
     padding: 5px 10px 5px 5px;
 }
