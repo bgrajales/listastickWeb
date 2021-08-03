@@ -885,7 +885,7 @@ function editProfileInfo() {
             userEdisplay.innerText = newUserEmail
         }
 
-        if ((newUserName != "") || (newUserEmail != "") && (checkFullName(newUserName) || checkEmailValidity(newUserEmail))) {
+        if ((userNChange != "") || (userEChange != "")) {
            
             changeDiv.classList.add("d-none")
 

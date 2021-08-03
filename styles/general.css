@@ -414,8 +414,18 @@ i {
     margin-top: 45px;
 }
 
-#userName, #userEmail {
-    font-size: 1.6rem !important;
+#userName {
+    font-size: 1.4rem !important;
+}
+
+#userEmail {
+    box-sizing: content-box;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 1rem !important;
+    text-align: center;
 }
 
 #expandedTaskBtn {
@@ -453,6 +463,7 @@ i {
 #editProfileInfo {
     position: absolute;
     left: 0;
+    top: 5px;
     transition: transform 0.3s;
 }
 
@@ -708,6 +719,7 @@ i {
     align-items: center;
     gap: 15px;
     position: relative;
+    width: 100%;
 }
 
 .expandedTaskBkg, .expandedListBkg {
