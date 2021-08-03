@@ -827,17 +827,69 @@ function toggleExpandedProfile() {
 }
 
 function editProfileInfo() {
-    console.log('editProfileInfo')
 
-    const userN = document.getElementById('userName')
-    const userE = document.getElementById('userEmail')
+    const userNdisplay = document.getElementById('userName')
+    const userEdisplay = document.getElementById('userEmail')
 
-    userN.setAttribute("contentEditable", true)
-    userE.setAttribute("contentEditable", true)
+    userNdisplay.classList.add("d-none")
+    userEdisplay.classList.add("d-none")
 
-    userN.click()
+    const changeDiv = document.getElementById("changePfInfoDiv")
+    const userNChange = document.getElementById('userNameChange')
+    const userEChange = document.getElementById('userEmailChange')
 
+    changeDiv.classList.remove("d-none")
+    userNChange.setAttribute('placeholder', isLoggedIn[0].fullName)
+    userEChange.setAttribute('placeholder', isLoggedIn[0].email)
 
+    const cancelBtn = document.getElementById('cancelInfoChng')
+    const saveBtn = document.getElementById('saveInfoChng')
+
+    cancelBtn.addEventListener('click', () => {
+        changeDiv.classList.add("d-none")
+
+        userNdisplay.classList.remove("d-none")
+        userEdisplay.classList.remove("d-none")
+
+        userNChange.value = ""
+        userEChange.value = ""
+    })
+
+    saveBtn.addEventListener('click', () => {
+        console.log("save")
+
+        userDataBase.indexOf()
+        let pos = userDataBase.map(function(e) { return e.email; }).indexOf(isLoggedIn[0].email);
+
+        let newUserName = userNChange.value
+        let newUserEmail = userEChange.value
+
+        if ((newUserName != "") && checkFullName(newUserName)) {
+            userDataBase[pos].fullName = newUserName
+            isLoggedIn[0].fullName = newUserName
+            userNdisplay.innerText = newUserName
+        }
+
+        if ((newUserEmail != "") && checkEmailValidity(newUserEmail)) {
+            userDataBase[pos].email = newUserEmail
+            isLoggedIn[0].email = newUserEmail
+            userEdisplay.innerText = newUserEmail
+        }
+
+        if ((newUserName != "") || (newUserEmail != "") && (checkFullName(newUserName) || checkEmailValidity(newUserEmail))) {
+           
+            changeDiv.classList.add("d-none")
+
+            userNdisplay.classList.remove("d-none")
+            userEdisplay.classList.remove("d-none")
+
+            userNChange.value = ""
+            userEChange.value = ""
+
+            Storage.storeTodos(userDataBase, isLoggedIn)
+        }
+
+    })
 
 }
 

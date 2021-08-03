@@ -461,6 +461,19 @@ i {
     transform: scale(1.2)
 }
 
+#changeBtnsDiv {
+    display: flex;
+    gap: 10px;
+}
+
+#changePfInfoDiv input {
+    margin-bottom: 10px;
+}
+
+#changeBtnsDiv button {
+    flex: 1;
+}
+
 .navDeskIcon:hover ~ .iconTagFloat {
     display: block !important;
 }
