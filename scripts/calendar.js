@@ -40,7 +40,7 @@ function calendarExpanded() {
     
         thisMonthTasks.forEach(todo => {
 
-            let dayOTask = new Date(todo.dueDate).getDate()
+            let dayOTask = new Date(todo.dueDate).getUTCDate()
 
             if (!daysWithTasks.includes(dayOTask)) {
                 daysWithTasks.push(dayOTask)

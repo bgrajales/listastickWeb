@@ -226,13 +226,15 @@ function filterMyDay() {
 
     today.setHours(0,0,0,0)
 
+    console.log(today)
+
     todosArr.forEach(todo =>{
 
         taskDate = new Date(todo.dueDate)
 
-        taskDate.setHours(0,0,0,0)
+        if (today.getYear() == taskDate.getYear() && today.getMonth() == taskDate.getMonth() && today.getDate() == taskDate.getUTCDate()) {
 
-        if (today.getYear() == taskDate.getYear() && today.getMonth() == taskDate.getMonth() && today.getDay() == taskDate.getDay()) {
+            console.log(taskDate)
 
             todo.shouldDisplay = true
             numberOfTask += 1

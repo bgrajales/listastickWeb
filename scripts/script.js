@@ -126,7 +126,7 @@ function hideLoader() {
 
 // Number of "Fake" task to generate for website testing using faker.js
 
-const numberOfTasksToGenerate = 8
+const numberOfTasksToGenerate = 63
 
 // fetchToDos mimics data base request to get todos array
 
@@ -666,6 +666,9 @@ if (document.querySelector("#addTaskMain")) {
 function addNewTask() {
 
     if ( document.getElementById('taskTitleInput').value !== "" ) {
+        
+        document.getElementById('taskTitleInput').classList.remove("inputCross")
+        document.getElementById('taskTitleRequied').classList.add("d-none")
             
         let currentIndex
 
@@ -724,7 +727,11 @@ function addNewTask() {
         }
 
         renderTodosArr()
+    } else {
+        document.getElementById('taskTitleInput').classList.add("inputCross")
+        document.getElementById('taskTitleRequied').classList.remove("d-none")
     }
+
 }
 
 // Expanded profile function when pfp clicked
@@ -825,6 +832,8 @@ function toggleExpandedProfile() {
         lenguageSelection()
     }
 }
+
+// Editar datos de perfil
 
 function editProfileInfo() {
 
@@ -1305,6 +1314,8 @@ function addNewListAction() {
     }
 
 }
+
+// Filtro por categorias
 
 function filterListCateg(listIndex) {
 

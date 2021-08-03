@@ -9,6 +9,11 @@ if (loginButton != null) {
 
         action.preventDefault();
 
+        document.getElementById("password").classList.remove("inputCross")
+        document.getElementById("mail").classList.remove("inputCross")
+        document.getElementById("userNotExistDiv").classList.add("d-none")
+        document.getElementById("wrongPassDiv").classList.add("d-none")
+
         const mail = document.getElementById("mail").value
         const password = document.getElementById("password").value
         
@@ -19,38 +24,24 @@ if (loginButton != null) {
             Storage.storeTodos(userDataBase, isLoggedIn)
             window.location.href = "home.html"
         } else if (user.length != 0) {
-            loginErrorMsg.style.display = "block";
+
+            document.getElementById("password").classList.add("inputCross")
+            document.getElementById("wrongPassDiv").classList.remove("d-none")
+
             if (storedLeng == "spanish") {
-                loginErrorMsg.innerHTML = "Error: Contraseña incorrecta" 
-            } else if (storedLeng == "english") {
-                loginErrorMsg.innerHTML = "Error: Wrong password"
+                document.getElementById("wrongPassDiv").innerText = "Contraseña incorrecta"
             }
+
         } else {
-            loginErrorMsg.style.display = "block";
+
+            document.getElementById("mail").classList.add("inputCross")
+            document.getElementById("mail").style = "margin-bottom: 0;"
+            document.getElementById("userNotExistDiv").classList.remove("d-none")
+
             if (storedLeng == "spanish") {
-                loginErrorMsg.innerHTML = "Error: Usuario no existe" 
-            } else if (storedLeng == "english") {
-                loginErrorMsg.innerHTML = "Error: User does not exist" 
+                document.getElementById("userNotExistDiv").innerText = "Usuario no existe"
             }
         }
-
-        'use strict'
-
-        // Fetch all the forms we want to apply custom Bootstrap validation styles to
-        var forms = document.querySelectorAll('.needs-validation')
-
-        // Loop over them and prevent submission
-        Array.prototype.slice.call(forms)
-            .forEach(function (form) {
-            form.addEventListener('submit', function (event) {
-                if (!form.checkValidity()) {
-                event.preventDefault()
-                event.stopPropagation()
-                }
-
-                form.classList.add('was-validated')
-            }, false)
-            })
 
     })
 
