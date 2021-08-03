@@ -43,18 +43,30 @@
                 <div class="inputField">
                     <label for="basic-url" class="form-label">Email</label>
                     <input id="email" type="email" class="form-control shadow-sm" placeholder="jhondoe@gmail.com" aria-label="Email" aria-describedby="basic-addon1">
+                    <div id="emailErrorDiv" class="errorTextDiv d-none">
+                      <h6>Invalid Email</h6>
+                    </div>
                 </div>
                 <div class="inputField">
                     <label id="fullNameLabel" for="basic-url" class="form-label">Full Name</label>
                     <input id="fullName" type="text" class="form-control shadow-sm" placeholder="Jhon Doe" aria-label="Email" aria-describedby="basic-addon1">
+                    <div id="fullNameErrorDiv" class="errorTextDiv d-none">
+                      <h6>Invalid Full Name</h6>
+                    </div>
                 </div>
                <div class="inputField">
                     <label id="passwordLabel" for="basic-url" class="form-label">Password</label>
                     <input id="password" type="password" class="form-control shadow-sm" placeholder="Type your 8 characters password here" aria-label="Email" aria-describedby="basic-addon1">
+                    <div id="passwordErrorDiv" class="errorTextDiv d-none">
+                      <h6>Password too short</h6>
+                    </div>
                 </div>
                <div class="inputField">
                     <label id="repeatPasswordLabel" for="basic-url" class="form-label">Repeat Password</label>
                     <input id="repeatPassword" type="password" class="form-control shadow-sm" placeholder="Repeat your password here" aria-label="Email" aria-describedby="basic-addon1">
+                    <div id="repeatPassErrorDiv" class="errorTextDiv d-none">
+                      <h6>Passwords don't match</h6>
+                    </div>
                 </div>
                 <button id="register-form-submit" style="margin: 30px 0;" type="button" class="btn btn-primary">Sign Up</button>
               </form>

@@ -732,9 +732,9 @@ function addNewTask() {
 function toggleExpandedProfile() {
 
     if (storedLeng == "spanish") {
-        document.querySelector("#spanishCheck").click()
+        document.querySelector("#spanishCheck").setAttribute("checked", "true")
     } else {
-        document.querySelector("#englishCheck").click()
+        document.querySelector("#englishCheck").setAttribute("checked", "true")
     }
     
     if (screen.width < 600) {

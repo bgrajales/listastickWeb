@@ -34,6 +34,24 @@ if (loginButton != null) {
             }
         }
 
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+                }
+
+                form.classList.add('was-validated')
+            }, false)
+            })
+
     })
 
     var input1 = document.getElementById("password");
@@ -73,6 +91,16 @@ if (registerButton != null) {
 
         action.preventDefault();
 
+        document.getElementById("email").classList.remove("inputCross")
+        document.getElementById("fullName").classList.remove("inputCross")
+        document.getElementById("password").classList.remove("inputCross")
+        document.getElementById("repeatPassword").classList.remove("inputCross")
+
+        document.querySelector("#emailErrorDiv").classList.add("d-none")
+        document.querySelector("#fullNameErrorDiv").classList.add("d-none")
+        document.querySelector("#passwordErrorDiv").classList.add("d-none")
+        document.querySelector("#repeatPassErrorDiv").classList.add("d-none")
+
         const email = document.getElementById("email").value
         const fullName = document.getElementById("fullName").value
         const password = document.getElementById("password").value
@@ -83,25 +111,25 @@ if (registerButton != null) {
         let errorEmails, errorFullname, errorPasword, errorRepeatPassword
 
         if (!checkEmailValidity(email)) {
-            document.getElementById("email").style = "box-shadow: rgb(181 49 49) 0px 0px 0px 2px !important;"
+            document.getElementById("email").classList.add("inputCross")
             errorCount++
             errorEmails = true
         }
 
         if (!checkFullName(fullName)) {
-            document.getElementById("fullName").style = "box-shadow: rgb(181 49 49) 0px 0px 0px 2px !important;"
+            document.getElementById("fullName").classList.add("inputCross")
             errorCount++
             errorFullname = true
         }
 
         if (!checkPassword(password)) {
-            document.getElementById("password").style = "box-shadow: rgb(181 49 49) 0px 0px 0px 2px !important;"
+            document.getElementById("password").classList.add("inputCross")
             errorCount++;
             errorPasword = true
         }
 
         if (password != repeatPassword || repeatPassword == "") {
-            document.getElementById("repeatPassword").style = "box-shadow: rgb(181 49 49) 0px 0px 0px 2px !important;"
+            document.getElementById("repeatPassword").classList.add("inputCross")
             errorCount++
             errorRepeatPassword = true
         }
@@ -112,52 +140,33 @@ if (registerButton != null) {
             Storage.storeTodos(userDataBase, isLoggedIn)
             window.location.href = "home.html"
         } else {
-            registerErrorMsg.style.display = "block";
-            if (storedLeng == "english") {
-                registerErrorMsg.innerHTML = "Check marked input fields for errors"
-            } else if (storedLeng == "spanish") {
-                registerErrorMsg.innerText = "Revise los campos marcados por errores"
-            }
-
-            let message = ""
-
+            
             if (errorEmails) {
+                document.querySelector("#emailErrorDiv").classList.remove("d-none")
                 if (storedLeng == "spanish") {
-                    message = message + "<li>Email Invalido</li>"
-                } else {
-                    message = message + "<li>Invalid Email</li>"
+                    document.querySelector("#emailErrorDiv").querySelector("h6").innerText = "Mail Invalido"     
                 }
             }
-
             if (errorFullname) {
+                document.querySelector("#fullNameErrorDiv").classList.remove("d-none")
                 if (storedLeng == "spanish") {
-                    message = message + "<li>Nombre Completo Invalido</li>"
-                } else {
-                    message = message + "<li>Invalid Full Name</li>"
+                    document.querySelector("#fullNameErrorDiv").querySelector("h6").innerText = "Nombre completo Invalido"     
                 }
             }
-
             if (errorPasword) {
+                document.querySelector("#passwordErrorDiv").classList.remove("d-none")
                 if (storedLeng == "spanish") {
-                    message = message + "<li>Contraseña demasiado corta</li>"
-                } else {
-                    message = message + "<li>Password too short</li>"
+                    document.querySelector("#passwordErrorDiv").querySelector("h6").innerText = "Contraseña demasiado corta"     
                 }
             }
-
             if (errorRepeatPassword) {
+                document.querySelector("#repeatPassErrorDiv").classList.remove("d-none")
                 if (storedLeng == "spanish") {
-                    message = message + "<li>Contraseñas no coinciden</li>"
-                } else {
-                    message = message + "<li>Passwords don't match</li>"
+                    document.querySelector("#repeatPassErrorDiv").querySelector("h6").innerText = "Contraseñas no coinciden"     
                 }
             }
 
-            Swal.fire({
-                toast: true,
-                title: "Please check the following:",
-                html: '<ul>'+message+'</ul>',
-            })
+            
         }
     })
 
