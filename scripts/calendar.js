@@ -118,6 +118,17 @@ function calendarExpanded() {
         thisMonthTasks.sort(function (a, b) {
             return new Date(a.dueDate) - new Date(b.dueDate)
         })
+
+        let notCompleted
+        let index = 0
+
+        thisMonthTasks.forEach(element => {
+            if (!element.completed && index == 0) {
+                index = index + 1
+                notCompleted = element
+            return notCompleted
+            }
+        })
     
         if (document.getElementById("nextTaskCardTemplate") != null) {
             var upcomTaskTemplate = document.getElementById("nextTaskCardTemplate")
@@ -135,10 +146,10 @@ function calendarExpanded() {
         const taskYear = upcomTaskClone.querySelector("h3")
         
         taskCloneImportanceIndicator.classList.add(
-            getTodoImportance(thisMonthTasks[0].priority)
+            getTodoImportance(notCompleted.priority)
         )
     
-        let totalDate = new Date(thisMonthTasks[0].dueDate)
+        let totalDate = new Date(notCompleted.dueDate)
     
         var nextUpmonth = totalDate.getUTCMonth() + 1;
         var nextUpday = totalDate.getUTCDate();
@@ -147,11 +158,11 @@ function calendarExpanded() {
         taskDayNMonth.innerText = nextUpday + '/' + nextUpmonth
         taskYear.innerText = nextUpyear
     
-        taskCloneList.innerText = 'Task List: ' + thisMonthTasks[0].list
+        taskCloneList.innerText = 'Task List: ' + notCompleted.list
     
-        taskCloneTitle.innerText = thisMonthTasks[0].title
+        taskCloneTitle.innerText = notCompleted.title
     
-        taskCloneDesc.innerText = thisMonthTasks[0].content
+        taskCloneDesc.innerText = notCompleted.content
     
         nextTask.appendChild(upcomTaskClone)
 

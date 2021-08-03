@@ -14,6 +14,13 @@ function renderTodosArr() {
 
         taskCardContainer.innerHTML = ""
 
+        if (todosArr.length == 9) {
+            document.getElementById("pagesNavigation").classList.remove("d-none")
+        }
+
+        if (todosArr.length <= 8) {
+            document.getElementById("pagesNavigation").classList.add("d-none")
+        }
         for (let todosIndex = 0; todosIndex < todosArr.length; todosIndex++) {
 
             if (todosArr[todosIndex].shouldDisplay) {
@@ -492,6 +499,29 @@ function filterByDate(){
         return new Date(a.dueDate) - new Date(b.dueDate);
     })
 
+    categFilter = ""
+
+    localStorage.setItem('categFilter', JSON.stringify(categFilter))
+
+    if (todosArr != []) {
+
+        todosArr.forEach(todo => {todo.shouldDisplay = false})
+
+            if (todosArr.length <= maxDisplayed) {
+                todosArr.forEach(todo => {
+                    todo.shouldDisplay = true;
+                })
+            } else {
+                for (let q = 0; q < maxDisplayed; q++){
+                    todosArr[q].shouldDisplay = true
+                }
+
+                for (let p = maxDisplayed; p < todosArr.length; p++) {
+                    todosArr[p].shouldDisplay = false
+                }
+            }
+    }     
+        
     renderTodosArr()
 
 }

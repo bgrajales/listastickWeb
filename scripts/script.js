@@ -126,7 +126,7 @@ function hideLoader() {
 
 // Number of "Fake" task to generate for website testing using faker.js
 
-const numberOfTasksToGenerate = 0
+const numberOfTasksToGenerate = 8
 
 // fetchToDos mimics data base request to get todos array
 
@@ -722,7 +722,7 @@ function addNewTask() {
         } else {
             todosArr.forEach(element => {element.shouldDisplay = true})
         }
-       
+
         renderTodosArr()
     }
 }
@@ -743,7 +743,12 @@ function toggleExpandedProfile() {
         document.getElementById("profileExpandedCard").classList.add("animate__slideInUp")
 
         const backIcon = document.querySelector(".backIconPfp")
-    
+        const editPf = document.querySelector("#editProfileInfo")
+
+        editPf.addEventListener("click", () => {
+            editProfileInfo()
+        })
+        
         backIcon.addEventListener("click", () =>{
             document.getElementById("profileExpandedCard").classList.remove("animate__slideInUp")
             document.getElementById("profileExpandedCard").classList.add("animate__slideOutDown")
@@ -775,6 +780,7 @@ function toggleExpandedProfile() {
         themeSelection()
 
         lenguageSelection()
+
     } else {
         document.getElementById("profileExpandedCard").classList.remove("d-none")
         document.getElementById("profileExpandedCard").classList.remove("animate__slideOutLeft")
@@ -782,10 +788,15 @@ function toggleExpandedProfile() {
 
         const backIcon = document.querySelector(".backIconPfp")
         const logOut = document.querySelector("#logoutBtn")
+        const editPf = document.querySelector("#editProfileInfo")
     
         document.getElementById("userName").innerText = isLoggedIn[0].fullName
         document.getElementById("userEmail").innerText = isLoggedIn[0].email
     
+        editPf.addEventListener("click", () => {
+            editProfileInfo()
+        })
+
         backIcon.addEventListener("click", () =>{
             document.getElementById("profileExpandedCard").classList.remove("animate__slideInLeft")
             document.getElementById("profileExpandedCard").classList.add("animate__slideOutLeft")
@@ -813,6 +824,21 @@ function toggleExpandedProfile() {
     
         lenguageSelection()
     }
+}
+
+function editProfileInfo() {
+    console.log('editProfileInfo')
+
+    const userN = document.getElementById('userName')
+    const userE = document.getElementById('userEmail')
+
+    userN.setAttribute("contentEditable", true)
+    userE.setAttribute("contentEditable", true)
+
+    userN.click()
+
+
+
 }
 
 // Change Profile Picture Function
@@ -1230,22 +1256,31 @@ function addNewListAction() {
 
 function filterListCateg(listIndex) {
 
+    let isThereTask = todosArr.filter(elem => elem.list == categoriesArr[listIndex]).length
 
     categFilter = categoriesArr[listIndex]
 
-    localStorage.setItem('categFilter', JSON.stringify(categFilter))
+    if (isThereTask > 0) {
 
-    fetchToDos().then(() =>{renderTodosArr()})
+        localStorage.setItem('categFilter', JSON.stringify(categFilter))
 
-    document.getElementById("backListIcon").click()
+        fetchToDos().then(() =>{renderTodosArr()})
 
-    console.log(categFilter)
-    Swal.fire({
+        document.getElementById("backListIcon").click()
+
+        Swal.fire({
         icon: 'success',
         title: (storedLeng == "spanish") ? "Tareas filtradas por categoria" : "Task filtered by Category",
         showConfirmButton: false,
         timer: 1500
-    })
-
+        })
+    } else {
+        Swal.fire({
+        icon: 'warning',
+        title: (storedLeng == "spanish") ? `No hay tareas en ${categFilter}`  : `No task under ${categFilter}`,
+        showConfirmButton: false,
+        timer: 1500
+        })
+    }
     
 }
