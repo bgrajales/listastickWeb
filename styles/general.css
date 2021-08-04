@@ -136,6 +136,7 @@ i {
 #closeExpandedCalendar {
     position: absolute;
     right: 10%;
+    top: 30px;
     color: var(--accent-dark-color);
     transition: transform 0.3s;
 }
@@ -143,6 +144,11 @@ i {
 #closeExpandedCalendar:hover {
     cursor: pointer;
     transform: scale(1.2)
+}
+
+.fa-angle-left, .fa-angle-right {
+    color: #fff;
+    font-size: 1.3rem;
 }
 
 .noTaskToDisplay {

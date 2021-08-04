@@ -1,9 +1,12 @@
-function calendarExpanded() {
+function calendarExpanded(month, year) {
 
     const expandedCal = document.querySelector("#expandedCalendarDiv")
     const closeCal = document.querySelector("#closeExpandedCalendar")
     const calendar = document.getElementById("calendarTable")
     const nextTask = document.querySelector("#calendarNextTask")
+
+    const nextMonthShow = document.querySelector(".fa-angle-right")
+    const prevMonthShow = document.querySelector(".fa-angle-left")
 
     calendar.innerHTML = ""
     nextTask.innerHTML = ""
@@ -11,8 +14,9 @@ function calendarExpanded() {
     expandedCal.classList.remove("d-none")
 
     let today = new Date()
-    let year = today.getFullYear()
-    let month = today.getMonth()
+
+    let currentMonth = today.getMonth();
+    let currentYear = today.getFullYear();
 
     const monthNames = ["January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
@@ -174,6 +178,28 @@ function calendarExpanded() {
 
     todosArr.sort(function(a,b){
         return new Date(b.index) - new Date(a.index);
+    })
+
+    nextMonthShow.addEventListener("click", function nextMonth(){
+        if (monthNames[month] == "December") {
+            console.log("Last Month")
+            calendarExpanded(0,year+1)
+        } else {
+            console.log("Next Month")
+            calendarExpanded(month+1,year)
+        }
+
+        nextMonthShow.removeEventListener("click",nextMonth)
+    })
+
+    prevMonthShow.addEventListener("click", function prevMonth(){
+        if (monthNames[month] == "January") {
+            calendarExpanded(11,year-1)
+        } else {
+            calendarExpanded(month-1,year)
+        }
+
+        prevMonthShow.removeEventListener("click",prevMonth)
     })
 
 }

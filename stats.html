@@ -35,7 +35,7 @@
           <p id="homeTag">Home</p>
         </div>
         <div class="mobileIconandText">
-          <img class="navDeskIcon" onclick="calendarExpanded()" src="icons/calendarIcon.svg" alt="">
+          <img class="navDeskIcon" onclick="calendarExpanded(new Date().getMonth(),new Date().getFullYear());" src="icons/calendarIcon.svg" alt="">
           <div class="iconTagFloat"><h5>Calendar</h5></div>
           <p id="calendarTag">Calendar</p>
         </div>
@@ -225,19 +225,21 @@
       </div>
     </div>
 
-    <div id="expandedCategList" class="expandedTodoCardDiv d-none animate__animated">
-      <div class="expandedListBkg">
-        <i id="backListIcon" class="fas fa-times"></i>
-        <h1 id="categoriesLabel">Categories</h1>
-        <div class="input-group mb-3">
-          <input id="addNewListInput" type="text" class="form-control" placeholder="New Category" aria-label="Recipient's username" aria-describedby="button-addon2">
-          <button id="addNewListBtn" class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="addNewListAction()">Add List</button>
-        </div>        
-        <div id="categListDiv">
-          <ul id="categUL">
+    <div id="expandedCalendarDiv" class="expandedTodoCardDiv d-none">
+      <i id="closeExpandedCalendar" class="fas fa-times"></i>
+            
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <i class="fas fa-angle-left"></i>
+        <h1 id="monthAndYear" class="calendarModalTitle"></h1>
+        <i class="fas fa-angle-right"></i>
+      </div>
 
-          </ul>
-        </div>
+      <div id="prevCalendarDiv">
+        <table id="calendarTable"></table>
+      </div>
+      <h1 id="nextTaskCalendar" class="calendarModalTitle">Next Task</h1>
+      <div id="calendarNextTask">
+        
       </div>
     </div>
     
