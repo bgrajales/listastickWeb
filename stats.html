@@ -106,6 +106,7 @@
       <div class="expandedProfile">
         <i class="fas fa-times backIconPfp"></i>
         <div class="profilePfpAndData">
+          <i id="editProfileInfo" class="fas fa-edit"></i>
           <div class="profilePicDiv">
             <img class="profilePicExpanded" src="images/pfp.png" id="photo">
             <input type="file" id="file">
@@ -113,6 +114,14 @@
           </div>
           <h1 id="userName"></h1>
           <h2 id="userEmail"></h2>
+          <div id="changePfInfoDiv" class="d-none">
+            <input id="userNameChange" type="text" name="userNameChange">
+            <input id="userEmailChange" type="text" name="userEmailChange">
+            <div id="changeBtnsDiv">
+              <button id="saveInfoChng" class="btn btn-primary">Save new info</button>
+              <button id="cancelInfoChng" class="btn btn-danger">Cancel</button>
+            </div>
+          </div>
         </div>
 
         <div class="configSubDiv">
@@ -160,6 +169,9 @@
         <div class="smallInputDiv">
           <label id="addTaskTitleLabel" for="taskTitleInput">Task title</label>
           <input class="addTaskInputStyle" type="text" name="taskTitleInput" id="taskTitleInput">
+          <div id="taskTitleRequied" class="errorTextDiv d-none">
+            <h6>This field is required</h6>
+          </div>
         </div>
 
         <div class="smallInputDiv">
@@ -193,15 +205,23 @@
       </div>
     </div>
     
-    <div id="expandedCalendarDiv" class="expandedTodoCardDiv d-none">
-      <i id="closeExpandedCalendar" class="fas fa-times"></i>
-      <h1 id="monthAndYear" class="calendarModalTitle"></h1>
-      <div id="prevCalendarDiv">
-        <table id="calendarTable"></table>
-      </div>
-      <h1 id="nextTaskCalendar" class="calendarModalTitle">Next Task</h1>
-      <div id="calendarNextTask">
-        
+    <div id="expandedCategList" class="expandedTodoCardDiv d-none animate__animated">
+      <div class="expandedListBkg">
+        <i id="backListIcon" class="fas fa-times"></i>
+        <h1 id="categoriesLabel">Categories</h1>
+        <div class="input-group mb-3">
+          <input id="addNewListInput" type="text" class="form-control" placeholder="New Category" aria-label="Recipient's username" aria-describedby="button-addon2">
+          <button id="addNewListBtn" class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="addNewListAction()">Add List</button>
+        </div>        
+        <div id="categListDiv">
+          <ul id="categUL">
+
+          </ul>
+        </div>
+        <div id="removeFiltListDiv">
+          <h5 id="removeFiltText">Remove Categories Filters</h5>
+          <button class="btn btn-primary" id="removeFiltersBtn2" onclick="deleteFilters()"><i class="fas fa-sync-alt"></i></button>
+        </div>
       </div>
     </div>
 
