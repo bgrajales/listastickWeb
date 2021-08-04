@@ -485,7 +485,25 @@ function editExpandedTask(todosIndex) {
 
     expandedCard.querySelectorAll(".backAndTitle").forEach(element => { element.classList.add("flex-column")})
 
-    datePicker.innerHTML = '<input type="date" id="editDateExpanded" value="'+ todosArr[todosIndex].dueDate +'">'
+    if (todosArr[todosIndex].dueDate != "No deadline") {
+        let taskDate = new  Date(todosArr[todosIndex].dueDate)
+
+        let dd = taskDate.getDate();
+        let mm = taskDate.getMonth()+1; //January is 0!
+        let yyyy = taskDate.getFullYear();
+
+        if(dd<10){
+            dd='0'+dd
+        } 
+        if(mm<10){
+            mm='0'+mm
+        }
+
+        taskDate = yyyy+'-'+mm+'-'+dd;
+
+        datePicker.innerHTML = `<input type="date" id="editDateExpanded" value="${taskDate}">`
+    }
+
     titleChange.innerHTML = '<input type="text" id="newTaskTitle" value="'+todosArr[todosIndex].title+'"style="display: block;">'
     descChange.innerHTML = '<textarea id="newTaskDesc" style="width: 100%;">'+todosArr[todosIndex].content+'</textarea>'
 
@@ -519,7 +537,11 @@ function saveTaskEdit(todosIndex, datePicker, titleChange, descChange, listChang
 
     console.log(todosIndex, datePicker, titleChange, descChange, listChange, priorityChange)
 
-    todosArr[todosIndex].dueDate = datePicker.querySelector("#editDateExpanded").value
+    if (datePicker.querySelector("#editDateExpanded").value == "") {
+        todosArr[todosIndex].dueDate = "No deadline"
+    } else {
+        todosArr[todosIndex].dueDate = datePicker.querySelector("#editDateExpanded").value
+    }
     
 
     todosArr[todosIndex].title = titleChange.querySelector("#newTaskTitle").value
@@ -606,6 +628,7 @@ if (document.querySelector("#addTaskMain")) {
     let addTaskContainer = document.querySelector("#addTaskContainer")
     let closeTaskContainer = document.querySelector("#closeAddTask")
     let userLists = document.querySelector("#taskListInput")
+    let datePicker = document.querySelector("#taskDeadlineInput")
 
     addTask.addEventListener("click", () => {
 
@@ -643,6 +666,22 @@ if (document.querySelector("#addTaskMain")) {
     
             })
         }
+        
+        let today = new Date();
+        let dd = today.getDate();
+        let mm = today.getMonth()+1; //January is 0!
+        let yyyy = today.getFullYear();
+
+        if(dd<10){
+            dd='0'+dd
+        } 
+        if(mm<10){
+            mm='0'+mm
+        }
+
+        today = yyyy+'-'+mm+'-'+dd;
+
+        datePicker.setAttribute("min", today)
 
         userLists.innerHTML = ""
         

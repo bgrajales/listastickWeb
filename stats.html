@@ -35,14 +35,14 @@
           <p id="homeTag">Home</p>
         </div>
         <div class="mobileIconandText">
-          <img class="navDeskIcon" onclick="calendarExpanded(new Date().getMonth(),new Date().getFullYear());" src="icons/calendarIcon.svg" alt="">
-          <div class="iconTagFloat"><h5>Calendar</h5></div>
-          <p id="calendarTag">Calendar</p>
-        </div>
-        <div class="mobileIconandText">
           <img class="navDeskIcon" src="icons/statsIcon.svg" alt="">
           <div class="iconTagFloat"><h5>Stats</h5></div>
           <p id="statsTag">Stats</p>
+        </div>
+        <div class="mobileIconandText">
+          <img class="navDeskIcon" onclick="calendarExpanded(new Date().getMonth(),new Date().getFullYear());" src="icons/calendarIcon.svg" alt="">
+          <div class="iconTagFloat"><h5>Calendar</h5></div>
+          <p id="calendarTag">Calendar</p>
         </div>
         <div class="mobileIconandText">
           <img class="navDeskIcon" onclick="listExpanded()" src="icons/listIcon.svg" alt="">
@@ -106,11 +106,11 @@
       <div class="expandedProfile">
         <i class="fas fa-times backIconPfp"></i>
         <div class="profilePfpAndData">
-          <i id="editProfileInfo" class="fas fa-edit"></i>
           <div class="profilePicDiv">
             <img class="profilePicExpanded" src="images/pfp.png" id="photo">
             <input type="file" id="file">
             <label for="file" id="uploadBtn">Choose Photo</label>
+            <i id="editProfileInfo" class="fas fa-edit"></i>
           </div>
           <h1 id="userName"></h1>
           <h2 id="userEmail"></h2>

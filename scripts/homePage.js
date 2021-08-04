@@ -363,13 +363,17 @@ function nextPageOfArray() {
 
             let firstToDisplay = lastDisplayIndex + 1
             let LastToDisplay = firstToDisplay + maxDisplayed
+            let arraySize = firstToDisplay
     
-            while (firstToDisplay < LastToDisplay && firstToDisplay < todosArr.length) {
-                if (!todosArr[firstToDisplay].completed) {
-                    todosArr[firstToDisplay].shouldDisplay = true
+            while (firstToDisplay < LastToDisplay && arraySize < todosArr.length-1) {
+
+                if (!todosArr[arraySize].completed) {
+                    todosArr[arraySize].shouldDisplay = true
+                    firstToDisplay++
                 }
     
-                firstToDisplay++
+                arraySize++
+
             }
     
             renderTodosArr()
@@ -451,40 +455,35 @@ function previousPageOfArray() {
     } else {
 
         let firstNotCompleted = todosArr.findIndex(element => !element.completed)
-
-
-        console.log(firstNotCompleted)
        
         if (!todosArr[firstNotCompleted].shouldDisplay) {
             let firstDisplayIndex = 0
             let first = true
 
-            for (let iteration = 1; iteration < todosArr.length; iteration++) {
-                if (todosArr[iteration].completed == false && todosArr[iteration].shouldDisplay == true && first) {
+            for (let iteration = 0; iteration < todosArr.length; iteration++) {
+
+                if ((!todosArr[iteration].completed) && todosArr[iteration].shouldDisplay && first) {
+
                     firstDisplayIndex = iteration
                     first = false
-                }
-            }
 
-            let index = firstDisplayIndex
-
-            while (index < firstDisplayIndex + maxDisplayed) {
-                if (index < todosArr.length) {
-                    todosArr[index].shouldDisplay = false
                 }
 
-                index++
+            }
+            
+            for (let q = todosArr.length - 1; q >= firstDisplayIndex; q--){
+                todosArr[q].shouldDisplay = false
             }
 
-            let iteration = 0
+            let iteration = firstDisplayIndex - 1
             let displayed = 0
 
-            while (iteration < firstDisplayIndex && displayed < maxDisplayed) {
+            while (iteration <= 0 || displayed < maxDisplayed) {
                 if (!todosArr[iteration].completed) {
                     todosArr[iteration].shouldDisplay = true
                     displayed++
                 }
-                iteration++
+                iteration--
             }
 
             renderTodosArr()

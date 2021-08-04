@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -42,14 +42,14 @@
           <p id="homeTag">Home</p>
         </div>
         <div class="mobileIconandText">
-          <img class="navDeskIcon" onclick="calendarExpanded(new Date().getMonth(),new Date().getFullYear());" src="icons/calendarIcon.svg" alt="">
-          <div class="iconTagFloat"><h5>Calendar</h5></div>
-          <p id="calendarTag">Calendar</p>
-        </div>
-        <div class="mobileIconandText">
           <img class="navDeskIcon" src="icons/statsIcon.svg" onclick="window.location = 'stats.html'" alt="">
           <div class="iconTagFloat"><h5>Stats</h5></div>
           <p id="statsTag">Stats</p>
+        </div>
+        <div class="mobileIconandText">
+          <img class="navDeskIcon" onclick="calendarExpanded(new Date().getMonth(),new Date().getFullYear());" src="icons/calendarIcon.svg" alt="">
+          <div class="iconTagFloat"><h5>Calendar</h5></div>
+          <p id="calendarTag">Calendar</p>
         </div>
         <div class="mobileIconandText">
           <img class="navDeskIcon" onclick="listExpanded()" src="icons/listIcon.svg" alt="">
@@ -67,12 +67,7 @@
     <!-- Simulated loading icon -->
 
     <div id="initialLoadDiv">
-      <lord-icon
-        src="https://cdn.lordicon.com/dpinvufc.json"
-        trigger="loop"
-        colors="primary:#1095e0,secondary:#08a88a"
-        style="width:150px;height:150px">
-      </lord-icon>
+      <lord-icon src="https://cdn.lordicon.com/dpinvufc.json" trigger="loop" colors="primary:#1095e0,secondary:#08a88a" style="width:150px;height:150px"></lord-icon>
     </div>
 
     <div class="expandedTodoCardDivNew d-none">
@@ -199,8 +194,9 @@
     <div id="profileExpandedCard" class="expandedTodoCardDiv d-none animate__animated">
       <div class="expandedProfile">
         <i class="fas fa-times backIconPfp"></i>
+        <i id="editProfileInfo" class="fas fa-edit"></i>
+
         <div class="profilePfpAndData">
-          <i id="editProfileInfo" class="fas fa-edit"></i>
           <div class="profilePicDiv">
             <img class="profilePicExpanded" src="images/pfp.png" id="photo">
             <input type="file" id="file">

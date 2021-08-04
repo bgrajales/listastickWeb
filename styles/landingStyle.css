@@ -28,11 +28,15 @@ a {
 }
 
 footer {
-    background-color: #1095E0;
+    background-color: #3f3d56;
     width: 100%;
     padding: 50px;
     display: flex;
     justify-content: space-between;
+}
+
+section {
+    margin: 100px 0;
 }
 
 .swal2-confirm, .swal2-deny {
@@ -83,7 +87,6 @@ footer {
 
 .section3 {
     display: flex;
-    margin: 100px 0;
 }
 
 .images {

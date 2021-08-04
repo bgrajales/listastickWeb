@@ -97,6 +97,14 @@ i {
     font-size: 1rem;
 }
 
+input[type="date"]
+{
+    display:block;
+    -webkit-appearance: textfield;
+    -moz-appearance: textfield;
+    min-height: 1.2em;
+}
+
 #desktopNavBar p {
     margin: 0;
     color: var(--accent-light-color);
@@ -137,7 +145,7 @@ i {
     position: absolute;
     right: 10%;
     top: 30px;
-    color: var(--accent-dark-color);
+    color: var(--theme-text-color);
     transition: transform 0.3s;
 }
 
@@ -286,7 +294,8 @@ i {
 }
 
 #expandedCalendarDiv {
-    overflow: scroll;
+    overflow: scroll !important;
+    padding-top: 18% !important;
 }
 
 #taskAndMapDiv {
@@ -421,7 +430,7 @@ i {
 }
 
 #userName {
-    font-size: 1.4rem !important;
+    font-size: 2rem !important;
 }
 
 #userEmail {
@@ -468,8 +477,8 @@ i {
 
 #editProfileInfo {
     position: absolute;
-    left: 0;
-    top: 5px;
+    top: 30px;
+    left: 35px;
     transition: transform 0.3s;
 }
 
@@ -623,6 +632,13 @@ i {
     -khtml-user-select: none;
     -webkit-user-select: none;
     -o-user-select: none;
+    padding: .375rem .75rem;
+    width: 44px;
+    height: 44px;
+    border-radius: 88px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .page-link:hover {
@@ -710,7 +726,8 @@ i {
 }
 
 .expandedAddTask {
-    background-color: var(--card-color);
+    background-color: var(--navBar-color);
+    color: #fff;
     border-radius: 10px;
     padding: 20px 40px;
     display: flex;
@@ -1226,10 +1243,10 @@ button:focus:not(:focus-visible) {
 
     .pagination {
         position: fixed;
-        bottom: 85px;
-        margin: 0;
-        padding: 0;
-        width: 100%;
+    bottom: 100px;
+    margin: 0;
+    padding: 0;
+    width: 95%;
     }
 
     #previousPage .page-link {
@@ -1252,7 +1269,7 @@ button:focus:not(:focus-visible) {
     }
 
     .expandedTodoCardDiv {
-        padding: 60px 20px 20px 20px !important;
+        padding: 5% 20px 20px 20px !important;
     }
 
     .expandedProfile {
