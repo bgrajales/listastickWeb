@@ -29,7 +29,7 @@ if (loginButton != null) {
             document.getElementById("wrongPassDiv").classList.remove("d-none")
 
             if (storedLeng == "spanish") {
-                document.getElementById("wrongPassDiv").innerText = "Contraseña incorrecta"
+                document.getElementById("wrongPassText").innerText = "Contraseña incorrecta"
             }
 
         } else {
@@ -39,7 +39,7 @@ if (loginButton != null) {
             document.getElementById("userNotExistDiv").classList.remove("d-none")
 
             if (storedLeng == "spanish") {
-                document.getElementById("userNotExistDiv").innerText = "Usuario no existe"
+                document.getElementById("userNotExist").innerText = "Usuario no existe"
             }
         }
 
@@ -102,6 +102,7 @@ if (registerButton != null) {
         let errorEmails, errorFullname, errorPasword, errorRepeatPassword
 
         if (!checkEmailValidity(email)) {
+            console.log("in")
             document.getElementById("email").classList.add("inputCross")
             errorCount++
             errorEmails = true

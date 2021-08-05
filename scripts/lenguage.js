@@ -2,7 +2,7 @@ if (document.querySelector("#indexBody") != null) {
 
     document.querySelector("#lenguageBtn").addEventListener("click", function(){
         Swal.fire({
-            title: 'Choose your lenguage',
+            title: (storedLeng == "spanish") ? "Elije tu idioma" : "Choose your lenguage",
             showDenyButton: true,
             confirmButtonText: `Español`,
             denyButtonText: `English`,
@@ -34,11 +34,11 @@ if (document.querySelector("#indexBody") != null) {
                 
                 }
     
-          } else {
-              leng = "english"
-              location.reload()
-          }
-    
+            } else if (result.isDenied) {
+                leng = "english"
+                location.reload()
+            } 
+
           localStorage.setItem('lenguage', JSON.stringify(leng))
     
         })
@@ -74,6 +74,7 @@ if (document.querySelector("#indexBody") != null) {
                         document.getElementById("indexText4").innerText = "Empieza tu organizacion ahora!"
                         document.getElementById("startNowBtn").innerText = "Comenzar"
                 
+                        document.getElementById("firstLandingBtn").innerText = "Crea tu cuenta"
                     }
                 
                 }

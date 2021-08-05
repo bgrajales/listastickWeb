@@ -1,7 +1,3 @@
-document.getElementById("goBackClick").addEventListener("click", function() {
-    window.location.href = "index.html"
-})
-
 document.getElementById("sendMsgInput").addEventListener("click", function(event) {
         event.preventDefault();
 
@@ -28,3 +24,23 @@ document.getElementById("sendMsgInput").addEventListener("click", function(event
             
         }
 })
+
+document.querySelector("#goBackIcon").addEventListener("click", function (){
+    document.querySelector("#feedbackDiv").classList.remove("animate__fadeIn")
+
+        document.querySelector("#feedbackDiv").classList.add("animate__fadeOut")
+    setTimeout(function () {
+        document.querySelector("#feedbackDiv").classList.add("d-none")
+
+    }, 800);
+
+
+})
+
+function showFeedback(){
+    document.querySelector("#feedbackDiv").classList.remove("d-none")
+    document.querySelector("#feedbackDiv").classList.remove("animate__fadeOut")
+
+    document.querySelector("#feedbackDiv").classList.add("animate__fadeIn")
+
+}

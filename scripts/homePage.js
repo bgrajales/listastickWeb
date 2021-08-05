@@ -119,7 +119,7 @@ function renderTodosArr() {
         }
     } else if (document.getElementById("homeBody") != null && todosArr.length == 0) {
         document.querySelector("#taskSection").classList.add("noTaskToDisplay")
-        taskCardContainer.innerHTML = "<img src='icons/logoBlue.svg' style='width: 45px'><h1 style='text-align: center;'>All done!</h1><h1 style='text-align: center;'>No task added yet</h1>"
+        taskCardContainer.innerHTML = `<img src='icons/logoBlue.svg' style='width: 45px'><h1 style='text-align: center;'>${storedLeng == "spanish" ? "Todo listo!" : "All done!"}</h1><h1 style='text-align: center;'>${storedLeng == "spanish" ? "No hay tareas" : "No task added yet"}</h1>`
     }
 
 }
@@ -477,8 +477,10 @@ function previousPageOfArray() {
 
             let iteration = firstDisplayIndex - 1
             let displayed = 0
-
-            while (iteration <= 0 || displayed < maxDisplayed) {
+            console.log(iteration, displayed)
+            console.log((iteration >= 0),(displayed < maxDisplayed))
+            while (iteration >= 0 && displayed < maxDisplayed) {
+                console.log(iteration)
                 if (!todosArr[iteration].completed) {
                     todosArr[iteration].shouldDisplay = true
                     displayed++
@@ -499,6 +501,9 @@ function filterByDate(){
     todosArr.sort(function(a,b){
         return new Date(a.dueDate) - new Date(b.dueDate);
     })
+
+    document.querySelector("#eyeOpen").classList.remove("d-none")
+    document.querySelector("#eyeClosed").classList.add("d-none")
 
     categFilter = ""
 
@@ -542,6 +547,10 @@ function hideCompletedTasks(e) {
         let display = 0
         let index = 0
 
+        todosArr.sort(function(a,b){
+            return b.index - a.index;
+        })
+        
         while (display < maxDisplayed && index < todosArr.length) {
             
             if (!todosArr[index].completed) {

@@ -145,7 +145,7 @@ input[type="date"]
     position: absolute;
     right: 10%;
     top: 30px;
-    color: var(--theme-text-color);
+    color: #fff;
     transition: transform 0.3s;
 }
 
@@ -295,7 +295,6 @@ input[type="date"]
 
 #expandedCalendarDiv {
     overflow: scroll !important;
-    padding-top: 18% !important;
 }
 
 #taskAndMapDiv {
@@ -368,7 +367,8 @@ input[type="date"]
     position: absolute;
     top: 30px;
     right: 35px;
-    color: var(--theme-text-color)
+    color: var(--theme-text-color);
+    z-index: 20;
 }
 
 #backIcon:hover, #backListIcon:hover {
@@ -480,6 +480,7 @@ input[type="date"]
     top: 30px;
     left: 35px;
     transition: transform 0.3s;
+    z-index: 20;
 }
 
 #editProfileInfo:hover {
@@ -1210,6 +1211,10 @@ button:focus:not(:focus-visible) {
         align-items: flex-end;
     }
 
+    #expandedCalendarDiv {
+        padding-top: 18% !important;
+    }
+
     .dropdown-menu {
         background-color: var(--card-color) !important;
     }
@@ -1257,6 +1262,10 @@ button:focus:not(:focus-visible) {
     #nextPage .page-link {
         background-color: var(--navBar-color);
         border-radius: 10px 0 0 0;
+    }
+
+    #closeExpandedCalendar {
+        right: 5%;
     }
 
     .navDeskIcon:hover ~ .iconTagFloat {

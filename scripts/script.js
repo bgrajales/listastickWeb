@@ -5,6 +5,7 @@ var isLoggedIn = []
 var userDataBase = []
 var categoriesArr = ["General"]
 var categFilter
+var numberOfTasksToGenerate
 
 // Declaration of maxDisplayed variable used to determine the max number of task displayed per page
 
@@ -41,6 +42,11 @@ class Storage {
 
         localStorage.setItem('users', JSON.stringify(users))
         localStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn))
+        if (numberOfTasksToGenerate == null) {
+            localStorage.setItem('numberOfTaskFaker', JSON.stringify(0))
+        } else {
+            localStorage.setItem('numberOfTaskFaker', JSON.stringify(numberOfTasksToGenerate))
+        }
     }
 
     static getTodos() {
@@ -50,6 +56,8 @@ class Storage {
         isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
 
         categFilter = JSON.parse(localStorage.getItem('categFilter'))
+
+        numberOfTasksToGenerate = JSON.parse(localStorage.getItem('numberOfTaskFaker'))
 
         if (isLoggedIn == null) {
             isLoggedIn = []
@@ -124,10 +132,6 @@ function hideLoader() {
     document.querySelector('#initialLoadDiv').classList.add('d-none')
 }
 
-// Number of "Fake" task to generate for website testing using faker.js
-
-const numberOfTasksToGenerate = 63
-
 // fetchToDos mimics data base request to get todos array
 
 function fetchToDos() {
@@ -142,9 +146,25 @@ function fetchToDos() {
                     faker.random.arrayElements = categoriesArr
                     // Fake task generator for numberOfTasksToGenerate using faker.js
 
+                    let today = new Date();
+                    let dd = today.getDate();
+                    let mm = today.getMonth()+1; //January is 0!
+                    let yyyy = today.getFullYear();
+                    let twoMonths = mm + 2
+
+                    if(dd<10){
+                        dd='0'+dd
+                    } 
+                    if(mm<10){
+                        mm='0'+mm
+                    }
+
+                    today = yyyy+'-'+mm+'-'+dd;
+                    twoMonthsFromNow = yyyy+'-'+twoMonths+'-'+dd
+                    
                     todosArr.unshift(new todoElement(index + 1, false, faker.commerce.productName(), 
                     faker.commerce.productDescription(), faker.datatype.boolean(), 
-                    priorityArr[Math.floor(Math.random() * priorityArr.length)], faker.date.between('2021-07-24', '2021-12-31'), 
+                    priorityArr[Math.floor(Math.random() * priorityArr.length)], faker.date.between(today, twoMonthsFromNow), 
                     categoriesArr[Math.floor(Math.random()*categoriesArr.length)], [{title: "task1", status: false}, {title: "task2", status: true}]))
                     
                 }
@@ -153,6 +173,8 @@ function fetchToDos() {
                     for (let display = 0; display < maxDisplayed; display++) {
                         todosArr[display].shouldDisplay = true;
                     }
+                } else {
+                    todosArr.forEach(element => element.shouldDisplay = true);
                 }
                 
                 resolve()
@@ -225,6 +247,8 @@ function initialLoad() {
     if (document.getElementById("homeBody") != null) {
         showLoader()
 
+        document.getElementById("dropdownMenuButton1").innerText = "To-Dos"
+
         setTimeout(function() {
             hideLoader()
 
@@ -247,7 +271,10 @@ function initialLoad() {
     }
 
     if (document.getElementById("statsBody") != null) {
-        statsPageSetup()
+        
+        fetchToDos().then(() =>{statsPageSetup()})
+
+        
     }
 
     if (isLoggedIn[0].pfp == "images/pfp.png") {
@@ -261,10 +288,6 @@ function initialLoad() {
     if (isLoggedIn[0].theme == "dark") {
         document.querySelector("#darkCheck").click()
         document.documentElement.setAttribute("data-theme", "dark")        
-    }
-
-    if (document.getElementById("homeBody") != null) {
-        document.getElementById("dropdownMenuButton1").innerText = "To-Dos"
     }
 
 }
@@ -521,13 +544,14 @@ function editExpandedTask(todosIndex) {
     '</select>'
 
     priorityChange.innerHTML = '<select class="form-select addTaskInputStyle" id="editTaskPriorityInput" aria-label="Default select example">' +
-      `<option value="1" select>${(storedLeng == "spanish") ? "Baja" : "Low"}</option>` +
-      `<option value="2">${(storedLeng == "spanish") ? "Media" : "Medium"}</option>` +
-      `<option value="3">${(storedLeng == "spanish") ? "Alta" : "High"}</option>`
+      `<option value="1" ${(todosArr[todosIndex].priority == "Low") ? "selected" : ""}>${(storedLeng == "spanish") ? "Baja" : "Low"}</option>` +
+      `<option value="2" ${(todosArr[todosIndex].priority == "Medium") ? "selected" : ""}>${(storedLeng == "spanish") ? "Media" : "Medium"}</option>` +
+      `<option value="3" ${(todosArr[todosIndex].priority == "High") ? "selected" : ""}>${(storedLeng == "spanish") ? "Alta" : "High"}</option>`
 
       saveicon.addEventListener("click", function(){
           saveTaskEdit(todosIndex, datePicker, titleChange, descChange, listChange, priorityChange, closeIcon)
       })
+
       
 }
 
@@ -769,6 +793,7 @@ function addNewTask() {
     } else {
         document.getElementById('taskTitleInput').classList.add("inputCross")
         document.getElementById('taskTitleRequied').classList.remove("d-none")
+        document.getElementById('requiredFieldH6').innerText = `${(storedLeng == "spanish" ? "Este campo es requerido" : "This field is required")}`
     }
 
 }
@@ -781,95 +806,90 @@ function toggleExpandedProfile() {
         document.querySelector("#spanishCheck").setAttribute("checked", "true")
     } else {
         document.querySelector("#englishCheck").setAttribute("checked", "true")
+        document.getElementById("numberOfTaskToGen").setAttribute("placeholder", "N° task")
+        document.getElementById("generateBtn").innerText = "Generate with faker js"
+        document.getElementById("resetBtn").innerText = "Reset App (0 tasks)"
+          
     }
+
+    const backIcon = document.querySelector(".backIconPfp")
+    const logOut = document.querySelector("#logoutBtn")
+    const editPf = document.querySelector("#editProfileInfo")
+    const userNdisplay = document.getElementById('userName')
+    const userEdisplay = document.getElementById('userEmail')
+    const changeDiv = document.getElementById("changePfInfoDiv")
+    const userNChange = document.getElementById('userNameChange')
+    const userEChange = document.getElementById('userEmailChange')
     
     if (screen.width < 600) {
         document.getElementById("profileExpandedCard").classList.remove("d-none")
         document.getElementById("profileExpandedCard").classList.remove("animate__slideOutDown")
+        document.getElementById("profileExpandedCard").classList.remove("animate__slideOutLeft")
         document.getElementById("profileExpandedCard").classList.add("animate__slideInUp")
 
-        const backIcon = document.querySelector(".backIconPfp")
-        const editPf = document.querySelector("#editProfileInfo")
-
-        editPf.addEventListener("click", () => {
-            editProfileInfo()
-        })
-        
         backIcon.addEventListener("click", () =>{
             document.getElementById("profileExpandedCard").classList.remove("animate__slideInUp")
             document.getElementById("profileExpandedCard").classList.add("animate__slideOutDown")
-
+    
             setTimeout(function(){ document.getElementById("profileExpandedCard").classList.add("d-none"); }, 300);
-        })
-
-        const logOut = document.querySelector("#logoutBtn")
-
-        document.getElementById("userName").innerText = isLoggedIn[0].fullName
-        document.getElementById("userEmail").innerText = isLoggedIn[0].email
     
-        logOut.addEventListener("click", function(){
-            const pos = userDataBase.map(function(e) { return e.email; }).indexOf(isLoggedIn[0].email);
-        
-            userDataBase[pos].tasks = todosArr
-        
-            localStorage.setItem('users', JSON.stringify(userDataBase))
-        
-            isLoggedIn = []
-        
-            localStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn))
-
-            window.location.href = "index.html"
-        })
-
-        changePfp()
+            changeDiv.classList.add("d-none")
     
-        themeSelection()
-
-        lenguageSelection()
-
+            userNdisplay.classList.remove("d-none")
+            userEdisplay.classList.remove("d-none")
+    
+            userNChange.value = ""
+            userEChange.value = ""
+        })
     } else {
         document.getElementById("profileExpandedCard").classList.remove("d-none")
         document.getElementById("profileExpandedCard").classList.remove("animate__slideOutLeft")
+        document.getElementById("profileExpandedCard").classList.remove("animate__slideOutDown")
         document.getElementById("profileExpandedCard").classList.add("animate__slideInLeft")
-
-        const backIcon = document.querySelector(".backIconPfp")
-        const logOut = document.querySelector("#logoutBtn")
-        const editPf = document.querySelector("#editProfileInfo")
-    
-        document.getElementById("userName").innerText = isLoggedIn[0].fullName
-        document.getElementById("userEmail").innerText = isLoggedIn[0].email
-    
-        editPf.addEventListener("click", () => {
-            editProfileInfo()
-        })
 
         backIcon.addEventListener("click", () =>{
             document.getElementById("profileExpandedCard").classList.remove("animate__slideInLeft")
             document.getElementById("profileExpandedCard").classList.add("animate__slideOutLeft")
-
+    
             setTimeout(function(){ document.getElementById("profileExpandedCard").classList.add("d-none"); }, 300);
+    
+            changeDiv.classList.add("d-none")
+    
+            userNdisplay.classList.remove("d-none")
+            userEdisplay.classList.remove("d-none")
+    
+            userNChange.value = ""
+            userEChange.value = ""
         })
-    
-        logOut.addEventListener("click", function(){
-            const pos = userDataBase.map(function(e) { return e.email; }).indexOf(isLoggedIn[0].email);
-        
-            userDataBase[pos].tasks = todosArr
-        
-            localStorage.setItem('users', JSON.stringify(userDataBase))
-        
-            isLoggedIn = []
-        
-            localStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn))
-
-            window.location.href = "index.html"
-        })
-
-        changePfp()
-    
-        themeSelection()
-    
-        lenguageSelection()
     }
+    
+    document.getElementById("userName").innerText = isLoggedIn[0].fullName
+    document.getElementById("userEmail").innerText = isLoggedIn[0].email
+
+    editPf.addEventListener("click", () => {
+        editProfileInfo()
+    })
+
+    logOut.addEventListener("click", function(){
+        const pos = userDataBase.map(function(e) { return e.email; }).indexOf(isLoggedIn[0].email);
+    
+        userDataBase[pos].tasks = todosArr
+    
+        localStorage.setItem('users', JSON.stringify(userDataBase))
+    
+        isLoggedIn = []
+    
+        localStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn))
+
+        window.location.href = "index.html"
+    })
+
+    changePfp()
+
+    themeSelection()
+
+    lenguageSelection()
+
 }
 
 // Editar datos de perfil
@@ -966,6 +986,8 @@ function changePfp() {
 
             reader.addEventListener("load", function() {
                 img.setAttribute("src", reader.result)
+
+              
                 document.querySelector("#pfp").setAttribute("src", reader.result)
                 isLoggedIn[0].pfp = reader.result
 
@@ -1228,7 +1250,7 @@ function statsPageSetup() {
     } else {
         document.querySelector("#generalStatsDiv").style = "display: grid;justify-items: center;height: 90vh;align-content: center;gap: 30px;grid-template-columns: repeat(1, 1fr);"
 
-        document.getElementById("generalStatsDiv").innerHTML = "<img src='icons/logoBlue.svg' style='width: 45px'><h1 style='text-align: center;'>All done!</h1><h1>No task to analize</h1>"
+        document.getElementById("generalStatsDiv").innerHTML = `<img src='icons/logoBlue.svg' style='width: 45px'><h1 style='text-align: center;'>${storedLeng == "spanish" ? "Todo listo!" : "All done!"}</h1><h1>${storedLeng == "spanish" ? "No hay tareas para analizar" : "No task to analize"}</h1>`
     }
 }
 
@@ -1385,4 +1407,33 @@ function filterListCateg(listIndex) {
         })
     }
     
+}
+
+function fakerJsGenerate() {
+
+    if (document.getElementById("numberOfTaskToGen").value != "" && document.getElementById("numberOfTaskToGen").value != 0) {
+        Storage.getTodos()
+
+        todosArr = []
+        categoriesArr = ["General", "Work", "Study", "Freetime", "Project X"]
+
+        Storage.storeTodos(userDataBase, isLoggedIn)
+
+        numberOfTasksToGenerate = document.getElementById("numberOfTaskToGen").value
+    
+        location.reload()
+    }
+
+}
+
+function resetAllTasks() {
+    Storage.getTodos()
+
+    todosArr = []
+    categoriesArr = ["General"]
+    numberOfTasksToGenerate = 0
+
+    Storage.storeTodos(userDataBase, isLoggedIn)
+
+    location.reload()
 }

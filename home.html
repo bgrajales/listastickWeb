@@ -132,7 +132,7 @@
                 <label id="addTaskTitleLabel" for="taskTitleInput">Task title</label>
                 <input class="addTaskInputStyle" type="text" name="taskTitleInput" id="taskTitleInput">
                 <div id="taskTitleRequied" class="errorTextDiv d-none">
-                  <h6>This field is required</h6>
+                  <h6 id="requiredFieldH6">This field is required</h6>
                 </div>
               </div>
 
@@ -176,7 +176,7 @@
     <div id="expandedCalendarDiv" class="expandedTodoCardDiv d-none">
       <i id="closeExpandedCalendar" class="fas fa-times"></i>
             
-      <div style="display: flex; justify-content: space-between; align-items: center;">
+      <div style="display: flex;align-items: center;justify-content: center;gap: 10%;">
         <i class="fas fa-angle-left"></i>
         <h1 id="monthAndYear" class="calendarModalTitle"></h1>
         <i class="fas fa-angle-right"></i>
@@ -243,6 +243,20 @@
             <input type="radio" class="btn-check" name="lenguage" id="englishCheck" autocomplete="off">
             <label class="btn btn-outline-primary" for="englishCheck">English</label>
           </div>
+        </div>
+
+        <div class="configSubDiv" role="toolbar" aria-label="Toolbar with button groups" style="display: flex;flex-direction: column;gap: 10px;">
+          <h4 id="experimentalLabel" style="margin: 0;">Experimental</h4>
+
+          <div class="input-group">
+            <input type="number" class="form-control" placeholder="N° tareas" aria-label="Input group example" id="numberOfTaskToGen">
+            <button class="btn btn-dark" style="flex: 2;" onclick="fakerJsGenerate()" id="generateBtn">Generar tareas con faker.js</button>
+          </div>
+
+          <div class="btn-group me-2" role="group" aria-label="First group">
+            <button type="button" class="btn btn-outline-secondary" onclick="resetAllTasks()" id="resetBtn">Reiniciar App (0 tareas)</button>
+          </div>
+          
         </div>
 
         <div class="configSubDiv">
