@@ -433,31 +433,32 @@ function previousPageOfArray() {
             let first = true
 
             for (let iteration = 1; iteration < todosArr.length; iteration++) {
-                if (todosArr[iteration].completed == false && todosArr[iteration].shouldDisplay == true && first) {
+                if (todosArr[iteration].list == categFilter && todosArr[iteration].shouldDisplay == true && first) {
                     firstDisplayIndex = iteration
                     first = false
                 }
             }
+            console.log(firstDisplayIndex)
 
             let index = firstDisplayIndex
 
-            while (index < firstDisplayIndex + maxDisplayed) {
-                if (index < todosArr.length) {
-                    todosArr[index].shouldDisplay = false
-                }
+            while (index < todosArr.length) {
+                todosArr[index].shouldDisplay = false
 
                 index++
             }
 
-            let iteration = 0
+            let iteration = firstDisplayIndex - 1
             let displayed = 0
 
-            while (iteration < firstDisplayIndex && displayed < maxDisplayed) {
+            console.log(iteration)
+            while (iteration > 0 && displayed < maxDisplayed) {
                 if (todosArr[iteration].list == categFilter) {
+                    console.log(iteration, displayed)
                     todosArr[iteration].shouldDisplay = true
                     displayed++
                 }
-                iteration++
+                iteration--
             }
 
             renderTodosArr()
