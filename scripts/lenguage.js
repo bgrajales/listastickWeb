@@ -1,6 +1,8 @@
 if (document.querySelector("#indexBody") != null) {
 
     document.querySelector("#lenguageBtn").addEventListener("click", function(){
+        let leng 
+
         Swal.fire({
             title: (storedLeng == "spanish") ? "Elije tu idioma" : "Choose your lenguage",
             showDenyButton: true,
@@ -39,14 +41,19 @@ if (document.querySelector("#indexBody") != null) {
                 location.reload()
             } 
 
+            if (leng == '') {
+                leng = "english"
+            }
+
           localStorage.setItem('lenguage', JSON.stringify(leng))
     
         })
     })
 
     document.querySelector("#lenguageBtnHamb").addEventListener("click", function(){
+
         Swal.fire({
-            title: 'Choose your lenguage',
+            title: (storedLeng == "spanish" ? "Elige tu lenguaje" : "Choose your lenguage"),
             showDenyButton: true,
             confirmButtonText: `Español`,
             denyButtonText: `English`,
@@ -79,7 +86,7 @@ if (document.querySelector("#indexBody") != null) {
                 
                 }
     
-          } else {
+          } else if(result.isDenied) {
               leng = "english"
           }
     
@@ -157,6 +164,11 @@ if (storedLeng == "spanish") {
         document.getElementById("homeTag").innerText = "Inicio"
         document.getElementById("listTag").innerText = "Listas"
         document.getElementById("profileTag").innerText = "Perfil"
+
+        document.getElementById("addTagDskt").innerText = "Añadir"
+        document.getElementById("homeTagDskt").innerText = "Inicio"
+        document.getElementById("calendarTagDskt").innerText = "Calendario"
+        document.getElementById("listTagDskt").innerText = "Listas"
 
     }
 

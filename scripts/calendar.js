@@ -34,7 +34,9 @@ function calendarExpanded(month, year) {
     document.getElementById("nextTaskCalendar").innerText = ((storedLeng == "spanish") ? "Proxima Tarea" : "Next up Task")
     let firstDay = (new Date(year, month)).getDay()
     
-    var thisMonthTasks = todosArr.filter(todo => (new Date(todo.dueDate).getMonth() == month))
+    var thisMonthTasks = todosArr.filter(todo => (todo.dueDate != "No deadline"))
+
+    thisMonthTasks.filter(todo => (new Date(todo.dueDate).getMonth() == month))
 
     thisMonthTasks = thisMonthTasks.filter(todo => (new Date(todo.dueDate).getFullYear() == year))
     
@@ -113,9 +115,6 @@ function calendarExpanded(month, year) {
         calendar.appendChild(row)
     }
 
-    thisMonthTasks = todosArr.sort(function(a,b){
-        return new Date(a.dueDate) - new Date(b.dueDate);
-    })
     
     if (thisMonthTasks.length > 0) {
      
@@ -123,6 +122,7 @@ function calendarExpanded(month, year) {
             return new Date(a.dueDate) - new Date(b.dueDate)
         })
 
+        console.log(thisMonthTasks)
         let notCompleted
         let index = 0
 

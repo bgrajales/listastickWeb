@@ -369,6 +369,7 @@ input[type="date"]
     right: 35px;
     color: var(--theme-text-color);
     z-index: 20;
+    transition: all 0.3s;
 }
 
 #backIcon:hover, #backListIcon:hover {
@@ -499,6 +500,15 @@ input[type="date"]
 
 #changeBtnsDiv button {
     flex: 1;
+}
+
+.subTaskDone {
+    text-decoration: line-through;
+}
+
+.backIconPfp:hover {
+    transform: scale(1.2);
+    cursor: pointer;
 }
 
 .inputCross {

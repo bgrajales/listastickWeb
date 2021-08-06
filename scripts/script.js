@@ -42,6 +42,7 @@ class Storage {
 
         localStorage.setItem('users', JSON.stringify(users))
         localStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn))
+
         if (numberOfTasksToGenerate == null) {
             localStorage.setItem('numberOfTaskFaker', JSON.stringify(0))
         } else {
@@ -137,7 +138,7 @@ function hideLoader() {
 
 
 function fetchToDos() {
-    
+
     return new Promise((resolve, reject) => {
         setTimeout(() => {
 
@@ -202,7 +203,8 @@ function fetchToDos() {
 
                     todosArr.forEach(todo => {todo.shouldDisplay = false})
 
-                    if (categFilter == "") {
+                    if (categFilter == "" || categFilter == null) {
+
                         if (todosArr.length <= maxDisplayed) {
                             todosArr.forEach(todo => {
                                 todo.shouldDisplay = true;
@@ -234,8 +236,6 @@ function fetchToDos() {
                                 index++
                             }
                         }
-
-                        console.log(numbOfTask)
 
                     }
                     
@@ -417,11 +417,11 @@ function showExpandedTodoCard(object, todosIndex) {
 
     object.subtask.forEach(element => {
         if (element.status) {
-            taskSubTaskDiv.innerHTML += '<div class="subTaskandTrash"><div class="form-check" onclick="checkSubTask(this)" style="flex: 1;"><input class="form-check-input" type="checkbox" value="" id="'+ todosIndex + '-' + element.title.trim() +'" checked><label class="form-check-label" for="'+ todosIndex + '-' + element.title.trim() +'">' + 
+            taskSubTaskDiv.innerHTML += '<div class="subTaskandTrash"><div class="form-check" onclick="checkSubTask(this)" style="flex: 1;"><input class="form-check-input" type="checkbox" value="" id="'+ todosIndex + '-' + element.title.replace(/\s/g,"-") +'" checked><label class="form-check-label subTaskDone" for="'+ todosIndex + '-' + element.title.replace(/\s/g,"-") +'">' + 
             element.title + '</label></div><i class="fas fa-trash trashSubTask"onclick="deleteSubTask(this)"></i></div>'
 
         } else {
-            taskSubTaskDiv.innerHTML += '<div class="subTaskandTrash"><div class="form-check" onclick="checkSubTask(this)" style="flex: 1;"><input class="form-check-input" type="checkbox" value="" id="'+ todosIndex + '-' + element.title.trim() +'"><label class="form-check-label" for="'+ todosIndex + '-' + element.title.trim() +'">' + 
+            taskSubTaskDiv.innerHTML += '<div class="subTaskandTrash"><div class="form-check" onclick="checkSubTask(this)" style="flex: 1;"><input class="form-check-input" type="checkbox" value="" id="'+ todosIndex + '-' + element.title.replace(/\s/g,"-") +'"><label class="form-check-label" for="'+ todosIndex + '-' + element.title.replace(/\s/g,"-") +'">' + 
             element.title + '</label></div><i class="fas fa-trash trashSubTask"onclick="deleteSubTask(this)"></i></div>'
         }
     })
@@ -544,6 +544,9 @@ function editExpandedTask(todosIndex) {
         datePicker.innerHTML = "<input type='date' id='editDateExpanded'>"
     }
 
+    datePicker.style.width = "90%";
+    titleChange.style.width = "100%";
+
     titleChange.innerHTML = '<input type="text" id="newTaskTitle" value="'+todosArr[todosIndex].title+'"style="display: block;">'
     descChange.innerHTML = '<textarea id="newTaskDesc" style="width: 100%;">'+todosArr[todosIndex].content+'</textarea>'
 
@@ -575,8 +578,6 @@ function editExpandedTask(todosIndex) {
 // Save edit of expanded task
 
 function saveTaskEdit(todosIndex, datePicker, titleChange, descChange, listChange, priorityChange, closeIcon) {
-
-    console.log(todosIndex, datePicker, titleChange, descChange, listChange, priorityChange)
 
     if (datePicker.querySelector("#editDateExpanded").value == "") {
         todosArr[todosIndex].dueDate = "No deadline"
@@ -658,7 +659,6 @@ function deleteSubTask(e) {
         }
     })
 
-    console.log(taskIdandSubtask)
 }
 
 // Function to display Add Task inputs when plus icon clicked
@@ -809,6 +809,10 @@ function addNewTask() {
         }
 
         renderTodosArr()
+
+        if (document.getElementById("statsBody") != null) {
+            location.reload()
+        }
     } else {
         document.getElementById('taskTitleInput').classList.add("inputCross")
         document.getElementById('taskTitleRequied').classList.remove("d-none")
@@ -893,12 +897,15 @@ function toggleExpandedProfile() {
         const pos = userDataBase.map(function(e) { return e.email; }).indexOf(isLoggedIn[0].email);
     
         userDataBase[pos].tasks = todosArr
-    
-        localStorage.setItem('users', JSON.stringify(userDataBase))
-    
+        
         isLoggedIn = []
     
-        localStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn))
+        categorFilter = ""
+
+        numberOfTasksToGenerate = 0
+
+        localStorage.setItem('categFilter', JSON.stringify(categorFilter))
+
 
         window.location.href = "index.html"
     })
@@ -943,7 +950,6 @@ function editProfileInfo() {
     })
 
     saveBtn.addEventListener('click', () => {
-        console.log("save")
 
         userDataBase.indexOf()
         let pos = userDataBase.map(function(e) { return e.email; }).indexOf(isLoggedIn[0].email);
@@ -1246,14 +1252,20 @@ function statsPageSetup() {
             getTodoImportance(notCompleted.priority)
         )
 
-        let totalDate = new Date(notCompleted.dueDate)
+        if (notCompleted.dueDate != "No deadline") {
+            let totalDate = new Date(notCompleted.dueDate)
 
-        var month = totalDate.getUTCMonth() + 1;
-        var day = totalDate.getUTCDate();
-        var year = totalDate.getUTCFullYear();
+            var month = totalDate.getUTCMonth() + 1;
+            var day = totalDate.getUTCDate();
+            var year = totalDate.getUTCFullYear();
 
-        taskDayNMonth.innerText = day + '/' + month
-        taskYear.innerText = year
+            taskDayNMonth.innerText = day + '/' + month
+            taskYear.innerText = year
+        } else {
+            taskDayNMonth.innerText = "No"
+            taskYear.innerText = "Date"
+        }
+        
 
         taskCloneList.innerText = 'Task List: ' + notCompleted.list
 
@@ -1348,7 +1360,9 @@ function listExpanded() {
                         categoriesArr.splice(listIndex, 1)
                         
                         listExpanded()
-                        renderTodosArr()
+                        if (document.getElementById("homeBody") != null) {
+                            renderTodosArr()
+                        }
                     }
                 })
 

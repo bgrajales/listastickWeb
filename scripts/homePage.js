@@ -5,7 +5,9 @@ function renderTodosArr() {
     Storage.storeTodos(userDataBase, isLoggedIn)
     Storage.getTodos()
 
-    document.querySelector("#taskSection").classList.remove("noTaskToDisplay")
+    if (document.getElementById("homeBody") != null) {
+        document.querySelector("#taskSection").classList.remove("noTaskToDisplay")
+    }
 
     const taskCardContainer = document.getElementById("taskSection")
     const taskCardTemplates = document.getElementById("taskCardTemplate")
@@ -21,6 +23,7 @@ function renderTodosArr() {
         if (todosArr.length <= 8) {
             document.getElementById("pagesNavigation").classList.add("d-none")
         }
+
         for (let todosIndex = 0; todosIndex < todosArr.length; todosIndex++) {
 
             if (todosArr[todosIndex].shouldDisplay) {
@@ -141,28 +144,30 @@ function applySearchFilter() {
     currentTab = document.querySelector(".activeSelBtn").innerText
 
     if (keywords == "") {
+        if (todosArr.length > 0) {
+        
+            switch (currentTab) {
 
-        switch (currentTab) {
+                case "To-Dos":
+                    todosArr.forEach(todo =>{
+                        todo.shouldDisplay = false
+                    })
 
-            case "To-Dos":
-                todosArr.forEach(todo =>{
-                    todo.shouldDisplay = false
-                })
+                    for (let display = 0; display < maxDisplayed; display++) {
+                        todosArr[display].shouldDisplay = true;
+                    }
 
-                for (let display = 0; display < maxDisplayed; display++) {
-                    todosArr[display].shouldDisplay = true;
-                }
+                    renderTodosArr()
+                    break;
+                case "My Day" || "Mi día":
+                    todosArr.forEach(todo =>{
+                        todo.shouldDisplay = true
+                    })
+                    filterMyDay()
+                    break;
 
-                renderTodosArr()
-                break;
-            case "My Day" || "Mi día":
-                todosArr.forEach(todo =>{
-                    todo.shouldDisplay = true
-                })
-                filterMyDay()
-                break;
-
-        }         
+            }
+        }        
     
     } else {
 
@@ -255,7 +260,7 @@ function filterMyDay() {
 
     if (numberOfTask == 0) {
         document.querySelector("#taskSection").classList.add("noTaskToDisplay")
-        document.querySelector("#taskSection").innerHTML = "<img src='icons/logoBlue.svg' style='width: 45px'><h1 style='text-align: center;'>All done!</h1><h1 style='text-align: center;'>No task for today</h1>"
+        document.querySelector("#taskSection").innerHTML = `<img src="icons/logoBlue.svg" style="width: 45px"><h1 style="text-align: center;">${storedLeng == "spanish" ? "Todo listo!" : "All done!"}</h1><h1 style="text-align: center;">${storedLeng == "spanish" ? "No hay tareas" : "No task for today"}</h1>`
     }
 
     document.getElementById("dropdownMenuButton1").innerText = "My Day"
@@ -302,24 +307,25 @@ function nextPageOfArray() {
         }
     } else if (categFilter != "") {
         
-        let lastNotCompleted = 0
+        let lastNotFromlist = 0
 
         todosArr.forEach( function(element, index) {
             if (element.list == categFilter) {
-                lastNotCompleted = index
+                lastNotFromlist = index
             }
         })
 
-        console.log(lastNotCompleted)
+        console.log(lastNotFromlist)
 
-        if (!todosArr[lastNotCompleted].shouldDisplay) {
+        if (!todosArr[lastNotFromlist].shouldDisplay) {
             let lastDisplayIndex = 0
 
             for (let iteration = 1; iteration < todosArr.length-1; iteration++) {
-                if (todosArr[iteration].shouldDisplay == true && todosArr[iteration].completed == false) {
+                if (todosArr[iteration].shouldDisplay == true && todosArr[iteration].list == categFilter) {
                     lastDisplayIndex = iteration
                 }
             }
+            console.log(lastDisplayIndex)
 
             for (let q = 0; q <= lastDisplayIndex; q++){
                 todosArr[q].shouldDisplay = false
@@ -327,13 +333,16 @@ function nextPageOfArray() {
 
             let firstToDisplay = lastDisplayIndex + 1
             let LastToDisplay = firstToDisplay + maxDisplayed
-    
-            while (firstToDisplay < LastToDisplay && firstToDisplay < todosArr.length) {
-                if (todosArr[firstToDisplay].list == categFilter) {
-                    todosArr[firstToDisplay].shouldDisplay = true
+            let dispIteration = firstToDisplay
+
+            while (firstToDisplay < LastToDisplay && dispIteration < todosArr.length) {
+                console.log(todosArr[dispIteration])
+                if (todosArr[dispIteration].list == categFilter) {
+                    todosArr[dispIteration].shouldDisplay = true
+                    firstToDisplay++
                 }
     
-                firstToDisplay++
+                dispIteration++
             }
     
             renderTodosArr()
@@ -416,6 +425,7 @@ function previousPageOfArray() {
             renderTodosArr()
         }
     } else if (categFilter != "") {
+
         let firstNotCompleted = todosArr.findIndex(element => element.list == categFilter)
        
         if (!todosArr[firstNotCompleted].shouldDisplay) {
@@ -498,6 +508,8 @@ function previousPageOfArray() {
 
 function filterByDate(){
 
+    changeActiveSel()
+
     todosArr.sort(function(a,b){
         return new Date(a.dueDate) - new Date(b.dueDate);
     })
@@ -511,6 +523,9 @@ function filterByDate(){
 
     if (todosArr != []) {
 
+        if (todosArr.length > maxDisplayed) {
+            document.getElementById("pagesNavigation").classList.remove("d-none")
+        }
         todosArr.forEach(todo => {todo.shouldDisplay = false})
 
             if (todosArr.length <= maxDisplayed) {
@@ -577,6 +592,11 @@ function hideCompletedTasks(e) {
 
 function deleteFilters() {
     categFilter = ""
+
+    if (document.getElementById("homeBody") != null && document.querySelector("#eyeOpen").classList.contains("d-none")) {
+        document.querySelector("#eyeOpen").classList.remove("d-none")
+        document.querySelector("#eyeClosed").classList.add("d-none")
+    }    
 
     localStorage.setItem('categFilter', JSON.stringify(categFilter))
 
