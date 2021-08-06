@@ -134,6 +134,8 @@ function hideLoader() {
 
 // fetchToDos mimics data base request to get todos array
 
+
+
 function fetchToDos() {
     
     return new Promise((resolve, reject) => {
@@ -145,7 +147,20 @@ function fetchToDos() {
 
                     faker.random.arrayElements = categoriesArr
                     // Fake task generator for numberOfTasksToGenerate using faker.js
+                    let rndInt = Math.floor(Math.random() * 10) + 1
+                    let subTaskArr = []
 
+                    for (let index = 0; index <= rndInt; index++) {
+                        let tOf = Math.floor(Math.random() * 2) + 1
+                        if (tOf == 1) {
+                            var stat = true
+                        } else {
+                            var stat = false
+                        }
+                        
+                        subTaskArr.push({title: faker.git.commitMessage(), status: stat})
+
+                    }
                     let today = new Date();
                     let dd = today.getDate();
                     let mm = today.getMonth()+1; //January is 0!
@@ -165,7 +180,7 @@ function fetchToDos() {
                     todosArr.unshift(new todoElement(index + 1, false, faker.commerce.productName(), 
                     faker.commerce.productDescription(), faker.datatype.boolean(), 
                     priorityArr[Math.floor(Math.random() * priorityArr.length)], faker.date.between(today, twoMonthsFromNow), 
-                    categoriesArr[Math.floor(Math.random()*categoriesArr.length)], [{title: "task1", status: false}, {title: "task2", status: true}]))
+                    categoriesArr[Math.floor(Math.random()*categoriesArr.length)], subTaskArr))
                     
                 }
 
@@ -525,6 +540,8 @@ function editExpandedTask(todosIndex) {
         taskDate = yyyy+'-'+mm+'-'+dd;
 
         datePicker.innerHTML = `<input type="date" id="editDateExpanded" value="${taskDate}">`
+    } else {
+        datePicker.innerHTML = "<input type='date' id='editDateExpanded'>"
     }
 
     titleChange.innerHTML = '<input type="text" id="newTaskTitle" value="'+todosArr[todosIndex].title+'"style="display: block;">'
@@ -691,6 +708,8 @@ if (document.querySelector("#addTaskMain")) {
             })
         }
         
+        document.getElementById('taskTitleInput').focus()
+
         let today = new Date();
         let dd = today.getDate();
         let mm = today.getMonth()+1; //January is 0!
