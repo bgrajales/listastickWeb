@@ -40,10 +40,11 @@ function calendarExpanded(month, year) {
     
     var thisMonthTasks = todosArr.filter(todo => (todo.dueDate != "No deadline"))
 
-    thisMonthTasks.filter(todo => (new Date(todo.dueDate).getMonth() == month))
+    thisMonthTasks = thisMonthTasks.filter(todo => (new Date(todo.dueDate).getMonth() == month))
 
     thisMonthTasks = thisMonthTasks.filter(todo => (new Date(todo.dueDate).getFullYear() == year))
     
+    console.log(thisMonthTasks)
     let daysWithTasks = []
 
     if (thisMonthTasks.length > 0) {
