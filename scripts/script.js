@@ -317,7 +317,7 @@ function checkLogIn() {
          window.location.href = "home.html"
     }
  
- }
+}
 
 //Get todo priority
 
