@@ -644,23 +644,25 @@ function checkSubTask(e) {
 
 function deleteSubTask(e) { 
     const taskIdandSubtask = e.parentNode.querySelector("input").id.split("-")
-
+    const subTaskTitle = e.parentNode.querySelector("label").innerText
+    
     Swal.fire({
-        title: 'Delete ' + taskIdandSubtask[1] + '?',
+        title: (storedLeng == "spanish" ? "Borrar " : "Delete ") + subTaskTitle + '?',
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#2E4052',
-        confirmButtonText: 'Yes, delete'
+        confirmButtonText: ((storedLeng == "spanish" ? "Si, borrar" : "Yes, Delete")),
+        cancelButtonText: ((storedLeng == "spanish" ? "Cancelar" : "Cancel")),
     }).then((result) => {
         if (result.isConfirmed) {
           todosArr[taskIdandSubtask[0]].subtask.forEach(function(item, index, object) {
-              if (item.title == taskIdandSubtask[1]) {
+              if (item.title == subTaskTitle) {
+                  console.log(item)
                   object.splice(index, 1)
               }
           })
           document.querySelector("#backIcon").click()
           showExpandedTodoCard(todosArr[taskIdandSubtask[0]], taskIdandSubtask[0])
+
         }
     })
 
@@ -1038,6 +1040,9 @@ function changePfp() {
 
         }
     })
+
+    Storage.storeTodos(userDataBase, isLoggedIn)
+
 }
 
 // Change theme, light and dark
@@ -1069,6 +1074,8 @@ function themeSelection() {
         })
     })
 
+    Storage.storeTodos(userDataBase, isLoggedIn)
+
 }
 
 // Lenguage Selection
@@ -1091,6 +1098,9 @@ function lenguageSelection() {
 
         location.reload()
     })
+
+    Storage.storeTodos(userDataBase, isLoggedIn)
+
 }
 
 // Landing page hamburger menu show
