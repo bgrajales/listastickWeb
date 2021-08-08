@@ -1368,29 +1368,47 @@ function listExpanded() {
             liEl.innerText = categoriesArr[listIndex] + liEl.innerText
 
             liDel.addEventListener("click", () => {
-                Swal.fire({
-                    title: ((storedLeng == "spanish") ? "Estas seguro que deseas eliminar esta categoria?" : "Are you sure you want to delete this category?"),
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonText: ((storedLeng == "spanish") ? "Si, eliminar" : "Yes, delete"),
-                    cancelButtonText: ((storedLeng == "spanish") ? "Cancelar" : "Cancel")
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        todosArr.forEach(element =>{
-                            if (element.list == categoriesArr[listIndex]) {
-                                element.list = "No List"
-                            }
-                        })
+                if (categoriesArr[listIndex] != "General") {
                         
-                        categoriesArr.splice(listIndex, 1)
-                        
-                        listExpanded()
-                        if (document.getElementById("homeBody") != null) {
-                            renderTodosArr()
-                        }
-                    }
-                })
+                    Swal.fire({
+                        title: ((storedLeng == "spanish") ? "Estas seguro que deseas eliminar esta categoria?" : "Are you sure you want to delete this category?"),
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonText: ((storedLeng == "spanish") ? "Si, eliminar" : "Yes, delete"),
+                        cancelButtonText: ((storedLeng == "spanish") ? "Cancelar" : "Cancel")
+                    }).then((result) => {
+                        if (result.isConfirmed) {
 
+                            todosArr.forEach(element =>{
+                                if (element.list == categoriesArr[listIndex]) {
+                                    element.list = "General"
+                                }
+                            })
+                            
+                            categoriesArr.splice(listIndex, 1)
+                            
+                            listExpanded()
+                            if (document.getElementById("homeBody") != null) {
+                                renderTodosArr()
+                            }
+
+                            categFilter = ""
+
+                            localStorage.setItem('categFilter', JSON.stringify(categFilter))
+
+                            Storage.storeTodos(userDataBase, isLoggedIn)
+                            
+                            document.querySelector("#removeFiltersBtn").click()
+                        }
+                    })
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: (storedLeng == "spanish" ? "No se puede eliminar 'General'" : "'General' can´t be deleted"),
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                }
             })
 
             if (document.querySelector("#homeBody") != null) {
@@ -1467,6 +1485,8 @@ function filterListCateg(listIndex) {
     
 }
 
+// Input number of task to create with faker JS
+
 function fakerJsGenerate() {
 
     if (document.getElementById("numberOfTaskToGen").value != "" && document.getElementById("numberOfTaskToGen").value != 0) {
@@ -1483,6 +1503,8 @@ function fakerJsGenerate() {
     }
 
 }
+
+// Reset app to 0 task for use from 0
 
 function resetAllTasks() {
     Storage.getTodos()
