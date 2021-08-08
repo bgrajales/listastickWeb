@@ -1,5 +1,9 @@
 function calendarExpanded(month, year) {
 
+    document.querySelectorAll('.expandedTodoCardDiv').forEach(element => element.classList.add('d-none'))
+    if (document.getElementById("homeBody") != null) {
+        document.querySelector(".expandedTodoCardDivNew").classList.add('d-none')
+    }    
     const expandedCal = document.querySelector("#expandedCalendarDiv")
     const closeCal = document.querySelector("#closeExpandedCalendar")
     const calendar = document.getElementById("calendarTable")
@@ -104,6 +108,7 @@ function calendarExpanded(month, year) {
                     notif.classList.add("notif")
                     cell.appendChild(notif)
                     cell.classList.add("hasTask")
+                    cell.setAttribute("onclick", "showCalendarDaytasks(this)")
                 }
 
                 cell.appendChild(cellText)
@@ -122,7 +127,6 @@ function calendarExpanded(month, year) {
             return new Date(a.dueDate) - new Date(b.dueDate)
         })
 
-        console.log(thisMonthTasks)
         let notCompleted
         let index = 0
 
@@ -206,4 +210,78 @@ function calendarExpanded(month, year) {
 
 function getDaysInMont(year, month) {
     return 32 - new Date(year, month, 32).getDate()
+}
+
+function showCalendarDaytasks(element) {
+
+    let calendarElementDay = element.innerText
+
+    let nextTask = document.querySelector("#calendarNextTask")
+    nextTask.innerHTML = ""
+
+    const monthAndYear = document.querySelector("#monthAndYear").innerText.split(" ")
+
+    let calendarMonth = monthAndYear[0]
+    let calendarYear = monthAndYear[1]
+
+    const monthNames = ["January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+    ];
+
+    const monthNamesSpanish = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+    "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+    ];
+
+    let monthIndex
+
+    if (storedLeng == "spanish") {
+        monthIndex = monthNamesSpanish.indexOf(calendarMonth)
+    } else {
+        monthIndex = monthNames.indexOf(calendarMonth)
+    }
+
+    let result = todosArr.filter(element =>{
+        return (new Date(element.dueDate).getFullYear() == calendarYear) && (new Date(element.dueDate).getMonth() == monthIndex) && (new Date(element.dueDate).getUTCDate() == calendarElementDay)
+    })
+
+    document.querySelector("#nextTaskCalendar").innerText = element.innerText + " " + calendarMonth + " " + calendarYear.toString()
+
+    if (document.getElementById("nextTaskCardTemplate") != null) {
+        var upcomTaskTemplate = document.getElementById("nextTaskCardTemplate")
+    } else {
+        var upcomTaskTemplate = document.getElementById("taskCardTemplate")
+    }
+
+    result.forEach(element => {
+        let upcomTaskClone = upcomTaskTemplate.content.cloneNode(true)
+    
+        let taskCloneImportanceIndicator = upcomTaskClone.querySelector(".importanceIndicator")
+        let taskCloneTitle = upcomTaskClone.querySelector(".taskTitle")
+        let taskCloneList = upcomTaskClone.querySelector(".taskList")
+        let taskCloneDesc = upcomTaskClone.querySelector(".taskDesc")
+        let taskDayNMonth = upcomTaskClone.querySelector("h2")
+        let taskYear = upcomTaskClone.querySelector("h3")
+        
+        taskCloneImportanceIndicator.classList.add(
+            getTodoImportance(element.priority)
+        )
+    
+        let totalDate = new Date(element.dueDate)
+    
+        var nextUpmonth = totalDate.getUTCMonth() + 1;
+        var nextUpday = totalDate.getUTCDate();
+        var nextUpyear = totalDate.getUTCFullYear();
+    
+        taskDayNMonth.innerText = nextUpday + '/' + nextUpmonth
+        taskYear.innerText = nextUpyear
+    
+        taskCloneList.innerText = 'Task List: ' + element.list
+    
+        taskCloneTitle.innerText = element.title
+    
+        taskCloneDesc.innerText = element.content
+    
+        nextTask.appendChild(upcomTaskClone)
+    })
+    console.log(result)
 }

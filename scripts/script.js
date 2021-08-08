@@ -336,6 +336,11 @@ function getTodoImportance(todoPriority) {
 
 function showExpandedTodoCard(object, todosIndex) {
 
+    document.querySelectorAll('.expandedTodoCardDiv').forEach(element => element.classList.add('d-none'))
+    if (document.getElementById("homeBody") != null) {
+        document.querySelector(".expandedTodoCardDivNew").classList.add('d-none')
+    }
+
     const taskSec = document.querySelector(".expandedTodoCardDivNew")
 
     taskSec.innerHTML = ""
@@ -672,7 +677,10 @@ if (document.querySelector("#addTaskMain")) {
     let datePicker = document.querySelector("#taskDeadlineInput")
 
     addTask.addEventListener("click", () => {
-
+        document.querySelectorAll('.expandedTodoCardDiv').forEach(element => element.classList.add('d-none'))
+        if (document.getElementById("homeBody") != null) {
+            document.querySelector(".expandedTodoCardDivNew").classList.add('d-none')
+        }
         if (screen.width < 600) {
             addTaskContainer.classList.remove("d-none")
             addTaskContainer.classList.remove("animate__slideOutDown")
@@ -824,7 +832,10 @@ function addNewTask() {
 // Expanded profile function when pfp clicked
 
 function toggleExpandedProfile() {
-
+    document.querySelectorAll('.expandedTodoCardDiv').forEach(element => element.classList.add('d-none'))
+    if (document.getElementById("homeBody") != null) {
+        document.querySelector(".expandedTodoCardDivNew").classList.add('d-none')
+    }
     if (storedLeng == "spanish") {
         document.querySelector("#spanishCheck").setAttribute("checked", "true")
     } else {
@@ -1289,6 +1300,10 @@ function statsPageSetup() {
 
 function listExpanded() {
 
+    document.querySelectorAll('.expandedTodoCardDiv').forEach(element => element.classList.add('d-none'))
+    if (document.getElementById("homeBody") != null) {
+        document.querySelector(".expandedTodoCardDivNew").classList.add('d-none')
+    }
     const lisElTemplate = document.getElementById("listElementTemplate")
 
     document.getElementById("categListDiv").innerHTML = '<ul id="categUL"></ul>'  

@@ -135,6 +135,8 @@ if (storedLeng == "spanish") {
         
         document.getElementById("myDayBtn").innerText = "Mi día"
         document.getElementById("orderDate").innerText = "Ordenar por Fecha"
+        document.getElementById("removeFilters").innerText = "Remover filtros de categoria"
+
 
         document.getElementById("addTaskTitleLabel").innerText = "Titulo"
         document.getElementById("categoryTaskLabel").innerText = "Categoria"
