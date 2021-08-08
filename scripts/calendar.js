@@ -215,6 +215,10 @@ function getDaysInMont(year, month) {
 
 function showCalendarDaytasks(element) {
 
+    if (document.querySelector(".activeCalendar") != null) {
+        document.querySelector(".activeCalendar").classList.remove("activeCalendar")
+    }
+
     let calendarElementDay = element.innerText
 
     let nextTask = document.querySelector("#calendarNextTask")
@@ -284,5 +288,6 @@ function showCalendarDaytasks(element) {
     
         nextTask.appendChild(upcomTaskClone)
     })
-    console.log(result)
+
+    element.classList.add("activeCalendar")
 }

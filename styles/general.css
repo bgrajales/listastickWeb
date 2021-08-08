@@ -183,6 +183,12 @@ input[type="date"]
     border-radius: 10px;
 }
 
+.activeCalendar {
+    background-color: var(--navBar-color) !important;
+    color: #fff !important;
+    border-radius: 10px;
+}
+
 .notif {
     width: 10px;
     height: 10px;
@@ -689,6 +695,8 @@ input[type="date"]
     position: relative;
     border-radius: 50%;
     overflow: hidden;
+    background-color: var(--theme-background-color);
+    padding: 5px;
 }
 
 .swal2-styled.swal2-confirm {
