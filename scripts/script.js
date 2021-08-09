@@ -354,7 +354,7 @@ function showExpandedTodoCard(object, todosIndex) {
     const closeExpandedTaskTemplate = taskExpandClone.querySelector("#backIcon")
     const taskDayNMonth = taskExpandClone.querySelector("h2")
     const taskYear = taskExpandClone.querySelector("h3")
-    const taskPriorShow = taskExpandClone.querySelector(".importanceIndicatorExpanded")
+    const taskPriorShow = taskExpandClone.querySelector(".importanceIndicatorNew")
 
     const addSubTaskInput = taskExpandClone.querySelector("#newSubTaskInput")
     const addSubTaskBtn = taskExpandClone.querySelector("#newSubTaskBtn")
@@ -382,8 +382,8 @@ function showExpandedTodoCard(object, todosIndex) {
         var day = totalDate.getUTCDate();
         var year = totalDate.getUTCFullYear();
     
-        taskDayNMonth.innerText = day + '/' + month
-        taskYear.innerText = year
+        taskDayNMonth.innerText = ((storedLeng == "spanish") ? "Fecha limite: " : "Due date: ")
+        taskYear.innerText = day + '/' + month + '/' + year
     }
   
     if (object.completed == true) {

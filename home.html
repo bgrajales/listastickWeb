@@ -292,12 +292,12 @@
     <template id="expandedTaskTemplate">
       <div class="expandedTaskBkgNew shadow-lg">
         <div id="dateAndTitle" class="backAndTitle">
-          <div class="importanceIndicatorExpanded" style="flex: 1"><h2></h2><h3></h3></div>
-          <h1 id="taskTitleExpanded" style="flex: 8;"></h1>
           <i  id="taskEditBtn" class="fas fa-pen"></i>
+          <h1 id="taskTitleExpanded" style="flex: 8;"></h1>
           <i id="taskSaveChangesBtn" class="fas fa-save d-none"></i>
           <i id="backIcon" class="fas fa-times"></i>
         </div>
+        <div class="importanceIndicatorExpanded backAndTitle" style="flex: 1"><h2 class="expandedSubTitle"></h2><h3 class="taskDivText"></h3></div>
         <div class="backAndTitle">
           <p class="expandedSubTitle categorylabel">Category:</p>
           <p id="taskList" class="taskDivText"></p>
@@ -305,6 +305,7 @@
         <div class="backAndTitle">
           <p class="expandedSubTitle prioritylabel">Priority:</p>
           <p id="taskPriority" class="taskDivText"></p>
+          <div class="importanceIndicatorNew"></div>
         </div>
         <div id="subTasks">
           <p class="expandedSubTitle subtasklabel">Sub Tasks:</p> <!-- Agregar a task expanded -->

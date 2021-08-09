@@ -924,16 +924,22 @@ button:focus:not(:focus-visible) {
     border-radius: 10px 0 0 10px;
 }
 
+.importanceIndicatorNew {
+    width: 10px;
+    height: 10px;
+    border-radius: 100%;
+}
+
+.expandedTaskBkgNew p {
+    margin: 0;
+}
+
 .importanceIndicatorExpanded {
     display: flex;
-    flex-direction: column;
     flex: 1;
-    justify-content: center;
     align-items: center;
-    color: #fff;
     font-weight: bold;
     border-radius: 10px;
-    padding: 10px;
 }
 
 .importanceIndicatorExpanded h2, .importanceIndicatorExpanded h3 {
