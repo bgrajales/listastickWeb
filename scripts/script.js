@@ -1041,8 +1041,6 @@ function changePfp() {
         }
     })
 
-    Storage.storeTodos(userDataBase, isLoggedIn)
-
 }
 
 // Change theme, light and dark
