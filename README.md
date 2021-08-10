@@ -7,7 +7,8 @@
 
  - ### Landing
  ---
-    - Index page with preview images of the app on desktop and mobile, call to action buttons and "user reviews". 
+    - Index page with preview images of the app on desktop and mobile, call to action 
+    buttons and "user reviews". 
     - Header with menu and simple footer with socials
 
  - ### Login
@@ -30,19 +31,22 @@
  
  - ### Stats
  ---
-    - Page with analysis of task, showing total tasks, pending and completed, task by priority and amount of task on each list
+    - Page with analysis of task, showing total tasks, pending and completed, task by priority 
+    and amount of task on each list
  
  - ### Calendar
  ---
     - Modal presented on home and stats page
-    - Shows calendar of current month when first opened, marks the current day and puts a red dot on all days with tasks
+    - Shows calendar of current month when first opened, marks the current day and puts a red dot 
+    on all days with tasks
     - Click on a day with task to display below the calendar that day tasks
 
  - ### Lists
  ---
     - Modal presented on home and stats page
     - Add and delete categories for tasks
-    - When a category is deleted all task belonging to that category will be changed to the "General" category
+    - When a category is deleted all task belonging to that category will be changed to the "General" 
+    category
     - Filter button next to all categories to filter task belonging to that category
 
  - ### Add Task
