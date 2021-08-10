@@ -61,7 +61,7 @@ body, .expandedListBkg {
     overflow-y: scroll; 
 }
 
-body::-webkit-scrollbar, .expandedListBkg::-webkit-scrollbar, #expandedCalendarDiv::-webkit-scrollbar {
+body::-webkit-scrollbar, .expandedListBkg::-webkit-scrollbar, #expandedCalendarDiv::-webkit-scrollbar, .expandedTodoCardDiv::-webkit-scrollbar {
     display: none; /* for Chrome, Safari, and Opera */
 }
 
