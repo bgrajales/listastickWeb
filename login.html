@@ -48,14 +48,14 @@
               </div>
 
               <form name="loginForm" method="GET" style="margin: 25px 0;">
-                <label for="basic-url" class="form-label">Email</label>
-                <input id="mail" type="email" class="form-control shadow-sm" placeholder="jhondoe@gmail.com" aria-label="Email" aria-describedby="basic-addon1">
+                <label for="mail" class="form-label">Email</label>
+                <input id="mail" type="email" class="form-control shadow-sm" placeholder="jhondoe@gmail.com">
                 <div id="userNotExistDiv" class="errorTextDiv d-none">
                   <h6 id="userNotExist">User does not exist</h6>
                 </div>
 
-                <label id="passwordLabel" for="basic-url" class="form-label">Password</label>
-                <input id="password" type="password" class="form-control shadow-sm" placeholder="Type your password here" aria-label="Email" aria-describedby="basic-addon1">
+                <label id="passwordLabel" for="password" class="form-label">Password</label>
+                <input id="password" type="password" class="form-control shadow-sm" placeholder="Type your password here">
                <div id="wrongPassDiv" class="errorTextDiv d-none">
                   <h6 id="wrongPassText">Wrong password</h6>
                 </div>
@@ -65,12 +65,12 @@
 
               <div style="text-align: center;">
                 <p id="dontHaveAcc">Don't have an account?</p>
-                <a href="register.html"><button id="newAccBtn" type="button" class="btn btn-secondary">Create new account</button></a>
+                <button id="newAccBtn" type="button" class="btn btn-secondary" onclick="window.location='register.html'">Create new account</button>
               </div>
 
             </div>
+
           </div>
-        </div>
       </main>
 
 
