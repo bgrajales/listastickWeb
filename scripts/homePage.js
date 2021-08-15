@@ -231,15 +231,11 @@ function filterMyDay() {
 
     today.setHours(0,0,0,0)
 
-    console.log(today)
-
     todosArr.forEach(todo =>{
 
         taskDate = new Date(todo.dueDate)
 
         if (today.getYear() == taskDate.getYear() && today.getMonth() == taskDate.getMonth() && today.getDate() == taskDate.getUTCDate()) {
-
-            console.log(taskDate)
 
             todo.shouldDisplay = true
             numberOfTask += 1
@@ -278,7 +274,7 @@ function changeActiveSel(){
 
 function nextPageOfArray() {
 
-    if (document.querySelector("#eyeClosed").classList.contains("d-none") && categFilter == "") {
+    if (document.querySelector("#eyeClosed").classList.contains("d-none") && (categFilter == "" || categFilter == undefined)) {
         if (!todosArr[todosArr.length-1].shouldDisplay) {
             let lastDisplayIndex = 0
     
@@ -305,7 +301,7 @@ function nextPageOfArray() {
     
             renderTodosArr()
         }
-    } else if (categFilter != "") {
+    } else if (categFilter != "" && categFilter != undefined) {
         
         let lastNotFromlist = 0
 
@@ -395,7 +391,7 @@ function nextPageOfArray() {
 
 function previousPageOfArray() {
 
-    if (document.querySelector("#eyeClosed").classList.contains("d-none") && categFilter == "") {
+    if (document.querySelector("#eyeClosed").classList.contains("d-none") && (categFilter == "" || categFilter == undefined)) {
         if (!todosArr[0].shouldDisplay) {
             let firstDisplayIndex = 0
 
@@ -424,7 +420,7 @@ function previousPageOfArray() {
 
             renderTodosArr()
         }
-    } else if (categFilter != "") {
+    } else if (categFilter != "" && categFilter != undefined) {
 
         let firstNotCompleted = todosArr.findIndex(element => element.list == categFilter)
        
