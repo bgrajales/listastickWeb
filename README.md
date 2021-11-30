@@ -1,6 +1,6 @@
 # ![alt text](images/readmeLogo.png) **Listastick**
 ---
-## [Listastick Web Link](https://www.listastick.com)
+## [Listastick Web Link](https://bgrajales.github.io/listastickWeb/)
 ---
 ## **To-dos App**
 
